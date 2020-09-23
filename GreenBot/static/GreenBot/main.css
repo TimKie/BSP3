@@ -1,0 +1,60 @@
+body {
+    background: White;
+    color: Gray;
+    margin-top: 80px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: Black;
+}
+
+/* List: Sidebar */
+ul {
+    margin: 0;
+    list-style: none;
+}
+
+a.sidebar-items {
+    color: #404040;
+}
+
+a {
+    color: #33CCFF;
+}
+
+a:hover {
+    color: #0099FF;
+    text-decoration: none;
+}
+
+/* Navigation Bar */
+.bg-steel {
+    background-color: #33CCFF;
+}
+
+/* Home + About Button */
+.site-header .navbar-nav .nav-link {
+    color: #404040;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+    color: Black;
+}
+
+/* GreenBot Button */
+.container .navbar-brand {
+    color:  Black;
+}
+
+.container .navbar-brand:hover {
+    color:  Black;
+}
+
+/* Sidebar (Box) + Products*/
+.content-section {
+    background: White;
+    padding: 10px 20px;
+    border: 1px solid LightGray;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
