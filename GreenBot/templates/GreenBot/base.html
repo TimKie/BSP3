@@ -12,6 +12,13 @@
     <!-- Load CSS (main.css) -->
     <link rel="stylesheet" type="text/css" href="{% static 'GreenBot/main.css' %}">
 
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     {% if title %}
         <title>GreenBot - {{ title }}</title>
     {% else %}
@@ -56,7 +63,7 @@
               <ul class="list-group"><!-- You can put any information here. -->
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Product Overview</a></li>
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Most Sold Product</a></li>
-                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Statistics</a></li>
+                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GreenBot-statistics' %}">Statistics</a></li>
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Client Overview</a></li>
               </ul>
             </p>
@@ -71,7 +78,8 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            {% block content %}{% endblock %}
+            {% block scripts %}{% endblock scripts %}
+            {% block content %}{% endblock content %}
         </div>
       </div>
     </main>
