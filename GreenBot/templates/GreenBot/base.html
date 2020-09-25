@@ -61,9 +61,19 @@
             <h3>My Sidebar</h3>
             <p class='text-muted'>
               <ul class="list-group"><!-- You can put any information here. -->
-                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Product Overview</a></li>
-                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Most Sold Product</a></li>
-                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GreenBot-statistics' %}">Statistics</a></li>
+                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GreenBot-product_overview' %}">Product Overview</a></li>
+                <li class="list-group-item list-group-item-light">
+                    <!-- Drop Down Menu in Sidebar -->
+                    <a class="sidebar-items" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Statistics</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a class="sidebar-items" href="{% url 'GreenBot-most_sold_products' %}">Most Sold Products</a>
+                            </li>
+                            <li>
+                                <a class="sidebar-items" href="{% url 'GreenBot-most_expensive_products' %}">Most Expensive Products</a>
+                            </li>
+                        </ul>
+                </li>
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="#">Client Overview</a></li>
               </ul>
             </p>

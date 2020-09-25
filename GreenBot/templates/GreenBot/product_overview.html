@@ -1,0 +1,13 @@
+{% extends 'GreenBot/base.html' %}
+{% block content %}
+    {% for product in products %}
+        <article class="content-section">
+          <div>
+              <h2> {{ product.name }}</h2>
+              <h6>Category: <a href="#">{{ product.category }}</a></h6>
+              <h6>Price: {{ product.price }}</h6>
+              <h6>Sold Units: {{ product.units_sold }}</h6>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

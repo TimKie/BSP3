@@ -1,7 +1,13 @@
 body {
     background: White;
-    color: Gray;
     margin-top: 80px;
+}
+
+/* Changing the width of the container (width of the website) */
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1300px;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
