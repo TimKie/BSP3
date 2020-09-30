@@ -10,7 +10,7 @@
                 labels: [{% for product in qs %} '{{product.name}}' ,{% endfor %}],
                 datasets: [{
                     label: 'Sold Units',
-                    data: [ {% for product in qs %} {{product.units_sold}}, {% endfor %}],
+                    data: [ {% for product in qs %} {{product.sold_units}}, {% endfor %}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

@@ -1,7 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
-from product_list import products
+
+# ----------- import csv file of products and convert it into a list of dictionaries -----------
+import csv
+
+list_of_products = []
+
+data = csv.DictReader(open("list_of_products.csv", encoding='utf-8-sig'), delimiter=';')
+
+for d in data:
+    list_of_products.append(d)
+
+print(list_of_products)
+# ----------------------------------------------------------------------------------------------
 
 
 @login_required()
@@ -17,7 +29,7 @@ def about(request):
 @login_required()
 def product_overview(request):
     context = {
-        'products': products
+        'products': list_of_products
     }
     return render(request, 'GreenBot/product_overview.html', context)
 
@@ -27,7 +39,7 @@ class MostExpensiveProducts(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["qs"] = products
+        context["qs"] = list_of_products
         return context
 
 
@@ -36,5 +48,5 @@ class MostSoldProducts(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["qs"] = products
+        context["qs"] = list_of_products
         return context
