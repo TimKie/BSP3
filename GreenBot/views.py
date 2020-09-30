@@ -11,8 +11,6 @@ data = csv.DictReader(open("list_of_products.csv", encoding='utf-8-sig'), delimi
 
 for d in data:
     list_of_products.append(d)
-
-print(list_of_products)
 # ----------------------------------------------------------------------------------------------
 
 
@@ -49,4 +47,20 @@ class MostSoldProducts(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = list_of_products
+        return context
+
+
+number_of_indicators = {}
+class MostPopularIndicators(TemplateView):
+    # ---- Get number of occurrences of the indicators -------------------------
+    list_of_indicators = []
+    for product in list_of_products:
+        list_of_indicators.append(product['indicator'])
+        number_of_indicators[product['indicator']] = list_of_indicators.count(product['indicator'])
+    # --------------------------------------------------------------------------
+    template_name = 'GreenBot/most_popular_indicators.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["qs"] = number_of_indicators
         return context
