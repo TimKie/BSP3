@@ -1,0 +1,65 @@
+<!-- This is the base document for all charts -->
+
+{% extends 'GreenBot/base.html' %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: {% block chart_type %} {% endblock chart_type %},
+            data: {
+                labels: [{% block x_axis %} {% endblock x_axis %}],
+                datasets: [{
+                    label: {% block label_name %} {% endblock label_name %},
+                    data: [{% block y_axis %} {% endblock y_axis %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(240, 99, 160, 0.2)',
+                        'rgba(74, 122, 135, 0.2)',
+                        'rgba(175, 106, 186, 0.2)',
+                        'rgba(175, 255, 192, 0.2)',
+                        'rgba(135, 62, 55, 0.2)',
+                        'rgba(134, 129, 84, 0.2)',
+                        'rgba(155, 179, 34, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(240, 99, 160, 1)',
+                        'rgba(74, 122, 135, 1)',
+                        'rgba(175, 106, 186, 1)',
+                        'rgba(175, 255, 192, 1)',
+                        'rgba(135, 62, 55, 1)',
+                        'rgba(134, 129, 84, 1)',
+                        'rgba(155, 179, 34, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+{% endblock scripts %}
+
+{% block content %}
+<canvas id="myChart" width="400" height="300"></canvas>
+{% endblock content %}

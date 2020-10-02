@@ -1,7 +1,14 @@
 ﻿name;price;category;sold_units;indicator
-Steak;10;Meat;189;indicator_1
-Tomato;5;Vegetables;87;indicator_2
-Viva;2;Water;698;indicator_3
-Luxlait;3;Milk;287;indicator_4
-Chicken Nuggets;7;Meat;489;indicator_1
-Salad;2;Vegetables;134;indicator_2
+Steak;10;Viande;189;Environmental integrity 
+Tomates;5;Légumes;87;Environmental integrity 
+Viva;2;Eau;698;Social Well-being 
+Luxlait;3;Lait;287;Economic Resilience 
+Chicken Nuggets;7;Viande;489;Good Governance 
+Salade;2;Légumes;134;Environmental integrity 
+Pâte à tartiner au chocolat;3;Pâte à tartiner;154;Economic Resilience 
+Confiture de fraises;2;Confiture;121;Environmental integrity 
+Café;2;Café;278;Social Well-being 
+Yaourt nature;3;Yaourt;79;Environmental integrity 
+Oeufs;2;Oeufs;290;Economic Resilience 
+Spaghetti;3;Pâtes;324;Environmental integrity 
+Pommes de terres;5;Pommes de terres;178;Economic Resilience 
