@@ -39,13 +39,16 @@
               <a class="nav-item nav-link" href="{% url 'GreenBot-home' %}">Home</a>
               <a class="nav-item nav-link" href="{% url 'GreenBot-about' %}">About</a>
             </div>
+               <!-- Search Button -->
+              <div class="mr-5">
+                  <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+              </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
-                {% if user.is_authenticated %}
-                    <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-                {% else %}
-                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                {% endif %}
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             </div>
           </div>
         </div>

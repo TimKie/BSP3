@@ -47,6 +47,11 @@ a:hover {
     color: Black;
 }
 
+/* Search Button */
+button.btn-outline-dark:hover  {
+    color: #33CCFF;
+}
+
 /* GreenBot Button */
 .container .navbar-brand {
     color:  Black;
