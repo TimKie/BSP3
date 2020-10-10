@@ -1,0 +1,15 @@
+{% extends 'GoodnessGroceries/chart_base.html' %}
+
+{% block chart_type %} 'bar' {% endblock chart_type %}
+
+{% block x_axis %}
+    {% for product in qs %} '{{product.product_name}}' ,{% endfor %}
+{% endblock x_axis %}
+
+
+{% block y_axis %}
+    {% for product in qs %} {{product.sold_units}}, {% endfor %}
+{% endblock y_axis %}
+
+
+{% block label_name %} 'Sold Units' {% endblock label_name %}
