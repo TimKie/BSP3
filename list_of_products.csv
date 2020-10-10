@@ -1,14 +1,15 @@
-﻿name;price;category;sold_units;indicator
-Steak;10;Viande;189;Environmental integrity
-Tomates;5;Légumes;87;Environmental integrity 
-Viva;2;Eau;698;Social Well-being 
-Luxlait;3;Lait;287;Economic Resilience 
-Chicken Nuggets;7;Viande;489;Good Governance 
-Salade;2;Légumes;134;Environmental integrity 
-Pâte à tartiner au chocolat;3;Pâte à tartiner;154;Economic Resilience 
-Confiture de fraises;2;Confiture;121;Environmental integrity 
-Café;2;Café;278;Social Well-being 
-Yaourt nature;3;Yaourt;79;Environmental integrity 
-Oeufs;2;Oeufs;290;Economic Resilience 
-Spaghetti;3;Pâtes;324;Environmental integrity 
-Pommes de terres;5;Pommes de terres;178;Economic Resilience 
+﻿product_name;price;product_category;sold_units;product_indicators;product_type
+Steak;10;Viande;189;Animal Welfare,Biodiversity,Food Miles;bio local
+Tomates;5;Légumes;87;Health of Flora & Fauna,Soil Fertility;conventionnel local
+Viva;2;Eau;698;Producer Sovereignty,Equity,Decent Livelihoods;bio importé
+Luxlait;3;Lait;287;Local Economy,Fair Trade Practices,Transparency;conventionnel importé
+Chicken Nuggets;7;Viande;489;Participation,Sustainable Management,Animal Welfare;bio importé
+Salade;2;Légumes;134;Soil Fertility,Fair Trade Practices,Producer Sovereignty;bio local
+Pâte à tartiner au chocolat;3;Pâte à tartiner au chocolat;154;Fair Trade Practices,Food Miles,Decent Livelihoods;conventionnel local
+Confiture de fraises;2;Confiture;121;Local Economy,Fair Trade Practices,Producer Sovereignty;conventionnel importé
+Café;2;Café;278;Biodiversity,Food Miles,Fair Trade Practices;bio local
+Yaourt nature;3;Yaourt nature;79;Fair Trade Practices,Food Miles,Local Economy;bio importé
+Oeufs;2;Oeufs;290;Fair Trade Practices,Producer Sovereignty;conventionnel local
+Spaghetti;3;Pâtes;324;Participation,Food Miles;conventionnel importé
+Pommes de terres;5;Pommes de terres;178;Local Economy,Fair Trade Practices,Biodiversity;bio local
+Miel;6;Miel;89;Producer Sovereignty,Local Economy;bio local
