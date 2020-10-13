@@ -17,4 +17,4 @@ pip install psycopg2
 To run thw webiste on your local machine:
 - Open the terminal and go to the folder where the project is located (the "manage.py" file should be located in this folder)
 - Being in this folder in the terminal, run the command ``` python3 manage.py runserver```
-- The server is now running on your local host, to access the webiste go to some browser and enter http://localhost:8000/, this will redirect you to your local host with the port 8000 where the webiste is running
+- The server is now running on your local host, to access the webiste go to some browser (Chrome was used for developping) and enter http://localhost:8000/, this will redirect you to your local host with the port 8000 where the webiste is running
