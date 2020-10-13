@@ -19,7 +19,7 @@ The project uses the database PostgreSQL which has to be downloaded [here](https
 To run the webiste on your local machine:
 - Open the Postgres App and create a server and a database
 - Open the Porject and go to the directory "GoodnessGroceries_Project" in the main folder
-- Open the python file "settings.py" and scroll down to "DATABASES", there you have to change the setting such that it corresponds to you created databse
+- Open the python file "settings.py" and scroll down to "DATABASES", there you have to change the settings such that it corresponds to your created databse
 - Open the terminal and go to the folder where the project is located (the "manage.py" file should be located in this folder)
 - Being in this folder in the terminal, run the command ``` python3 manage.py runserver``` (The database server has to be running)
 - The server is now running on your local host, to access the webiste go to some browser (Chrome was used for developping) and go to http://localhost:8000/, this will redirect you to your local host with the port 8000 where the webiste is running
