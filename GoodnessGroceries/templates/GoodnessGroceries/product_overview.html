@@ -3,11 +3,12 @@
     {% for product in products %}
         <article class="content-section">
           <div>
-              <h2> {{ product.product_name }}</h2>
-              <h6>Category: <a href="#">{{ product.product_category }}</a></h6>
-              <h6>Price: {{ product.price }}</h6>
-              <h6>Sold Units: {{ product.sold_units }}</h6>
-              <h6>Eco-Friendly Attribute: {{ product.product_indicators }}</h6>
+              <h2> {{ product.name }}</h2>
+              <h6>Category: <a href="#">{{ product.category }}</a></h6>
+              <h6>Price: {{ 10 }}</h6>
+              <h6>Sold Units: {{ 44 }}</h6>
+              <h6>Provider: {{ product.provider }}</h6>
+              <h6>Description: {{ product.description }}</h6>
           </div>
         </article>
     {% endfor %}

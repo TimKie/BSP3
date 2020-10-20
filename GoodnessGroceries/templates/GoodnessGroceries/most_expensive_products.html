@@ -3,12 +3,12 @@
 {% block chart_type %} 'bar' {% endblock chart_type %}
 
 {% block x_axis %}
-    {% for product in qs %} '{{product.product_name}}' ,{% endfor %}
+    {% for product in qs %} '{{product.name}}' ,{% endfor %}
 {% endblock x_axis %}
 
 
 {% block y_axis %}
-    {% for product in qs %} {{product.price}}, {% endfor %}
+    {% for product in qs %} {{ 10 }}, {% endfor %}
 {% endblock y_axis %}
 
 
