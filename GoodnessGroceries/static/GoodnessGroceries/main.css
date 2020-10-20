@@ -61,11 +61,17 @@ button.btn-outline-dark:hover  {
     color:  Black;
 }
 
-/* Sidebar (Box) + Products*/
+/* Sidebar (Box) + Products */
 .content-section {
     background: White;
     padding: 10px 20px;
     border: 1px solid LightGray;
     border-radius: 4px;
     margin-bottom: 20px;
+}
+
+/* Image Size */
+img {
+    max-width: 10%;
+    height: auto;
 }

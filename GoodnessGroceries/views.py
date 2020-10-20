@@ -60,8 +60,10 @@ class MostPopularIndicators(TemplateView):
     for product in load_csv_file("static_csv_files/products.csv"):
         for i in range(3):
             indicator = product['indicators/'+str(i)+'/indicator_id']
-            list_of_indicators.append(indicator)
-            number_of_indicators[indicator] = list_of_indicators.count(indicator)
+            for ind in load_csv_file("static_csv_files/indicators.csv"):
+                if indicator == ind['id']:
+                    list_of_indicators.append(ind['name'])
+                    number_of_indicators[ind['name']] = list_of_indicators.count(ind['name'])
     # --------------------------------------------------------------------------
     template_name = 'GoodnessGroceries/most_popular_indicators.html'
 
