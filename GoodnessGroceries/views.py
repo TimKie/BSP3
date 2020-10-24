@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
 
-
 def load_csv_file(file_name):
     output_list = []
 
@@ -88,3 +87,34 @@ class MostPopularProductTypes(TemplateView):
         context["qs"] = number_of_product_types
         return context
 
+
+# ------------------------------------------- Load cashier tickets csv file on database -------------------------------
+
+from. models import Products
+import pandas as pd
+from glob import glob
+
+def cashierTicketsToDB():
+    # combine cashier ticket files
+    stock_files = sorted(glob('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_ticket_*.csv'))
+    result = pd.concat((pd.read_csv(file) for file in stock_files), ignore_index=True)
+    result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
+
+    # delete unnecessary columns
+    result = result.drop(columns=['timestamp'])
+    for i in range((len(result.columns)-1)//3):
+        result = result.drop(columns=['products/'+str(i)+'/product_name', 'products/'+str(i)+'/price'])
+
+    result = result.fillna(0)
+    result = result.astype(int)
+    # rename column headers in order for the models.py to be able to use it
+    for i in range(len(result.columns)):
+        result = result.rename({'products/'+str(i)+'/product_ean': 'products_'+str(i)+'_product_ean'}, axis=1)
+
+    for i in range(len(result.columns)-1, 11):
+        result['products_'+str(i)+'_product_ean'] = [0 for _ in range(len(result.index))]
+
+    # save file with combined and relevant data
+    result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
+
+    Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
