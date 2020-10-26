@@ -101,20 +101,30 @@ def cashierTicketsToDB():
     result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
 
     # delete unnecessary columns
-    result = result.drop(columns=['timestamp'])
-    for i in range((len(result.columns)-1)//3):
+    for i in range((len(result.columns)-2)//3):
         result = result.drop(columns=['products/'+str(i)+'/product_name', 'products/'+str(i)+'/price'])
 
-    result = result.fillna(0)
-    result = result.astype(int)
     # rename column headers in order for the models.py to be able to use it
     for i in range(len(result.columns)):
         result = result.rename({'products/'+str(i)+'/product_ean': 'products_'+str(i)+'_product_ean'}, axis=1)
 
-    for i in range(len(result.columns)-1, 11):
-        result['products_'+str(i)+'_product_ean'] = [0 for _ in range(len(result.index))]
+    # rearrange rows an columns such that it fits in the model
+    result = result.melt(id_vars=['participant_id', 'timestamp'], var_name='product_ean', value_name='products')
+    result = result.drop(columns=['product_ean'])
+    result = result.dropna()
+    result = result.astype({'products': int})
+
+    # remove products that are not part of the study
+    p = pd.read_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/static_csv_files/products.csv')
+    code_of_products_in_study = []
+    for code in p.code:
+        code_of_products_in_study.append(code)
+    result = result[result.products.isin(code_of_products_in_study)]
 
     # save file with combined and relevant data
     result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
 
     Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
+
+
+cashierTicketsToDB()
