@@ -88,7 +88,7 @@ class MostPopularProductTypes(TemplateView):
         return context
 
 
-# ------------------------------------------- Load cashier tickets csv file on database -------------------------------
+# ------------------------------------------- Load cashier tickets csv file on database --------------------------------
 
 from. models import Products
 import pandas as pd
@@ -127,4 +127,23 @@ def cashierTicketsToDB():
     Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
 
 
-cashierTicketsToDB()
+# ------------------------------------------- Create TEST API ----------------------------------------------------------
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import UsersSerializer, ProductsSerializer
+from.models import Users
+
+
+class TestView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = Products.objects.all()
+        serializer = ProductsSerializer(qs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = UsersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
