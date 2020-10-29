@@ -127,17 +127,54 @@ def cashierTicketsToDB():
     Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
 
 
-# ------------------------------------------- Create TEST API ----------------------------------------------------------
+# ------------------------------------------- Create API ----------------------------------------------------------
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UsersSerializer, ProductsSerializer
-from.models import Users
+from .serializers import ProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer
+from .models import MonitoringData, ProductReviews, Users
 
 
-class TestView(APIView):
+class ProductsAPIView(APIView):
     def get(self, request, *args, **kwargs):
         qs = Products.objects.all()
         serializer = ProductsSerializer(qs, many=True)
+        return Response(serializer.data)
+
+
+class MonitoringDataAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = MonitoringData.objects.all()
+        serializer = MonitoringDataSerializer(qs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = MonitoringDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+
+class ProductsReviewAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = ProductReviews.objects.all()
+        serializer = ProductReviewsSerializer(qs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = ProductReviewsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+
+class UsersAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = Users.objects.all()
+        serializer = UsersSerializer(qs, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):

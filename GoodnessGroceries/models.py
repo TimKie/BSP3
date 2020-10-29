@@ -32,7 +32,7 @@ class ProductReviews(models.Model):
     selected_indicator_main_id = models.CharField(max_length=100)
     selected_indicator_secondary_id = models.CharField(max_length=100)
     free_text_indicator = models.TextField()
-    price_checkbox_selected = models.IntegerField()
+    price_checkbox_selected = models.BooleanField()
 
     class Meta:
         verbose_name = 'Product Reviews'

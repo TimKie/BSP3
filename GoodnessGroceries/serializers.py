@@ -1,14 +1,5 @@
 from rest_framework import serializers
-from.models import Users, Products
-
-
-class UsersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Users
-        fields = (
-            'participant_id',
-            'status'
-        )
+from.models import Products, MonitoringData, ProductReviews, Users
 
 
 class ProductsSerializer(serializers.ModelSerializer):
@@ -16,6 +7,42 @@ class ProductsSerializer(serializers.ModelSerializer):
         model = Products
         fields = (
             'participant_id',
+            'timestamp',
             'products'
         )
 
+
+class MonitoringDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MonitoringData
+        fields = (
+            'participant_id',
+            'timestamp',
+            'activity_name',
+            'metadata_os',
+            'metadata_ean'
+        )
+
+
+class ProductReviewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductReviews
+        fields = (
+            'participant_id',
+            'product_ean',
+            'selected_indicator_main_id',
+            'selected_indicator_secondary_id',
+            'free_text_indicator',
+            'price_checkbox_selected'
+
+        )
+
+
+class UsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = (
+            'participant_id',
+            'status',
+            'product_type_preference'
+        )

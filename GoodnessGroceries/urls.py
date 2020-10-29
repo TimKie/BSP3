@@ -10,5 +10,8 @@ urlpatterns = [
     path('most_popular_indicators/', views.MostPopularIndicators.as_view(), name='GoodnessGroceries-most_popular_indicators'),
     path('most_popular_product_types/', views.MostPopularProductTypes.as_view(), name='GoodnessGroceries-most_popular_product_types'),
     path('api-auth/', include('rest_framework.urls')),
-    path('test_api/', views.TestView.as_view(), name='GoodnessGroceries-TestView')
+    path('products_api_view/', views.ProductsAPIView.as_view(), name='GoodnessGroceries-ProductsAPIView'),
+    path('monitoring_data_api_view/', views.MonitoringDataAPIView.as_view(), name='GoodnessGroceries-MonitoringDataAPIView'),
+    path('product_reviews_api_view/', views.ProductsReviewAPIView.as_view(), name='GoodnessGroceries-ProductsReviewAPIView'),
+    path('users_api_view/', views.UsersAPIView.as_view(), name='GoodnessGroceries-UsersAPIView')
 ]
