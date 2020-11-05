@@ -38,11 +38,20 @@ class ProductReviewsSerializer(serializers.ModelSerializer):
         )
 
 
+class UsersStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = (
+            'status',
+        )
+
+
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = (
             'participant_id',
             'status',
-            'product_type_preference'
+            'product_category_1',
+            'product_category_2'
         )

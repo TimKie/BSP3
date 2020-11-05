@@ -153,7 +153,7 @@ class CSVFileView(View):
 # ------------------------------------------- Create API ---------------------------------------------------------------
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import ProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer
+from .serializers import ProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer
 from .models import MonitoringData, ProductReviews, Users
 
 
@@ -194,16 +194,25 @@ class ProductsReviewAPIView(APIView):
             return Response(serializer.errors)
 
 
-class UsersAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        qs = Users.objects.all()
-        serializer = UsersSerializer(qs, many=True)
+class FetchUserStatus(APIView):
+    def get(self, request, participant_id, *args, **kwargs):
+        # return 404 error if request id is not in the database
+        try:
+            user = Users.objects.get(participant_id=participant_id)
+        except Users.DoesNotExist:
+            return HttpResponse(status=404)
+        serializer = UsersStatusSerializer(user, many=False)
         return Response(serializer.data)
 
+
+class RequestUserAccess(APIView):
     def post(self, request, *args, **kwargs):
         serializer = UsersSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            if Users.objects.filter(participant_id=request.data['participant_id']).exists():
+                return Response(serializer.errors)
+            else:
+                serializer.save()
+                return Response(serializer.data)
         else:
             return Response(serializer.errors)
