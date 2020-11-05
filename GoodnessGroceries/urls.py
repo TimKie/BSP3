@@ -13,5 +13,6 @@ urlpatterns = [
     path('products_api_view/', views.ProductsAPIView.as_view(), name='GoodnessGroceries-ProductsAPIView'),
     path('monitoring_data_api_view/', views.MonitoringDataAPIView.as_view(), name='GoodnessGroceries-MonitoringDataAPIView'),
     path('product_reviews_api_view/', views.ProductsReviewAPIView.as_view(), name='GoodnessGroceries-ProductsReviewAPIView'),
-    path('users_api_view/', views.UsersAPIView.as_view(), name='GoodnessGroceries-UsersAPIView')
+    path('users_api_view/', views.UsersAPIView.as_view(), name='GoodnessGroceries-UsersAPIView'),
+    path('products_data/', views.CSVFileView.as_view(), name='GoodnessGroceries-csv_download')
 ]

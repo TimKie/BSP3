@@ -127,7 +127,30 @@ def cashierTicketsToDB():
     Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
 
 
-# ------------------------------------------- Create API ----------------------------------------------------------
+# ------------------------------------------- Download Button ----------------------------------------------------------
+from django.views.generic import View
+from django.http import HttpResponse
+
+
+# get data from database table
+class CSVFileView(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('test_products.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('participant_id', 'timestamp', 'products')
+        data = Products.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# ------------------------------------------- Create API ---------------------------------------------------------------
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import ProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer

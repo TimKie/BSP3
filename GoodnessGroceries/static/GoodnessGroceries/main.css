@@ -52,6 +52,13 @@ button.btn-outline-dark:hover  {
     color: #33CCFF;
 }
 
+/* Search Button */
+a.btn-primary {
+    background: #33CCFF !important;
+    color: black !important;
+    border: 1px solid Black !important;
+}
+
 /* GreenBot Button */
 .container .navbar-brand {
     color:  Black;

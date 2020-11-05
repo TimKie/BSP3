@@ -1,5 +1,9 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% block content %}
+    <div>
+        <a href="{% url 'GoodnessGroceries-csv_download' %}" class="btn btn-primary btn-lg btn-block" role="button">Download Products CSV File</a>
+    </div>
+    <br>
     {% for product in products %}
         <article class="content-section">
             <img src="{{ product.image_url }}" class="rounded float-left" alt=" ">
