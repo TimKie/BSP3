@@ -48,3 +48,21 @@ class Users(models.Model):
     class Meta:
         verbose_name = 'Users'
         verbose_name_plural = 'Users'
+
+
+# ------------------------------ Static Data ------------------------------------------------------
+
+class StaticProducts(models.Model):
+    code = models.BigIntegerField()
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    type = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    provider = models.CharField(max_length=100)
+    image_url = models.TextField()
+    indicators_0_indicator_id = models.CharField(max_length=100)
+    indicators_0_indicator_description = models.TextField()
+    indicators_1_indicator_id = models.CharField(max_length=100)
+    indicators_1_indicator_description = models.TextField()
+    indicators_2_indicator_id = models.CharField(max_length=100)
+    indicators_2_indicator_description = models.TextField()

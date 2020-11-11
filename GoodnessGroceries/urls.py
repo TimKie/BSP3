@@ -15,5 +15,6 @@ urlpatterns = [
     path('product_reviews_api_view/', views.ProductsReviewAPIView.as_view(), name='GoodnessGroceries-ProductsReviewAPIView'),
     path('fetch_user_status/<int:participant_id>/', views.FetchUserStatus.as_view(), name='GoodnessGroceries-FetchUserStatus'),
     path('request_user_access/', views.RequestUserAccess.as_view(), name='GoodnessGroceries-RequestUserAccess'),
-    path('products_data/', views.CSVFileView.as_view(), name='GoodnessGroceries-csv_download')
+    path('products_data/', views.CSVFileView.as_view(), name='GoodnessGroceries-csv_download'),
+    path('upload_static_products/', views.static_products_upload, name='GoodnessGroceries-csv_upload')
 ]

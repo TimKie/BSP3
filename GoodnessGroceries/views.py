@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
@@ -125,6 +125,40 @@ def cashierTicketsToDB():
     result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
 
     Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
+
+
+# ------------------------------------------- Upload Button ------------------------------------------------------------
+import io
+from.models import StaticProducts
+
+
+def static_products_upload(request):
+    template = 'GoodnessGroceries/upload_static_files.html'
+
+    if request.method == 'POST':
+        uploaded_file = request.FILES['static_products_file']
+
+        data_set = uploaded_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+        for column in csv.reader(io_string, delimiter=','):
+            _, created = StaticProducts.objects.update_or_create(
+                code=column[0],
+                name=column[1],
+                description=column[2],
+                type=column[3],
+                category=column[4],
+                provider=column[5],
+                image_url=column[6],
+                indicators_0_indicator_id=column[7],
+                indicators_0_indicator_description=column[8],
+                indicators_1_indicator_id=column[9],
+                indicators_1_indicator_description=column[10],
+                indicators_2_indicator_id=column[11],
+                indicators_2_indicator_description=column[12]
+            )
+
+    return render(request, template)
 
 
 # ------------------------------------------- Download Button ----------------------------------------------------------

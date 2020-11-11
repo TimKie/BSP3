@@ -1,9 +1,16 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% block content %}
+    <!-- Download Button -->
     <div>
         <a href="{% url 'GoodnessGroceries-csv_download' %}" class="btn btn-primary btn-lg btn-block" role="button">Download Products CSV File</a>
     </div>
     <br>
+    <!-- Upload Button -->
+    <div>
+        <a href="{% url 'GoodnessGroceries-csv_upload' %}" class="btn btn-primary btn-lg btn-block" role="button">Click To Upload Static Files</a>
+    </div>
+    <br>
+    <!-- Listing fo products -->
     {% for product in products %}
         <article class="content-section">
             <img src="{{ product.image_url }}" class="rounded float-left" alt=" ">
@@ -11,8 +18,6 @@
                 <h2 style="white-space: pre"> {{ product.name }}</h2>
                 <br>
                 <h6>Category: <a href="#">{{ product.category }}</a></h6>
-                <h6>Price: {{ 10 }}</h6>
-                <h6>Sold Units: {{ 44 }}</h6>
                 <h6>Provider: {{ product.provider }}</h6>
                 <h6>Description: {{ product.description }}</h6>
             </div>
