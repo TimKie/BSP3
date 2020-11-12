@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView
+from .models import *
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
+
 
 def load_csv_file(file_name):
     output_list = []
@@ -28,32 +30,53 @@ def about(request):
 
 @login_required()
 def product_overview(request):
-    context = {
-        'products': load_csv_file("static_csv_files/products.csv")
-    }
+    # ------------------------------------ Get Products Data from Database ---------------------------------------------
+    with open('products.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(['code', 'name', 'description', 'type', 'category', 'provider', 'image_url',
+                         'indicators_0_indicator_id', 'indicators_0_indicator_description',
+                         'indicators_1_indicator_id', 'indicators_1_indicator_description',
+                         'indicators_2_indicator_id', 'indicators_2_indicator_description'])
+
+        for product in StaticProducts.objects.all().values_list('code', 'name', 'description', 'type', 'category', 'provider', 'image_url',
+                                                               'indicators_0_indicator_id', 'indicators_0_indicator_description',
+                                                               'indicators_1_indicator_id', 'indicators_1_indicator_description',
+                                                               'indicators_2_indicator_id', 'indicators_2_indicator_description'):
+            writer.writerow(product)
+
+    context = {'products': load_csv_file('products.csv')}
     return render(request, 'GoodnessGroceries/product_overview.html', context)
 
 
+# ------------------------------------------ Statistics ----------------------------------------------------------------
 class MostExpensiveProducts(TemplateView):
     template_name = 'GoodnessGroceries/most_expensive_products.html'
 
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = load_csv_file("static_csv_files/products.csv")
         return context
+    """
 
 
 class MostSoldProducts(TemplateView):
     template_name = 'GoodnessGroceries/most_sold_products.html'
 
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = load_csv_file("static_csv_files/products.csv")
         return context
+    """
 
 
 number_of_indicators = {}
 class MostPopularIndicators(TemplateView):
+    template_name = 'GoodnessGroceries/most_popular_indicators.html'
+
+    """
     # ---- Get number of occurrences of the indicators -------------------------
     list_of_indicators = []
     for product in load_csv_file("static_csv_files/products.csv"):
@@ -64,36 +87,38 @@ class MostPopularIndicators(TemplateView):
                     list_of_indicators.append(ind['name'])
                     number_of_indicators[ind['name']] = list_of_indicators.count(ind['name'])
     # --------------------------------------------------------------------------
-    template_name = 'GoodnessGroceries/most_popular_indicators.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = number_of_indicators
         return context
+    """
 
 
 number_of_product_types = {}
 class MostPopularProductTypes(TemplateView):
+    template_name = 'GoodnessGroceries/most_popular_product_types.html'
+
+    """
     # ---- Get number of occurrences of the product types -------------------------
     list_of_product_types = []
     for product in load_csv_file("static_csv_files/products.csv"):
         list_of_product_types.append(product['type'])
         number_of_product_types[product['type']] = list_of_product_types.count(product['type'])
     # --------------------------------------------------------------------------
-    template_name = 'GoodnessGroceries/most_popular_product_types.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["qs"] = number_of_product_types
         return context
+    """
 
 
 # ------------------------------------------- Load cashier tickets csv file on database --------------------------------
-
-from. models import Products
 import pandas as pd
 from glob import glob
 
+@login_required()
 def cashierTicketsToDB():
     # combine cashier ticket files
     stock_files = sorted(glob('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_ticket_*.csv'))
@@ -127,13 +152,14 @@ def cashierTicketsToDB():
     Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
 
 
-# ------------------------------------------- Upload Button ------------------------------------------------------------
+# ------------------------------------------- Upload of Static Files -------------------------------------------
 import io
-from.models import StaticProducts
+from.models import StaticProducts, StaticIndicators, StaticIndicatorCategories
 
 
+@login_required()
 def static_products_upload(request):
-    template = 'GoodnessGroceries/upload_static_files.html'
+    template = 'GoodnessGroceries/upload_static_products.html'
 
     if request.method == 'POST':
         uploaded_file = request.FILES['static_products_file']
@@ -156,6 +182,49 @@ def static_products_upload(request):
                 indicators_1_indicator_description=column[10],
                 indicators_2_indicator_id=column[11],
                 indicators_2_indicator_description=column[12]
+            )
+
+    return render(request, template)
+
+
+@login_required()
+def static_indicators_upload(request):
+    template = 'GoodnessGroceries/upload_static_indicators.html'
+
+    if request.method == 'POST':
+        uploaded_file = request.FILES['static_indicators_file']
+
+        data_set = uploaded_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+        for column in csv.reader(io_string, delimiter=','):
+            _, created = StaticIndicators.objects.update_or_create(
+                id=column[0],
+                name=column[1],
+                category_id=column[2],
+                icon_name=column[3],
+                general_description=column[4]
+            )
+
+    return render(request, template)
+
+
+@login_required()
+def static_indicator_categories_upload(request):
+    template = 'GoodnessGroceries/upload_static_indicator_categories.html'
+
+    if request.method == 'POST':
+        uploaded_file = request.FILES['static_indicator_categories_file']
+
+        data_set = uploaded_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+        for column in csv.reader(io_string, delimiter=','):
+            _, created = StaticIndicatorCategories.objects.update_or_create(
+                id=column[0],
+                name=column[1],
+                icon_name=column[2],
+                description=column[3]
             )
 
     return render(request, template)
@@ -184,11 +253,10 @@ class CSVFileView(View):
         return response
 
 
-# ------------------------------------------- Create API ---------------------------------------------------------------
+# ------------------------------------------- Create APIs --------------------------------------------------------------
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import ProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer
-from .models import MonitoringData, ProductReviews, Users
 
 
 class ProductsAPIView(APIView):

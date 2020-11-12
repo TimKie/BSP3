@@ -5,9 +5,11 @@
         <a href="{% url 'GoodnessGroceries-csv_download' %}" class="btn btn-primary btn-lg btn-block" role="button">Download Products CSV File</a>
     </div>
     <br>
-    <!-- Upload Button -->
+    <!-- Upload Buttons -->
     <div>
-        <a href="{% url 'GoodnessGroceries-csv_upload' %}" class="btn btn-primary btn-lg btn-block" role="button">Click To Upload Static Files</a>
+        <a href="{% url 'GoodnessGroceries-upload_static_products' %}" class="btn btn-primary btn-lg" role="button">Upload Static Products</a>
+        <a href="{% url 'GoodnessGroceries-upload_static_indicators' %}" class="btn btn-primary btn-lg" role="button">Upload Static Indicators</a>
+        <a href="{% url 'GoodnessGroceries-upload_static_indicator_categories' %}" class="btn btn-primary btn-lg" role="button">Upload Static Indicator Categories</a>
     </div>
     <br>
     <!-- Listing fo products -->

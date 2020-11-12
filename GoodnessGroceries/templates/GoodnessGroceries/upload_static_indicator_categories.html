@@ -1,0 +1,9 @@
+{% extends 'GoodnessGroceries/base.html' %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4>Upload the static file for indicator categories:</h4>
+        <input type="file" name="static_indicator_categories_file">
+        <button type="submit">Submit</button>
+    </form>
+{% endblock content %}

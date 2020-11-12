@@ -66,3 +66,30 @@ class StaticProducts(models.Model):
     indicators_1_indicator_description = models.TextField()
     indicators_2_indicator_id = models.CharField(max_length=100)
     indicators_2_indicator_description = models.TextField()
+
+    class Meta:
+        verbose_name = 'StaticProducts'
+        verbose_name_plural = 'StaticProducts'
+
+
+class StaticIndicators(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    name = models.CharField(max_length=100)
+    category_id = models.CharField(max_length=100)
+    icon_name = models.CharField(max_length=100)
+    general_description = models.TextField()
+
+    class Meta:
+        verbose_name = 'StaticIndicators'
+        verbose_name_plural = 'StaticIndicators'
+
+
+class StaticIndicatorCategories(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
+    name = models.CharField(max_length=100)
+    icon_name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = 'StaticIndicatorCategories'
+        verbose_name_plural = 'StaticIndicatorCategories'
