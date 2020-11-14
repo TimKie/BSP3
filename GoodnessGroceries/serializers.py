@@ -51,7 +51,8 @@ class UsersSerializer(serializers.ModelSerializer):
         model = Users
         fields = (
             'participant_id',
-            'status',
             'product_category_1',
-            'product_category_2'
+            'product_category_2',
+            'product_category_3',
+            'product_category_4'
         )

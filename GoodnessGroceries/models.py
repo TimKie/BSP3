@@ -44,6 +44,8 @@ class Users(models.Model):
     status = models.CharField(max_length=100, default='requested')
     product_category_1 = models.CharField(max_length=100, null=True)
     product_category_2 = models.CharField(max_length=100, null=True)
+    product_category_3 = models.CharField(max_length=100, null=True)
+    product_category_4 = models.CharField(max_length=100, null=True)
 
     class Meta:
         verbose_name = 'Users'

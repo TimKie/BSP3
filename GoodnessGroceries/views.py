@@ -30,7 +30,7 @@ def about(request):
 
 @login_required()
 def product_overview(request):
-    # ------------------------------------ Get Products Data from Database ---------------------------------------------
+    # ---------- Get products data from database, put them in a csv file and return this file --------------------------
     with open('products.csv', 'w', newline='') as f:
         writer = csv.writer(f)
 
