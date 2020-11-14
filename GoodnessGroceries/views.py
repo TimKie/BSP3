@@ -28,9 +28,8 @@ def about(request):
     return render(request, 'GoodnessGroceries/about.html', {'title': 'About'})
 
 
-@login_required()
-def product_overview(request):
-    # ---------- Get products data from database, put them in a csv file and return this file --------------------------
+# ---------- Get products data from database, put them in a csv file and return this file ------------------------------
+def get_products_from_db():
     with open('products.csv', 'w', newline='') as f:
         writer = csv.writer(f)
 
@@ -39,13 +38,24 @@ def product_overview(request):
                          'indicators_1_indicator_id', 'indicators_1_indicator_description',
                          'indicators_2_indicator_id', 'indicators_2_indicator_description'])
 
-        for product in StaticProducts.objects.all().values_list('code', 'name', 'description', 'type', 'category', 'provider', 'image_url',
-                                                               'indicators_0_indicator_id', 'indicators_0_indicator_description',
-                                                               'indicators_1_indicator_id', 'indicators_1_indicator_description',
-                                                               'indicators_2_indicator_id', 'indicators_2_indicator_description'):
+        for product in StaticProducts.objects.all().values_list('code', 'name', 'description', 'type', 'category',
+                                                                'provider', 'image_url',
+                                                                'indicators_0_indicator_id',
+                                                                'indicators_0_indicator_description',
+                                                                'indicators_1_indicator_id',
+                                                                'indicators_1_indicator_description',
+                                                                'indicators_2_indicator_id',
+                                                                'indicators_2_indicator_description'):
             writer.writerow(product)
 
+
+@login_required()
+def product_overview(request):
+
+    get_products_from_db()
+
     context = {'products': load_csv_file('products.csv')}
+
     return render(request, 'GoodnessGroceries/product_overview.html', context)
 
 
@@ -118,7 +128,7 @@ class MostPopularProductTypes(TemplateView):
 import pandas as pd
 from glob import glob
 
-@login_required()
+
 def cashierTicketsToDB():
     # combine cashier ticket files
     stock_files = sorted(glob('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_ticket_*.csv'))
@@ -140,7 +150,8 @@ def cashierTicketsToDB():
     result = result.astype({'products': int})
 
     # remove products that are not part of the study
-    p = pd.read_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/static_csv_files/products.csv')
+    get_products_from_db()
+    p = pd.read_csv('products.csv')
     code_of_products_in_study = []
     for code in p.code:
         code_of_products_in_study.append(code)
@@ -149,8 +160,9 @@ def cashierTicketsToDB():
     # save file with combined and relevant data
     result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
 
-    Products.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
+    CashierTicketProducts.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
 
+#cashierTicketsToDB()
 
 # ------------------------------------------- Upload of Static Files -------------------------------------------
 import io
@@ -243,7 +255,7 @@ class CSVFileView(View):
         response['Content-Disposition'] = cd
 
         fieldnames = ('participant_id', 'timestamp', 'products')
-        data = Products.objects.values(*fieldnames)
+        data = CashierTicketProducts.objects.values(*fieldnames)
 
         writer = csv.DictWriter(response, fieldnames=fieldnames)
         writer.writeheader()
@@ -256,22 +268,21 @@ class CSVFileView(View):
 # ------------------------------------------- Create APIs --------------------------------------------------------------
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import ProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer
+from .serializers import CashierTicketProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer
 
 
-class ProductsAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        qs = Products.objects.all()
-        serializer = ProductsSerializer(qs, many=True)
+class GetBoughtProducts(APIView):
+    def get(self, request, participant_id, *args, **kwargs):
+        # return 404 error if request id is not in the database
+        try:
+            product = CashierTicketProducts.objects.filter(participant_id=participant_id)
+        except CashierTicketProducts.DoesNotExist:
+            return HttpResponse(status=404)
+        serializer = CashierTicketProductsSerializer(product, many=True)
         return Response(serializer.data)
 
 
-class MonitoringDataAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        qs = MonitoringData.objects.all()
-        serializer = MonitoringDataSerializer(qs, many=True)
-        return Response(serializer.data)
-
+class PostMonitoringData(APIView):
     def post(self, request, *args, **kwargs):
         serializer = MonitoringDataSerializer(data=request.data)
         if serializer.is_valid():
@@ -281,12 +292,7 @@ class MonitoringDataAPIView(APIView):
             return Response(serializer.errors)
 
 
-class ProductsReviewAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        qs = ProductReviews.objects.all()
-        serializer = ProductReviewsSerializer(qs, many=True)
-        return Response(serializer.data)
-
+class PostProductsReview(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ProductReviewsSerializer(data=request.data)
         if serializer.is_valid():

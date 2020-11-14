@@ -1,14 +1,12 @@
 from rest_framework import serializers
-from.models import Products, MonitoringData, ProductReviews, Users
+from.models import CashierTicketProducts, MonitoringData, ProductReviews, Users
 
 
-class ProductsSerializer(serializers.ModelSerializer):
+class CashierTicketProductsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Products
+        model = CashierTicketProducts
         fields = (
-            'participant_id',
-            'timestamp',
-            'products'
+            'product',
         )
 
 

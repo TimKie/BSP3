@@ -2,16 +2,16 @@ from django.db import models
 from postgres_copy import CopyManager
 
 
-class Products(models.Model):
+class CashierTicketProducts(models.Model):
     participant_id = models.BigIntegerField()
     timestamp = models.CharField(max_length=100)
-    products = models.BigIntegerField()
+    product = models.BigIntegerField()
 
     objects = CopyManager()
 
     class Meta:
-        verbose_name = 'Products'
-        verbose_name_plural = 'Products'
+        verbose_name = 'CashierTicketProducts'
+        verbose_name_plural = 'CashierTicketProducts'
 
 
 class MonitoringData(models.Model):

@@ -14,9 +14,9 @@ urlpatterns = [
 
     # API URLs
     path('api-auth/', include('rest_framework.urls')),
-    path('products_api_view/', views.ProductsAPIView.as_view(), name='GoodnessGroceries-ProductsAPIView'),
-    path('monitoring_data_api_view/', views.MonitoringDataAPIView.as_view(), name='GoodnessGroceries-MonitoringDataAPIView'),
-    path('product_reviews_api_view/', views.ProductsReviewAPIView.as_view(), name='GoodnessGroceries-ProductsReviewAPIView'),
+    path('get_bought_products/<int:participant_id>/', views.GetBoughtProducts.as_view(), name='GoodnessGroceries-GetBoughtProducts'),
+    path('post_monitoring_data/', views.PostMonitoringData.as_view(), name='GoodnessGroceries-PostMonitoringData'),
+    path('post_product_review/', views.PostProductsReview.as_view(), name='GoodnessGroceries-PostProductsReview'),
     path('fetch_user_status/<int:participant_id>/', views.FetchUserStatus.as_view(), name='GoodnessGroceries-FetchUserStatus'),
     path('request_user_access/', views.RequestUserAccess.as_view(), name='GoodnessGroceries-RequestUserAccess'),
 
