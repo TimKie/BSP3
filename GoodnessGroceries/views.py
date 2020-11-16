@@ -254,7 +254,7 @@ class CSVFileView(View):
         cd = 'attachment; filename="{0}"'.format('test_products.csv')
         response['Content-Disposition'] = cd
 
-        fieldnames = ('participant_id', 'timestamp', 'products')
+        fieldnames = ('participant_id', 'timestamp', 'product')
         data = CashierTicketProducts.objects.values(*fieldnames)
 
         writer = csv.DictWriter(response, fieldnames=fieldnames)
