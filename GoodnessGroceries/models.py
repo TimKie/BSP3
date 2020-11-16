@@ -6,6 +6,7 @@ class CashierTicketProducts(models.Model):
     participant_id = models.BigIntegerField()
     timestamp = models.CharField(max_length=100)
     product = models.BigIntegerField()
+    reviewed = models.BooleanField(default=False)
 
     objects = CopyManager()
 
@@ -18,8 +19,7 @@ class MonitoringData(models.Model):
     participant_id = models.BigIntegerField()
     timestamp = models.DateTimeField()
     activity_name = models.CharField(max_length=100)
-    metadata_os = models.CharField(max_length=100)
-    metadata_ean = models.BigIntegerField()
+    metadata = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = 'Monitoring Data'
@@ -55,7 +55,7 @@ class Users(models.Model):
 # ------------------------------ Static Data ------------------------------------------------------
 
 class StaticProducts(models.Model):
-    code = models.BigIntegerField()
+    code = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.TextField()
     type = models.CharField(max_length=100)

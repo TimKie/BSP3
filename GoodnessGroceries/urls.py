@@ -20,10 +20,20 @@ urlpatterns = [
     path('fetch_user_status/<int:participant_id>/', views.FetchUserStatus.as_view(), name='GoodnessGroceries-FetchUserStatus'),
     path('request_user_access/', views.RequestUserAccess.as_view(), name='GoodnessGroceries-RequestUserAccess'),
 
-    # Download URL
-    path('products_data/', views.CSVFileView.as_view(), name='GoodnessGroceries-csv_download'),
+    # Import - Export
+    path('import_export/', views.ImportExportView, name='GoodnessGroceries-import_export'),
 
-    # Upload Static Files URLs
+    # Dynamic Files Download
+    path('download_cashier_ticket_products/', views.CashierTicketsProductsDownload.as_view(), name='GoodnessGroceries-download_cashier_ticket_products'),
+    path('download_product_reviews/', views.ProductReviewsDownload.as_view(), name='GoodnessGroceries-download_product_reviews'),
+    path('download_monitoring_data/', views.MonitoringDataDownload.as_view(), name='GoodnessGroceries-download_monitoring_data'),
+
+    # Static Files Download
+    path('download_static_products/', views.StaticProductsDownload.as_view(), name='GoodnessGroceries-download_static_products'),
+    path('download_static_indicators/', views.StaticIndicatorsDownload.as_view(), name='GoodnessGroceries-download_static_indicators'),
+    path('download_static_indicator_categories/', views.StaticIndicatorCategoriesDownload.as_view(), name='GoodnessGroceries-download_static_indicator_categories'),
+
+    # Static Files Upload
     path('upload_static_products/', views.static_products_upload, name='GoodnessGroceries-upload_static_products'),
     path('upload_static_indicators/', views.static_indicators_upload, name='GoodnessGroceries-upload_static_indicators'),
     path('upload_static_indicator_categories/', views.static_indicator_categories_upload, name='GoodnessGroceries-upload_static_indicator_categories')

@@ -1,18 +1,6 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% block content %}
-    <!-- Download Button -->
-    <div>
-        <a href="{% url 'GoodnessGroceries-csv_download' %}" class="btn btn-primary btn-lg btn-block" role="button">Download Products CSV File</a>
-    </div>
-    <br>
-    <!-- Upload Buttons -->
-    <div>
-        <a href="{% url 'GoodnessGroceries-upload_static_products' %}" class="btn btn-primary btn-lg" role="button">Upload Static Products</a>
-        <a href="{% url 'GoodnessGroceries-upload_static_indicators' %}" class="btn btn-primary btn-lg" role="button">Upload Static Indicators</a>
-        <a href="{% url 'GoodnessGroceries-upload_static_indicator_categories' %}" class="btn btn-primary btn-lg" role="button">Upload Static Indicator Categories</a>
-    </div>
-    <br>
-    <!-- Listing fo products -->
+ <!-- Listing fo products -->
     {% for product in products %}
         <article class="content-section">
             <img src="{{ product.image_url }}" class="rounded float-left" alt=" ">

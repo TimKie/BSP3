@@ -7,6 +7,7 @@ class CashierTicketProductsSerializer(serializers.ModelSerializer):
         model = CashierTicketProducts
         fields = (
             'product',
+            'timestamp'
         )
 
 
@@ -17,8 +18,7 @@ class MonitoringDataSerializer(serializers.ModelSerializer):
             'participant_id',
             'timestamp',
             'activity_name',
-            'metadata_os',
-            'metadata_ean'
+            'metadata'
         )
 
 

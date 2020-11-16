@@ -1,6 +1,6 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
+    <form action="{% url 'GoodnessGroceries-import_export' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h4>Upload the static file for indicators:</h4>
         <input type="file" name="static_indicators_file">

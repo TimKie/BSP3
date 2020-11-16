@@ -164,7 +164,15 @@ def cashierTicketsToDB():
 
 #cashierTicketsToDB()
 
-# ------------------------------------------- Upload of Static Files -------------------------------------------
+
+# ------------------------------------------- Import - Export ----------------------------------------------------------
+def ImportExportView(request):
+    template = 'GoodnessGroceries/import_export.html'
+
+    return render(request, template)
+
+
+# ------------------------------------------- Upload of Static Files ---------------------------------------------------
 import io
 from.models import StaticProducts, StaticIndicators, StaticIndicatorCategories
 
@@ -242,20 +250,114 @@ def static_indicator_categories_upload(request):
     return render(request, template)
 
 
-# ------------------------------------------- Download Button ----------------------------------------------------------
+# ------------------------------------------- Download Dynamic CSV Files -----------------------------------------------
 from django.views.generic import View
 from django.http import HttpResponse
 
 
-# get data from database table
-class CSVFileView(View):
+# cashier tickets products download
+class CashierTicketsProductsDownload(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='text/csv')
-        cd = 'attachment; filename="{0}"'.format('test_products.csv')
+        cd = 'attachment; filename="{0}"'.format('cashier_tickets_products.csv')
         response['Content-Disposition'] = cd
 
         fieldnames = ('participant_id', 'timestamp', 'product')
         data = CashierTicketProducts.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# product reviews download
+class ProductReviewsDownload(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('product_reviews.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('participant_id', 'product_ean', 'selected_indicator_main_id', 'selected_indicator_secondary_id',
+                      'free_text_indicator', 'price_checkbox_selected')
+        data = ProductReviews.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# monitoring data download
+class MonitoringDataDownload(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('monitoring_data.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('participant_id', 'timestamp', 'activity_name', 'metadata')
+        data = MonitoringData.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# ------------------------------------------- Download Static CSV Files ------------------------------------------------
+# static products download
+class StaticProductsDownload(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('static_products.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('code', 'name', 'description', 'type', 'category', 'provider', 'image_url', 'indicators_0_indicator_id',
+                      'indicators_0_indicator_description', 'indicators_1_indicator_id', 'indicators_1_indicator_description',
+                      'indicators_2_indicator_id', 'indicators_2_indicator_description')
+        data = StaticProducts.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# static indicators download
+class StaticIndicatorsDownload(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('static_indicators.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('id', 'name', 'category_id', 'icon_name', 'general_description')
+        data = StaticIndicators.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# static indicator categories download
+class StaticIndicatorCategoriesDownload(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('static_indicator_categories.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('id', 'name', 'icon_name', 'description')
+        data = StaticIndicatorCategories.objects.values(*fieldnames)
 
         writer = csv.DictWriter(response, fieldnames=fieldnames)
         writer.writeheader()
@@ -275,7 +377,7 @@ class GetBoughtProducts(APIView):
     def get(self, request, participant_id, *args, **kwargs):
         # return 404 error if request id is not in the database
         try:
-            product = CashierTicketProducts.objects.filter(participant_id=participant_id)
+            product = CashierTicketProducts.objects.filter(participant_id=participant_id, reviewed=False)
         except CashierTicketProducts.DoesNotExist:
             return HttpResponse(status=404)
         serializer = CashierTicketProductsSerializer(product, many=True)
