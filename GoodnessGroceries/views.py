@@ -124,16 +124,25 @@ class MostPopularProductTypes(TemplateView):
     """
 
 
-# ------------------------------------------- Load cashier tickets csv file on database --------------------------------
+# ------------------------------------- Check for unprocessed files and process them -----------------------------------
 import pandas as pd
 from glob import glob
+import os
+
+o_path = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/cashier_ticket_*.csv'
+d_path = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/processed_files/cashier_tickets_combined.csv'
 
 
-def cashierTicketsToDB():
+def check_for_files(origin_path):
+    if os.path.isfile(glob(origin_path)[0]):
+        cashierTicketsToDB(origin_path, d_path)
+
+
+def cashierTicketsToDB(origin_path, destination_path):
     # combine cashier ticket files
-    stock_files = sorted(glob('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_ticket_*.csv'))
+    stock_files = sorted(glob(origin_path))
     result = pd.concat((pd.read_csv(file) for file in stock_files), ignore_index=True)
-    result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
+    result.to_csv(destination_path, index=False)
 
     # delete unnecessary columns
     for i in range((len(result.columns)-2)//3):
@@ -141,13 +150,13 @@ def cashierTicketsToDB():
 
     # rename column headers in order for the models.py to be able to use it
     for i in range(len(result.columns)):
-        result = result.rename({'products/'+str(i)+'/product_ean': 'products_'+str(i)+'_product_ean'}, axis=1)
+        result = result.rename({'products/'+str(i)+'/product_ean': 'product_'+str(i)+'_product_ean'}, axis=1)
 
     # rearrange rows an columns such that it fits in the model
-    result = result.melt(id_vars=['participant_id', 'timestamp'], var_name='product_ean', value_name='products')
+    result = result.melt(id_vars=['participant_id', 'timestamp'], var_name='product_ean', value_name='product')
     result = result.drop(columns=['product_ean'])
     result = result.dropna()
-    result = result.astype({'products': int})
+    result = result.astype({'product': int})
 
     # remove products that are not part of the study
     get_products_from_db()
@@ -155,14 +164,12 @@ def cashierTicketsToDB():
     code_of_products_in_study = []
     for code in p.code:
         code_of_products_in_study.append(code)
-    result = result[result.products.isin(code_of_products_in_study)]
+    result = result[result['product'].isin(code_of_products_in_study)]
 
     # save file with combined and relevant data
-    result.to_csv('/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv', index=False)
+    result.to_csv(destination_path, index=False)
 
-    CashierTicketProducts.objects.from_csv("simulated_csv_files/cashier_tickets/cashier_tickets_combined.csv")
-
-#cashierTicketsToDB()
+    CashierTicketProducts.objects.from_csv(destination_path)
 
 
 # ------------------------------------------- Import - Export ----------------------------------------------------------

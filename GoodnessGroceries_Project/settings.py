@@ -30,20 +30,23 @@ ALLOWED_HOSTS = [
     # 'localhost'
 ]
 
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'GoodnessGroceries.apps.GoodnessGroceriesConfig',
-    'Users.apps.UsersConfig',
-    'crispy_forms',
-    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'GoodnessGroceries.apps.GoodnessGroceriesConfig',
+    'Users.apps.UsersConfig',
+    'crispy_forms',
+    'rest_framework',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -134,4 +137,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'GoodnessGroceries-home'
 LOGIN_URL = 'login'
-
