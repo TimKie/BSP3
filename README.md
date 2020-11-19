@@ -13,6 +13,7 @@ pip install psycopg2
 pip install pandas
 pip install django-postgres-copy
 pip install djangorestframework
+pip install django-crontab
 ```
 
 The project uses the database PostgreSQL which has to be downloaded [here](https://www.postgresql.org/download/) in order to create a database for the webiste (I would recommand to download the [Postgres App](https://postgresapp.com/)).
