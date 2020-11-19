@@ -30,8 +30,6 @@ ALLOWED_HOSTS = [
     # 'localhost'
 ]
 
-BROKER_URL = 'amqp://guest:guest@localhost:5672/'
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,7 +44,7 @@ INSTALLED_APPS = [
     'Users.apps.UsersConfig',
     'crispy_forms',
     'rest_framework',
-    'django_celery_beat',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +135,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'GoodnessGroceries-home'
 LOGIN_URL = 'login'
+
+
+#cronjobs
+CRONJOBS = [
+    ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job')
+]

@@ -124,18 +124,23 @@ class MostPopularProductTypes(TemplateView):
     """
 
 
-# ------------------------------------- Check for unprocessed files and process them -----------------------------------
+# ------------------------------ Automated Check for unprocessed files and process them --------------------------------
 import pandas as pd
 from glob import glob
 import os
+
+
+o_directory = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/'
 
 o_path = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/cashier_ticket_*.csv'
 d_path = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/processed_files/cashier_tickets_combined.csv'
 
 
 def check_for_files(origin_path):
-    if os.path.isfile(glob(origin_path)[0]):
-        cashierTicketsToDB(origin_path, d_path)
+    if len(glob(origin_path)) != 0:
+        if os.path.isfile(glob(origin_path)[0]):
+            cashierTicketsToDB(origin_path, d_path)
+    return "Checking for new files..."
 
 
 def cashierTicketsToDB(origin_path, destination_path):
