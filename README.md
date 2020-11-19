@@ -15,7 +15,7 @@ pip install django-postgres-copy
 pip install djangorestframework
 brew install rabbitmq
 brew services start rabbitmq
-pip install django-celery-beat
+pip install celery
 ```
 
 The project uses the database PostgreSQL which has to be downloaded [here](https://www.postgresql.org/download/) in order to create a database for the webiste (I would recommand to download the [Postgres App](https://postgresapp.com/)).
