@@ -49,14 +49,46 @@ def get_products_from_db():
             writer.writerow(product)
 
 
+# ---------- Get users data from database, put them in a csv file and return this file ---------------------------------
+def get_users_from_db():
+    with open('users.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+
+        writer.writerow(['participant_id', 'status', 'product_category_1', 'product_category_2', 'product_category_3', 'product_category_4'])
+
+        for user in Users.objects.all().values_list('participant_id', 'status', 'product_category_1',
+                                                    'product_category_2', 'product_category_3', 'product_category_4'):
+            writer.writerow(user)
+
+
 @login_required()
 def product_overview(request):
+    user = Users.objects.all()
+
+    orders = user.order_set.all()
+
+    myFilter = UserFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
 
     get_products_from_db()
 
-    context = {'products': load_csv_file('products.csv')}
+    context = {'products': load_csv_file('products.csv'), 'myFilter': myFilter}
 
     return render(request, 'GoodnessGroceries/product_overview.html', context)
+
+
+# ----------------------------------- Filter Users ---------------------------------------------------------------------
+from .filters import UserFilter
+
+
+@login_required()
+def user_overview(request):
+
+    get_users_from_db()
+
+    context = {'users': load_csv_file('users.csv')}
+
+    return render(request, 'GoodnessGroceries/user_overview.html', context)
 
 
 # ------------------------------------------ Statistics ----------------------------------------------------------------

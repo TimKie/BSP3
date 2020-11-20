@@ -1,0 +1,21 @@
+{% extends 'GoodnessGroceries/base.html' %}
+{% block content %}
+    <form method="get">
+        {{ myFilter.form }}
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+ <!-- Listing of users -->
+    {% for user in users %}
+        <article class="content-section">
+            <div>
+                <h2 style="white-space: pre"> {{ user.participant_id }}</h2>
+                <br>
+                <h6>Status: <a href="#">{{ user.status }}</a></h6>
+                <h6>Product Category 1: {{ user.product_category_1 }}</h6>
+                <h6>Product Category 2: {{ user.product_category_2 }}</h6>
+                <h6>Product Category 3: {{ user.product_category_3 }}</h6>
+                <h6>Product Category 4: {{ user.product_category_4 }}</h6>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}

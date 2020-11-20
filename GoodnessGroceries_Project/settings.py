@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'django_crontab',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -139,5 +140,5 @@ LOGIN_URL = 'login'
 
 #cronjobs
 CRONJOBS = [
-    ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job')
+    ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job', '>> /Users/tim/Desktop/scheduled_job.log')
 ]

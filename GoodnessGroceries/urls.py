@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home, name='GoodnessGroceries-home'),
     path('about/', views.about, name='GoodnessGroceries-about'),
     path('product_overview/', views.product_overview, name='GoodnessGroceries-product_overview'),
+    path('user_overview/', views.user_overview, name='GoodnessGroceries-user_overview'),
 
     # Statistics URLs
     path('most_expensive_products/', views.MostExpensiveProducts.as_view(), name='GoodnessGroceries-most_expensive_products'),
