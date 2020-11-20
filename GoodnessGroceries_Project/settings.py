@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_crontab',
     'django_filters',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [

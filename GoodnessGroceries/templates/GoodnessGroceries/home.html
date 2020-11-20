@@ -1,10 +1,29 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% block content %}
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><h1>Welcome to the website of the Goodness Groceries project.</h1></li>
-        <li class="list-group-item">The sidebar on the left side can be used to navigate to the other pages of this website.</li>
-        <li class="list-group-item">The search bar on top op the page can be used to search for products or product categories.</li>
-        <li class="list-group-item">Please make sure to log out when quitting the website to prevent unauthorized use.</li>
-        <li class="list-group-item">For more information about the project please refer to the <a href="{% url 'GoodnessGroceries-about' %}">About</a> page.</li>
-    </ul>
+    <div class="row">
+        <div class="col">
+            <div class="col-md">
+                <div class="card text-center text-white  mb-3" id="total-users">
+                    <div class="card-header">
+                        <h5 class="card-title">Number of Users</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{total_users}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="col-md">
+                <div class="card text-center text-white  mb-3" id="total-prod-reviews">
+                    <div class="card-header">
+                        <h5 class="card-title">Number of Products Reviews</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{total_prod_reviews}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock content %}

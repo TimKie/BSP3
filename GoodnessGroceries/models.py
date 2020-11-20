@@ -41,7 +41,11 @@ class ProductReviews(models.Model):
 
 class Users(models.Model):
     participant_id = models.BigIntegerField()
-    status = models.CharField(max_length=100, default='requested')
+    STATUS = (
+        ('requested', 'requested'),
+        ('valid', 'valid')
+    )
+    status = models.CharField(max_length=100, default='requested', choices=STATUS)
     product_category_1 = models.CharField(max_length=100, null=True)
     product_category_2 = models.CharField(max_length=100, null=True)
     product_category_3 = models.CharField(max_length=100, null=True)

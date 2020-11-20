@@ -1,10 +1,20 @@
 {% extends 'GoodnessGroceries/base.html' %}
+{% load bootstrap %}
 {% block content %}
-    <form method="get">
-        {{ myFilter.form }}
-        <button class="btn btn-primary" type="submit">Search</button>
-    </form>
- <!-- Listing of users -->
+    <div class="row">
+        <div class="col">
+            <div class="card card-body">
+                <form method="get">
+                    {{ myFilter.form|bootstrap }}
+                <button class="btn btn-FilterSearch" type="submit">Search</button>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <!-- Listing of users -->
     {% for user in users %}
         <article class="content-section">
             <div>
@@ -18,4 +28,5 @@
             </div>
         </article>
     {% endfor %}
+
 {% endblock content %}

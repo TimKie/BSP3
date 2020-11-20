@@ -20,7 +20,15 @@ def load_csv_file(file_name):
 
 @login_required()
 def home(request):
-    return render(request, 'GoodnessGroceries/home.html')
+    users = Users.objects.all()
+    prod_reviews = ProductReviews.objects.all()
+
+    total_users = users.count()
+    total_prod_reviews = prod_reviews.count()
+
+    context ={'total_users': total_users, 'total_prod_reviews': total_prod_reviews}
+
+    return render(request, 'GoodnessGroceries/home.html', context)
 
 
 @login_required()
@@ -49,6 +57,15 @@ def get_products_from_db():
             writer.writerow(product)
 
 
+@login_required()
+def product_overview(request):
+    get_products_from_db()
+
+    context = {'products': load_csv_file('products.csv')}
+
+    return render(request, 'GoodnessGroceries/product_overview.html', context)
+
+
 # ---------- Get users data from database, put them in a csv file and return this file ---------------------------------
 def get_users_from_db():
     with open('users.csv', 'w', newline='') as f:
@@ -61,32 +78,29 @@ def get_users_from_db():
             writer.writerow(user)
 
 
-@login_required()
-def product_overview(request):
-    user = Users.objects.all()
-
-    orders = user.order_set.all()
-
-    myFilter = UserFilter(request.GET, queryset=orders)
-    orders = myFilter.qs
-
-    get_products_from_db()
-
-    context = {'products': load_csv_file('products.csv'), 'myFilter': myFilter}
-
-    return render(request, 'GoodnessGroceries/product_overview.html', context)
-
-
 # ----------------------------------- Filter Users ---------------------------------------------------------------------
 from .filters import UserFilter
 
-
 @login_required()
 def user_overview(request):
+    users = Users.objects.all()
 
-    get_users_from_db()
+    myFilter = UserFilter(request.GET, queryset=users)
+    users = myFilter.qs
 
-    context = {'users': load_csv_file('users.csv')}
+    context = {'users': users, 'myFilter': myFilter}
+
+    return render(request, 'GoodnessGroceries/user_overview.html', context)
+
+
+@login_required()
+def user_overview_filtered(request, participant_id):
+    users = Users.objects.filter(participant_id=participant_id)
+
+    myFilter = UserFilter(request.GET, queryset=users)
+    users = myFilter.qs
+
+    context = {'users': users, 'myFilter': myFilter}
 
     return render(request, 'GoodnessGroceries/user_overview.html', context)
 

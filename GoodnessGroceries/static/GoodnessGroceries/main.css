@@ -59,7 +59,7 @@ a.btn-primary {
     border: 1px solid Black !important;
 }
 
-/* GreenBot Button */
+/* GoodnessGroceries Button */
 .container .navbar-brand {
     color:  Black;
 }
@@ -82,3 +82,19 @@ img {
     max-width: 10%;
     height: auto;
 }
+
+/* Total Users */
+#total-users {
+    background-color: #75d1f0;
+}
+
+/* Total Product Reviews */
+#total-prod-reviews {
+    background-color: #75d1f0;
+}
+
+/* Filter Search Button */
+.btn-FilterSearch {
+    background-color: #33CCFF;
+}
+
