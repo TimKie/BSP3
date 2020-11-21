@@ -14,6 +14,9 @@ class CashierTicketProducts(models.Model):
         verbose_name = 'CashierTicketProducts'
         verbose_name_plural = 'CashierTicketProducts'
 
+    def __str__(self):
+        return "Participant ID: "+str(self.participant_id)
+
 
 class MonitoringData(models.Model):
     participant_id = models.BigIntegerField()
@@ -24,6 +27,9 @@ class MonitoringData(models.Model):
     class Meta:
         verbose_name = 'Monitoring Data'
         verbose_name_plural = 'Monitoring Data'
+
+    def __str__(self):
+        return "Participant ID: "+str(self.participant_id)
 
 
 class ProductReviews(models.Model):
@@ -38,6 +44,9 @@ class ProductReviews(models.Model):
     class Meta:
         verbose_name = 'Product Reviews'
         verbose_name_plural = 'Product Reviews'
+
+    def __str__(self):
+        return "Participant ID: "+str(self.participant_id)
 
 
 class Users(models.Model):
@@ -55,6 +64,9 @@ class Users(models.Model):
     class Meta:
         verbose_name = 'Users'
         verbose_name_plural = 'Users'
+
+    def __str__(self):
+        return "Participant ID: "+str(self.participant_id)
 
 
 # ------------------------------ Static Data ------------------------------------------------------

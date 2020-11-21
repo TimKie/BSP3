@@ -141,5 +141,5 @@ LOGIN_URL = 'login'
 
 #cronjobs
 CRONJOBS = [
-    ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job', '>> /Users/tim/Desktop/scheduled_job.log')
+    ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job', '>> /Users/tim/Desktop/scheduled_job.log 2>&1'),
 ]

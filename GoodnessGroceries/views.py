@@ -83,7 +83,7 @@ def user_overview(request):
 
 @login_required()
 def user_overview_filtered(request, participant_id):
-    users = Users.objects.filter(participant_id=participant_id)
+    users = Users.objects.filter(participant_id=participant_id).order_by('-participant_id')
 
     myFilter = UserFilter(request.GET, queryset=users)
     users = myFilter.qs
@@ -102,8 +102,8 @@ def product_reviews_overview(request):
         same_ids.append(prod_review.participant_id)
 
     prod_reviews_with_same_id = dict()
-    for id in set(same_ids):
-        prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id)
+    for id in sorted(set(same_ids)):
+        prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id).order_by('-timestamp')
 
     context = {'prod_reviews': prod_reviews, 'prod_reviews_with_same_id': prod_reviews_with_same_id, 'same_ids': set(same_ids)}
 
@@ -181,17 +181,18 @@ from glob import glob
 import os
 
 
-o_directory = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/'
+o_directory = '/Users/tim/Desktop/UNI.lu/Semester_3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/'
 
-o_path = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/cashier_ticket_*.csv'
-d_path = '/Users/tim/Desktop/UNI.lu/Semester 3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/processed_files/cashier_tickets_combined.csv'
+o_path = '/Users/tim/Desktop/UNI.lu/Semester_3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/cashier_ticket_*.csv'
+d_path = '/Users/tim/Desktop/UNI.lu/Semester_3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/processed_files/last_processed_cashier_ticket.csv'
 
 
-def check_for_files(origin_path):
+def check_for_files(origin_path, destination_path):
     if len(glob(origin_path)) != 0:
         if os.path.isfile(glob(origin_path)[0]):
-            cashierTicketsToDB(origin_path, d_path)
-    return "Checking for new files..."
+            cashierTicketsToDB(origin_path, destination_path)
+            for file_id in range(len(glob(origin_path))):
+                os.replace(glob(origin_path)[0], destination_path)
 
 
 def cashierTicketsToDB(origin_path, destination_path):
