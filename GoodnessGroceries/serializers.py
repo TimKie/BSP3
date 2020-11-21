@@ -7,7 +7,7 @@ class CashierTicketProductsSerializer(serializers.ModelSerializer):
         model = CashierTicketProducts
         fields = (
             'product',
-            'timestamp'
+            'timestamp',
         )
 
 
@@ -18,7 +18,7 @@ class MonitoringDataSerializer(serializers.ModelSerializer):
             'participant_id',
             'timestamp',
             'activity_name',
-            'metadata'
+            'metadata',
         )
 
 
@@ -28,11 +28,11 @@ class ProductReviewsSerializer(serializers.ModelSerializer):
         fields = (
             'participant_id',
             'product_ean',
+            'timestamp',
             'selected_indicator_main_id',
             'selected_indicator_secondary_id',
             'free_text_indicator',
-            'price_checkbox_selected'
-
+            'price_checkbox_selected',
         )
 
 
@@ -52,5 +52,5 @@ class UsersSerializer(serializers.ModelSerializer):
             'product_category_1',
             'product_category_2',
             'product_category_3',
-            'product_category_4'
+            'product_category_4',
         )

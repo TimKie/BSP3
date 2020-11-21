@@ -93,6 +93,23 @@ def user_overview_filtered(request, participant_id):
     return render(request, 'GoodnessGroceries/user_overview.html', context)
 
 
+# ------------------------------------------ Product Reviews -----------------------------------------------------------
+def product_reviews_overview(request):
+    prod_reviews = ProductReviews.objects.all()
+
+    same_ids = []
+    for prod_review in prod_reviews:
+        same_ids.append(prod_review.participant_id)
+
+    prod_reviews_with_same_id = dict()
+    for id in set(same_ids):
+        prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id)
+
+    context = {'prod_reviews': prod_reviews, 'prod_reviews_with_same_id': prod_reviews_with_same_id, 'same_ids': set(same_ids)}
+
+    return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
+
+
 # ------------------------------------------ Statistics ----------------------------------------------------------------
 class MostExpensiveProducts(TemplateView):
     template_name = 'GoodnessGroceries/most_expensive_products.html'

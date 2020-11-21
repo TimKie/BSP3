@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home, name='GoodnessGroceries-home'),
     path('about/', views.about, name='GoodnessGroceries-about'),
     path('product_overview/', views.product_overview, name='GoodnessGroceries-product_overview'),
+    path('product_reviews_overview/', views.product_reviews_overview, name='GoodnessGroceries-product_reviews_overview'),
     path('user_overview/', views.user_overview, name='GoodnessGroceries-user_overview'),
     path('user_overview/<int:participant_id>/', views.user_overview_filtered, name='GoodnessGroceries-user_overview_filtered'),
 

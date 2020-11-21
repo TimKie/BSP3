@@ -25,22 +25,22 @@ a.sidebar-items {
 }
 
 a {
-    color: #33CCFF;
+    color: #4184BF;
 }
 
 a:hover {
-    color: #0099FF;
+    color: #4184BF;
     text-decoration: none;
 }
 
 /* Navigation Bar */
 .bg-steel {
-    background-color: #33CCFF;
+    background-color: #91D7F2;
 }
 
 /* Home + About Button */
 .site-header .navbar-nav .nav-link {
-    color: #404040;
+    color: #4184BF;
 }
 
 .site-header .navbar-nav .nav-link:hover {
@@ -49,19 +49,19 @@ a:hover {
 
 /* Search Button */
 button.btn-outline-dark:hover  {
-    color: #33CCFF;
+    color: #91D7F2;
 }
 
 /* Search Button */
 a.btn-primary {
-    background: #33CCFF !important;
+    background: #91D7F2 !important;
     color: black !important;
     border: 1px solid Black !important;
 }
 
 /* GoodnessGroceries Button */
 .container .navbar-brand {
-    color:  Black;
+    color:  #4184BF;
 }
 
 .container .navbar-brand:hover {
@@ -85,16 +85,20 @@ img {
 
 /* Total Users */
 #total-users {
-    background-color: #75d1f0;
+    background-color: #91D7F2;v
 }
 
 /* Total Product Reviews */
 #total-prod-reviews {
-    background-color: #75d1f0;
+    background-color: #91D7F2;
 }
 
 /* Filter Search Button */
 .btn-FilterSearch {
-    background-color: #33CCFF;
+    background-color: #91D7F2;
 }
 
+/* Product Reviews with same ID Grouping*/
+#product_review_grouping {
+    border: 4px solid #91D7F2;
+}

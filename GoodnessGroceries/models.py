@@ -29,6 +29,7 @@ class MonitoringData(models.Model):
 class ProductReviews(models.Model):
     participant_id = models.BigIntegerField()
     product_ean = models.BigIntegerField()
+    timestamp = models.DateTimeField(null=True, blank=True)
     selected_indicator_main_id = models.CharField(max_length=100)
     selected_indicator_secondary_id = models.CharField(max_length=100)
     free_text_indicator = models.TextField()
@@ -77,6 +78,9 @@ class StaticProducts(models.Model):
         verbose_name = 'StaticProducts'
         verbose_name_plural = 'StaticProducts'
 
+    def __str__(self):
+        return self.name
+
 
 class StaticIndicators(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
@@ -89,6 +93,9 @@ class StaticIndicators(models.Model):
         verbose_name = 'StaticIndicators'
         verbose_name_plural = 'StaticIndicators'
 
+    def __str__(self):
+        return self.name
+
 
 class StaticIndicatorCategories(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
@@ -99,3 +106,6 @@ class StaticIndicatorCategories(models.Model):
     class Meta:
         verbose_name = 'StaticIndicatorCategories'
         verbose_name_plural = 'StaticIndicatorCategories'
+
+    def __str__(self):
+        return self.name

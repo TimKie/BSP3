@@ -1,0 +1,21 @@
+{% extends 'GoodnessGroceries/base.html' %}
+{% block content %}
+ <!-- Listing of product reviews -->
+    {% for id, prod_reviews in prod_reviews_with_same_id.items %}
+        <article class="content-section" id="product_review_grouping">
+            <h2 style="white-space: pre">Participant ID:  {{ id }}</h2>
+            {% for prod_review in prod_reviews %}
+                <article class="content-section">
+                    <div>
+                        <h6>Timestamp: {{ prod_review.timestamp }}</h6>
+                        <h6>Product Ean: {{ prod_review.product_ean }}</h6>
+                        <h6>Selected Main Indicator: {{ prod_review.selected_indicator_main_id }}</h6>
+                        <h6>Selected Secondary Indicator: {{ prod_review.selected_indicator_secondary_id }}</h6>
+                        <h6>Price Checkbox Selected: {{ prod_review.price_checkbox_selected }}</h6>
+                        <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
+                    </div>
+                </article>
+            {% endfor %}
+        </article>
+    {% endfor %}
+{% endblock content %}

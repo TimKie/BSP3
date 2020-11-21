@@ -39,13 +39,15 @@
               <a class="nav-item nav-link" href="{% url 'GoodnessGroceries-home' %}">Home</a>
               <a class="nav-item nav-link" href="{% url 'GoodnessGroceries-about' %}">About</a>
             </div>
-               <!-- Search Button -->
+               <!--
+               Search Button
               <div class="mr-5">
                   <form class="form-inline">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
                   </form>
               </div>
+              -->
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
@@ -61,10 +63,12 @@
         <!-- Sidebar -->
         <div class="col-md-4">
           <div class="content-section">
-            <h3>My Sidebar</h3>
+            <h3>Sidebar</h3>
             <p class='text-muted'>
-              <ul class="list-group"><!-- You can put any information here. -->
+              <ul class="list-group">
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GoodnessGroceries-product_overview' %}">Product Overview</a></li>
+                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GoodnessGroceries-user_overview' %}">User Overview</a></li>
+                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GoodnessGroceries-product_reviews_overview' %}">Product Reviews Overview</a></li>
                 <li class="list-group-item list-group-item-light">
                     <!-- Drop Down Menu in Sidebar -->
                     <a class="sidebar-items" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Statistics</a>
@@ -83,7 +87,6 @@
                             </li>
                         </ul>
                 </li>
-                <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GoodnessGroceries-user_overview' %}">User Overview</a></li>
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GoodnessGroceries-import_export' %}">Import - Export</a></li>
               </ul>
             </p>
