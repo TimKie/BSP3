@@ -1,6 +1,10 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% load bootstrap %}
 {% block content %}
+    <a href="{% url 'GoodnessGroceries-download_users' %}" class="btn btn-primary btn-lg btn-block" role="button">Download Users CSV File</a>
+
+    <br>
+
     <div class="row">
         <div class="col">
             <div class="card card-body">
@@ -14,19 +18,27 @@
 
     <br>
 
-    <!-- Listing of users -->
-    {% for user in users %}
-        <article class="content-section">
-            <div>
-                <h2 style="white-space: pre">Participant ID:  {{ user.participant_id }}</h2>
-                <br>
-                <h6>Status: <a href="#">{{ user.status }}</a></h6>
-                <h6>Product Category 1: {{ user.product_category_1 }}</h6>
-                <h6>Product Category 2: {{ user.product_category_2 }}</h6>
-                <h6>Product Category 3: {{ user.product_category_3 }}</h6>
-                <h6>Product Category 4: {{ user.product_category_4 }}</h6>
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Participant ID</th>
+                        <th>Status</th>
+                    </tr>
+
+                    <!-- Listing of users -->
+                    {% for user in users %}
+                    <tr>
+                        <td>{{user.participant_id}}</td>
+                        <td>{{user.status}}</td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
             </div>
-        </article>
-    {% endfor %}
+        </div>
+    </div>
+
 
 {% endblock content %}

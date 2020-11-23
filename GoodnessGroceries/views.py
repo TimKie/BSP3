@@ -23,10 +23,37 @@ def home(request):
     users = Users.objects.all()
     prod_reviews = ProductReviews.objects.all()
 
+    # get total number of users and product reviews
     total_users = users.count()
     total_prod_reviews = prod_reviews.count()
 
-    context ={'total_users': total_users, 'total_prod_reviews': total_prod_reviews}
+    # order product reviews per participant_id and timestamp
+    same_ids = []
+    for prod_review in prod_reviews:
+        same_ids.append(prod_review.participant_id)
+
+    prod_reviews_with_same_id = dict()
+    for id in sorted(set(same_ids)):
+        prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id).order_by('-timestamp')
+
+    # get number of product reviews per day for past 10 days
+    timestamps = []
+    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
+    for prod_review in recent_prod_review_of_last_10_days:
+        if prod_review.timestamp.date() not in timestamps:
+            timestamps.append(prod_review.timestamp.date())
+
+    number_of_prod_reviews_per_day = dict()
+
+    for date in timestamps[:10]:
+        number_of_prod_reviews_per_day[date] = 0
+        for prod_review in prod_reviews:
+            if prod_review.timestamp.date() == date:
+                number_of_prod_reviews_per_day[date] += 1
+
+    context = {'total_users': total_users, 'total_prod_reviews': total_prod_reviews,
+               'prod_reviews_with_same_id': prod_reviews_with_same_id,
+               'number_of_prod_reviews_per_day': number_of_prod_reviews_per_day}
 
     return render(request, 'GoodnessGroceries/home.html', context)
 
@@ -105,7 +132,7 @@ def product_reviews_overview(request):
     for id in sorted(set(same_ids)):
         prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id).order_by('-timestamp')
 
-    context = {'prod_reviews': prod_reviews, 'prod_reviews_with_same_id': prod_reviews_with_same_id, 'same_ids': set(same_ids)}
+    context = {'prod_reviews_with_same_id': prod_reviews_with_same_id}
 
     return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
 
@@ -365,6 +392,25 @@ class MonitoringDataDownload(View):
 
         fieldnames = ('participant_id', 'timestamp', 'activity_name', 'metadata')
         data = MonitoringData.objects.values(*fieldnames)
+
+        writer = csv.DictWriter(response, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+
+        return response
+
+
+# users download
+class UsersDownload(View):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format('users.csv')
+        response['Content-Disposition'] = cd
+
+        fieldnames = ('participant_id', 'status', 'product_category_1', 'product_category_2', 'product_category_3', 'product_category_4',
+                      'indicator_category_1', 'indicator_category_2', 'indicator_category_3', 'indicator_category_4')
+        data = Users.objects.values(*fieldnames)
 
         writer = csv.DictWriter(response, fieldnames=fieldnames)
         writer.writeheader()

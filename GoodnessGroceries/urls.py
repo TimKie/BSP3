@@ -30,6 +30,7 @@ urlpatterns = [
     path('download_cashier_ticket_products/', views.CashierTicketsProductsDownload.as_view(), name='GoodnessGroceries-download_cashier_ticket_products'),
     path('download_product_reviews/', views.ProductReviewsDownload.as_view(), name='GoodnessGroceries-download_product_reviews'),
     path('download_monitoring_data/', views.MonitoringDataDownload.as_view(), name='GoodnessGroceries-download_monitoring_data'),
+    path('download_users/', views.UsersDownload.as_view(), name='GoodnessGroceries-download_users'),
 
     # Static Files Download
     path('download_static_products/', views.StaticProductsDownload.as_view(), name='GoodnessGroceries-download_static_products'),

@@ -40,11 +40,11 @@ a:hover {
 
 /* Home + About Button */
 .site-header .navbar-nav .nav-link {
-    color: #4184BF;
+    color: Black;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-    color: Black;
+    color: #4184BF;
 }
 
 /* Search Button */
@@ -61,11 +61,11 @@ a.btn-primary {
 
 /* GoodnessGroceries Button */
 .container .navbar-brand {
-    color:  #4184BF;
+    color:  Black;
 }
 
 .container .navbar-brand:hover {
-    color:  Black;
+    color:  #4184BF;
 }
 
 /* Sidebar (Box) + Products */

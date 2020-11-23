@@ -1,5 +1,67 @@
 {% extends 'GoodnessGroceries/base.html' %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for key, value in number_of_prod_reviews_per_day.items %} '{{ key }}' ,{% endfor %}],
+                datasets: [{
+                    label: 'Product Reviews Per Day (last 10 days)',
+                    data: [{% for key, value in number_of_prod_reviews_per_day.items %} '{{ value }}' ,{% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(240, 99, 160, 0.2)',
+                        'rgba(74, 122, 135, 0.2)',
+                        'rgba(175, 106, 186, 0.2)',
+                        'rgba(175, 255, 192, 0.2)',
+                        'rgba(135, 62, 55, 0.2)',
+                        'rgba(134, 129, 84, 0.2)',
+                        'rgba(155, 179, 34, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(240, 99, 160, 1)',
+                        'rgba(74, 122, 135, 1)',
+                        'rgba(175, 106, 186, 1)',
+                        'rgba(175, 255, 192, 1)',
+                        'rgba(135, 62, 55, 1)',
+                        'rgba(134, 129, 84, 1)',
+                        'rgba(155, 179, 34, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+{% endblock scripts %}
+
+
 {% block content %}
+    <!-- Representing total number of users and product reviews -->
     <div class="row">
         <div class="col">
             <div class="col-md">
@@ -26,4 +88,36 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <br>
+
+    <!-- Representing the chart generated in script block above -->
+    <canvas id="myChart" width="400" height="300"></canvas>
+
+    <br>
+
+    <!-- Representing the most recent product review of each user -->
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th style="width: 15;">Participant ID</th>
+                        <th style="width: 25%;">Timestamp</th>
+                        <th style="width: 60%;">Most Recent Product Review Text</th>
+                    </tr>
+
+                    <!-- Listing of most recent product reviews for each user -->
+                    {% for id, prod_reviews in prod_reviews_with_same_id.items %}
+                        <tr>
+                            <td>{{ id }}</td>
+                            <td>{{ prod_reviews.first.timestamp }}</td>
+                            <td>{{ prod_reviews.first.free_text_indicator }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
