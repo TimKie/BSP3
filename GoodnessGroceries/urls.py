@@ -5,13 +5,13 @@ urlpatterns = [
     path('', views.home, name='GoodnessGroceries-home'),
     path('about/', views.about, name='GoodnessGroceries-about'),
     path('product_overview/', views.product_overview, name='GoodnessGroceries-product_overview'),
-    path('product_reviews_overview/', views.product_reviews_overview, name='GoodnessGroceries-product_reviews_overview'),
     path('user_overview/', views.user_overview, name='GoodnessGroceries-user_overview'),
     path('user_overview/<int:participant_id>/', views.user_overview_filtered, name='GoodnessGroceries-user_overview_filtered'),
+    path('update_status_of_users/<int:participant_id>/', views.update_status_of_user, name='GoodnessGroceries-update_status_of_users'),
+    path('product_reviews_overview/', views.product_reviews_overview, name='GoodnessGroceries-product_reviews_overview'),
+    path('product_reviews_overview/<int:participant_id>/', views.product_reviews_overview_filtered, name='GoodnessGroceries-product_reviews_overview_filtered'),
 
     # Statistics URLs
-    path('most_expensive_products/', views.MostExpensiveProducts.as_view(), name='GoodnessGroceries-most_expensive_products'),
-    path('most_sold_products/', views.MostSoldProducts.as_view(), name='GoodnessGroceries-most_sold_products'),
     path('most_popular_indicators/', views.MostPopularIndicators.as_view(), name='GoodnessGroceries-most_popular_indicators'),
     path('most_popular_product_types/', views.MostPopularProductTypes.as_view(), name='GoodnessGroceries-most_popular_product_types'),
 

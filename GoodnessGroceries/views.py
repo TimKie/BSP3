@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from .models import *
@@ -93,15 +93,15 @@ def product_overview(request):
     return render(request, 'GoodnessGroceries/product_overview.html', context)
 
 
-# ----------------------------------- Filter Users ---------------------------------------------------------------------
-from .filters import UserFilter
+# ------------------------------------------ Filter Users --------------------------------------------------------------
+from .filters import *
 
 @login_required()
 def user_overview(request):
-    users = Users.objects.all()
+    users = Users.objects.all().order_by('participant_id')
 
     myFilter = UserFilter(request.GET, queryset=users)
-    users = myFilter.qs
+    users = myFilter.qs.order_by('participant_id')
 
     context = {'users': users, 'myFilter': myFilter}
 
@@ -110,18 +110,41 @@ def user_overview(request):
 
 @login_required()
 def user_overview_filtered(request, participant_id):
-    users = Users.objects.filter(participant_id=participant_id).order_by('-participant_id')
+    users = Users.objects.filter(participant_id=participant_id).order_by('participant_id')
 
     myFilter = UserFilter(request.GET, queryset=users)
-    users = myFilter.qs
+    users = myFilter.qs.order_by('participant_id')
 
     context = {'users': users, 'myFilter': myFilter}
 
     return render(request, 'GoodnessGroceries/user_overview.html', context)
 
 
-# ------------------------------------------ Product Reviews -----------------------------------------------------------
+# update the status of the user with the corresponding participant_id by clicking a button
+def update_status_of_user(request, participant_id):
+    user = Users.objects.get(participant_id=participant_id)
+
+    if user.status == 'valid':
+        user.status = 'requested'
+    elif user.status == 'requested':
+        user.status = 'valid'
+
+    user.save()
+
+    users = Users.objects.all()
+
+    myFilter = UserFilter(request.GET, queryset=users)
+    users = myFilter.qs.order_by('participant_id')
+
+    context = {'users': users, 'myFilter': myFilter}
+
+    return render(request, 'GoodnessGroceries/user_overview.html', context)
+
+
+# ------------------------------------------ Filter Product Reviews ----------------------------------------------------
+@login_required()
 def product_reviews_overview(request):
+    """
     prod_reviews = ProductReviews.objects.all()
 
     same_ids = []
@@ -133,33 +156,30 @@ def product_reviews_overview(request):
         prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id).order_by('-timestamp')
 
     context = {'prod_reviews_with_same_id': prod_reviews_with_same_id}
+    """
+
+    prod_reviews = ProductReviews.objects.all()
+
+    myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
+    prod_reviews = myFilter.qs
+
+    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter}
+    return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
+
+
+@login_required()
+def product_reviews_overview_filtered(request, participant_id):
+    prod_reviews = ProductReviews.objects.filter(participant_id=participant_id).order_by('-participant_id')
+
+    myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
+    prod_reviews = myFilter.qs
+
+    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter}
 
     return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
 
 
 # ------------------------------------------ Statistics ----------------------------------------------------------------
-class MostExpensiveProducts(TemplateView):
-    template_name = 'GoodnessGroceries/most_expensive_products.html'
-
-    """
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["qs"] = load_csv_file("static_csv_files/products.csv")
-        return context
-    """
-
-
-class MostSoldProducts(TemplateView):
-    template_name = 'GoodnessGroceries/most_sold_products.html'
-
-    """
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["qs"] = load_csv_file("static_csv_files/products.csv")
-        return context
-    """
-
-
 number_of_indicators = {}
 class MostPopularIndicators(TemplateView):
     template_name = 'GoodnessGroceries/most_popular_indicators.html'

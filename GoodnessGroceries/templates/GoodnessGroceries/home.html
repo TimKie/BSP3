@@ -91,10 +91,12 @@
     </div>
 
     <br>
+    <br>
 
     <!-- Representing the chart generated in script block above -->
     <canvas id="myChart" width="400" height="300"></canvas>
 
+    <br>
     <br>
 
     <!-- Representing the most recent product review of each user -->
@@ -111,7 +113,7 @@
                     <!-- Listing of most recent product reviews for each user -->
                     {% for id, prod_reviews in prod_reviews_with_same_id.items %}
                         <tr>
-                            <td>{{ id }}</td>
+                            <td><a class="sidebar-items" href="{% url 'GoodnessGroceries-product_reviews_overview_filtered' id %}">{{ id }}</a></td>
                             <td>{{ prod_reviews.first.timestamp }}</td>
                             <td>{{ prod_reviews.first.free_text_indicator }}</td>
                         </tr>
@@ -120,4 +122,6 @@
             </div>
         </div>
     </div>
+
+    <br>
 {% endblock content %}

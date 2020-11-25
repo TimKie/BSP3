@@ -23,15 +23,22 @@
             <div class="card card-body">
                 <table class="table table-sm">
                     <tr>
-                        <th>Participant ID</th>
-                        <th>Status</th>
+                        <th style="text-align:left">Participant ID</th>
+                        <th style="text-align:center">Status</th>
+                        <th style="text-align:right">Update Status</th>
                     </tr>
 
                     <!-- Listing of users -->
                     {% for user in users %}
                     <tr>
-                        <td>{{user.participant_id}}</td>
-                        <td>{{user.status}}</td>
+                        <td style="text-align:left">{{user.participant_id}}</td>
+                        <td style="text-align:center">{{user.status}}</td>
+                        <td style="text-align:right">
+                            <form action="{% url 'GoodnessGroceries-update_status_of_users' user.participant_id %}" method=POST>
+                                {% csrf_token %}
+                                <button class="btn btn-FilterSearch btn-sm" type="submit">Update</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
 
@@ -39,6 +46,4 @@
             </div>
         </div>
     </div>
-
-
 {% endblock content %}
