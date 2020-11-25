@@ -180,6 +180,52 @@ def product_reviews_overview_filtered(request, participant_id):
 
 
 # ------------------------------------------ Statistics ----------------------------------------------------------------
+def most_selected_main_indicator(request):
+    prod_reviews = ProductReviews.objects.all()
+
+    main_indicators = []
+    for prod_review in prod_reviews:
+        main_indicators.append(prod_review.selected_indicator_main_id)
+
+    number_of_main_indicators = dict()
+    for indicator in main_indicators:
+        number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
+
+    context = {'number_of_main_indicators': number_of_main_indicators}
+
+    return render(request, 'GoodnessGroceries/most_selected_main_indicator.html', context)
+
+
+def most_selected_secondary_indicator(request):
+    prod_reviews = ProductReviews.objects.all()
+
+    secondary_indicators = []
+    for prod_review in prod_reviews:
+        secondary_indicators.append(prod_review.selected_indicator_secondary_id)
+
+    number_of_secondary_indicators = dict()
+    for indicator in secondary_indicators:
+        number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
+
+    context = {'number_of_secondary_indicators': number_of_secondary_indicators}
+
+    return render(request, 'GoodnessGroceries/most_selected_secondary_indicator.html', context)
+
+
+def price_checkbox_selected(request):
+    prod_reviews = ProductReviews.objects.all()
+
+    number_of_price_checkbox_selected = dict()
+    number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
+    number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
+
+    context = {'number_of_price_checkbox_selected': number_of_price_checkbox_selected}
+
+    return render(request, 'GoodnessGroceries/price_checkbox_selected.html', context)
+
+
+
+
 number_of_indicators = {}
 class MostPopularIndicators(TemplateView):
     template_name = 'GoodnessGroceries/most_popular_indicators.html'

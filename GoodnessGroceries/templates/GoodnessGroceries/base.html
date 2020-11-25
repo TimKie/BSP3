@@ -72,8 +72,23 @@
                 <li class="list-group-item list-group-item-light"><a class="sidebar-items" href="{% url 'GoodnessGroceries-product_reviews_overview' %}">Product Reviews Overview</a></li>
                 <li class="list-group-item list-group-item-light">
                     <!-- Drop Down Menu in Sidebar -->
-                    <a class="sidebar-items" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Statistics</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <a class="sidebar-items" href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false">Product Reviews Statistics</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu1">
+                            <li>
+                                <a class="sidebar-items" href="{% url 'GoodnessGroceries-most_selected_main_indicator' %}">Most Selected Main Indicator</a>
+                            </li>
+                            <li>
+                                <a class="sidebar-items" href="{% url 'GoodnessGroceries-most_selected_secondary_indicator' %}">Most Selected Secondary Indicator</a>
+                            </li>
+                            <li>
+                                <a class="sidebar-items" href="{% url 'GoodnessGroceries-price_checkbox_selected' %}">Price Checkbox Selected</a>
+                            </li>
+                        </ul>
+                </li>
+                <li class="list-group-item list-group-item-light">
+                    <!-- Drop Down Menu in Sidebar -->
+                    <a class="sidebar-items" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false">Statistics</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu2">
                             <li>
                                 <a class="sidebar-items" href="{% url 'GoodnessGroceries-most_popular_indicators' %}">Most Popular Indicators</a>
                             </li>

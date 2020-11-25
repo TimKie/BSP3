@@ -14,6 +14,9 @@ urlpatterns = [
     # Statistics URLs
     path('most_popular_indicators/', views.MostPopularIndicators.as_view(), name='GoodnessGroceries-most_popular_indicators'),
     path('most_popular_product_types/', views.MostPopularProductTypes.as_view(), name='GoodnessGroceries-most_popular_product_types'),
+    path('most_selected_main_indicator/', views.most_selected_main_indicator, name='GoodnessGroceries-most_selected_main_indicator'),
+    path('most_selected_secondary_indicator/', views.most_selected_secondary_indicator, name='GoodnessGroceries-most_selected_secondary_indicator'),
+    path('price_checkbox_selected/', views.price_checkbox_selected, name='GoodnessGroceries-price_checkbox_selected'),
 
     # API URLs
     path('api-auth/', include('rest_framework.urls')),
