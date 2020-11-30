@@ -1,69 +1,10 @@
 {% extends 'GoodnessGroceries/base.html' %}
-{% load bootstrap %}
-{% load static %}
 {% block content %}
-    <div class="row">
-        <div class="col">
-            <div class="card card-body">
-                <form method="get">
-                    {{ myFilter.form|bootstrap }}
-                <button class="btn btn-FilterSearch" type="submit">Search</button>
-              </form>
-            </div>
-        </div>
-    </div>
-
-    <br>
-
-    <!-- Statistics (2x2 layout) -->
-    <article class="content-section">
-        <h2>Filter Dependent Statistics</h2>
-        <div>
-          <div class="row">
-            <div class="col-md-6">
-
-                <canvas id="MainIndChart" width="400" height="300"></canvas>
-
-            </div>
-            <div class="col-md-6">
-
-                <canvas id="SecondaryIndChart" width="400" height="300"></canvas>
-
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-
-                <canvas id="PriceCheckboxChart" width="400" height="300"></canvas>
-
-            </div>
-            <div class="col-md-6">
-
-                <canvas id="ProdReviewsChart" width="400" height="300"></canvas>
-
-            </div>
-          </div>
-        </div>
-    </article>
-
-    <br>
-
-    {% for prod_review in prod_reviews %}
-        <article class="content-section">
-            <div>
-                <h2 style="white-space: pre">Participant ID: {{ prod_review.participant_id }}</h2>
-                <br>
-                    <h6>Timestamp: {{ prod_review.timestamp }}</h6>
-                    <h6>Product Ean: {{ prod_review.product_ean }}</h6>
-                    <!-- Have to change the names of the icons to the corresponding "icon_name" in the database
-                    to have a dynamic src in the img tags (like for the price checkbox) -->
-                    <h6>Selected Main Indicator: <img src="{% static 'icons/agriculture_technique_Icon.svg' %}" /></h6>
-                    <h6>Selected Secondary Indicator: <img src="{% static 'icons/ind_fair.svg' %}" /></h6>
-                    <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"> </h6>
-                    <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
-            </div>
-        </article>
-    {% endfor %}
+    <canvas id="MainIndChart" width="400" height="300"></canvas>
+<br>
+    <canvas id="SecondaryIndChart" width="400" height="300"></canvas>
+<br>
+    <canvas id="PriceCheckboxChart" width="400" height="300"></canvas>
 {% endblock content %}
 
 {% block scripts %}
@@ -196,65 +137,6 @@
                     datasets: [{
                         label: 'Most Selected Secondary Indicator',
                         data: [{% for key, value in number_of_price_checkbox_selected.items %} '{{ value }}' ,{% endfor %}],
-                        backgroundColor: [
-                            'rgba(145, 215, 242, 0.6)',
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(240, 99, 160, 0.6)',
-                            'rgba(74, 122, 135, 0.6)',
-                            'rgba(175, 106, 186, 0.6)',
-                            'rgba(175, 255, 192, 0.6)',
-                            'rgba(135, 62, 55, 0.6)',
-                            'rgba(134, 129, 84, 0.6)',
-                            'rgba(155, 179, 34, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgba(145, 215, 242, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(240, 99, 160, 1)',
-                            'rgba(74, 122, 135, 1)',
-                            'rgba(175, 106, 186, 1)',
-                            'rgba(175, 255, 192, 1)',
-                            'rgba(135, 62, 55, 1)',
-                            'rgba(134, 129, 84, 1)',
-                            'rgba(155, 179, 34, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    }
-                }
-            });
-        });
-    </script>
-
-    <!-- Statistic for product reviews of last 10 days -->
-    <script>
-        $(document).ready(function(){
-            var ctx = document.getElementById('ProdReviewsChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [{% for key, value in number_of_prod_reviews_per_day.items %} '{{ key }}' ,{% endfor %}],
-                    datasets: [{
-                        label: 'Product Reviews Per Day (last 10 days)',
-                        data: [{% for key, value in number_of_prod_reviews_per_day.items %} '{{ value }}' ,{% endfor %}],
                         backgroundColor: [
                             'rgba(145, 215, 242, 0.6)',
                             'rgba(255, 99, 132, 0.6)',

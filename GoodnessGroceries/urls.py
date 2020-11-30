@@ -12,11 +12,7 @@ urlpatterns = [
     path('product_reviews_overview/<int:participant_id>/', views.product_reviews_overview_filtered, name='GoodnessGroceries-product_reviews_overview_filtered'),
 
     # Statistics URLs
-    path('most_popular_indicators/', views.MostPopularIndicators.as_view(), name='GoodnessGroceries-most_popular_indicators'),
-    path('most_popular_product_types/', views.MostPopularProductTypes.as_view(), name='GoodnessGroceries-most_popular_product_types'),
-    path('most_selected_main_indicator/', views.most_selected_main_indicator, name='GoodnessGroceries-most_selected_main_indicator'),
-    path('most_selected_secondary_indicator/', views.most_selected_secondary_indicator, name='GoodnessGroceries-most_selected_secondary_indicator'),
-    path('price_checkbox_selected/', views.price_checkbox_selected, name='GoodnessGroceries-price_checkbox_selected'),
+    path('product_reviews_statistics/', views.product_reviews_statistics, name='GoodnessGroceries-product_reviews_statistics'),
 
     # API URLs
     path('api-auth/', include('rest_framework.urls')),

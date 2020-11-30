@@ -1,6 +1,5 @@
 {% extends 'GoodnessGroceries/base.html' %}
 
-
 {% block scripts %}
 <script>
     $(document).ready(function(){
@@ -13,21 +12,23 @@
                     label: 'Product Reviews Per Day (last 10 days)',
                     data: [{% for key, value in number_of_prod_reviews_per_day.items %} '{{ value }}' ,{% endfor %}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(240, 99, 160, 0.2)',
-                        'rgba(74, 122, 135, 0.2)',
-                        'rgba(175, 106, 186, 0.2)',
-                        'rgba(175, 255, 192, 0.2)',
-                        'rgba(135, 62, 55, 0.2)',
-                        'rgba(134, 129, 84, 0.2)',
-                        'rgba(155, 179, 34, 0.2)'
+                        'rgba(145, 215, 242, 0.6)',
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(240, 99, 160, 0.6)',
+                        'rgba(74, 122, 135, 0.6)',
+                        'rgba(175, 106, 186, 0.6)',
+                        'rgba(175, 255, 192, 0.6)',
+                        'rgba(135, 62, 55, 0.6)',
+                        'rgba(134, 129, 84, 0.6)',
+                        'rgba(155, 179, 34, 0.6)'
                     ],
                     borderColor: [
+                        'rgba(145, 215, 242, 1)',
                         'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',

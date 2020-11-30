@@ -142,26 +142,56 @@ def update_status_of_user(request, participant_id):
 # ------------------------------------------ Filter Product Reviews ----------------------------------------------------
 @login_required()
 def product_reviews_overview(request):
-    """
-    prod_reviews = ProductReviews.objects.all()
-
-    same_ids = []
-    for prod_review in prod_reviews:
-        same_ids.append(prod_review.participant_id)
-
-    prod_reviews_with_same_id = dict()
-    for id in sorted(set(same_ids)):
-        prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id).order_by('-timestamp')
-
-    context = {'prod_reviews_with_same_id': prod_reviews_with_same_id}
-    """
-
     prod_reviews = ProductReviews.objects.all()
 
     myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
     prod_reviews = myFilter.qs
 
-    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter}
+    # ------------------------------------ Statistics ------------------------------------
+
+    # Main and Secondary Indicator
+    main_indicators = []
+    secondary_indicators = []
+
+    for prod_review in prod_reviews:
+        main_indicators.append(prod_review.selected_indicator_main_id)
+        secondary_indicators.append(prod_review.selected_indicator_secondary_id)
+
+    number_of_main_indicators = dict()
+    for indicator in main_indicators:
+        number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
+
+    number_of_secondary_indicators = dict()
+    for indicator in secondary_indicators:
+        number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
+
+    # Price Checkbox Selected
+    number_of_price_checkbox_selected = dict()
+    number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
+    number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
+
+    # Number of product reviews per day for past 10 days
+    timestamps = []
+    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
+    for prod_review in recent_prod_review_of_last_10_days:
+        if prod_review.timestamp.date() not in timestamps:
+            timestamps.append(prod_review.timestamp.date())
+
+    number_of_prod_reviews_per_day = dict()
+
+    for date in timestamps[:10]:
+        number_of_prod_reviews_per_day[date] = 0
+        for prod_review in prod_reviews:
+            if prod_review.timestamp.date() == date:
+                number_of_prod_reviews_per_day[date] += 1
+    # ------------------------------------------------------------------------------------
+
+    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter,
+               'number_of_main_indicators': number_of_main_indicators,
+               'number_of_secondary_indicators': number_of_secondary_indicators,
+               'number_of_price_checkbox_selected': number_of_price_checkbox_selected,
+               'number_of_prod_reviews_per_day': number_of_prod_reviews_per_day}
+
     return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
 
 
@@ -172,98 +202,101 @@ def product_reviews_overview_filtered(request, participant_id):
     myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
     prod_reviews = myFilter.qs
 
-    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter}
+    # ------------------------------------ Statistics ------------------------------------
 
-    return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
-
-
-# ------------------------------------------ Statistics ----------------------------------------------------------------
-def most_selected_main_indicator(request):
-    prod_reviews = ProductReviews.objects.all()
-
+    # Main and Secondary Indicator
     main_indicators = []
+    secondary_indicators = []
+
     for prod_review in prod_reviews:
         main_indicators.append(prod_review.selected_indicator_main_id)
+        secondary_indicators.append(prod_review.selected_indicator_secondary_id)
 
     number_of_main_indicators = dict()
     for indicator in main_indicators:
         number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
 
-    context = {'number_of_main_indicators': number_of_main_indicators}
+    number_of_secondary_indicators = dict()
+    for indicator in secondary_indicators:
+        number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
 
-    return render(request, 'GoodnessGroceries/most_selected_main_indicator.html', context)
+    # Price Checkbox Selected
+    number_of_price_checkbox_selected = dict()
+    number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
+    number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
+
+    # Number of product reviews per day for past 10 days
+    timestamps = []
+    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
+    for prod_review in recent_prod_review_of_last_10_days:
+        if prod_review.timestamp.date() not in timestamps:
+            timestamps.append(prod_review.timestamp.date())
+
+    number_of_prod_reviews_per_day = dict()
+
+    for date in timestamps[:10]:
+        number_of_prod_reviews_per_day[date] = 0
+        for prod_review in prod_reviews:
+            if prod_review.timestamp.date() == date:
+                number_of_prod_reviews_per_day[date] += 1
+    # ------------------------------------------------------------------------------------
+
+    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter,
+               'number_of_main_indicators': number_of_main_indicators,
+               'number_of_secondary_indicators': number_of_secondary_indicators,
+               'number_of_price_checkbox_selected': number_of_price_checkbox_selected,
+               'number_of_prod_reviews_per_day': number_of_prod_reviews_per_day}
+
+    return render(request, 'GoodnessGroceries/product_reviews_overview.html', context)
 
 
-def most_selected_secondary_indicator(request):
+# ---------------------------------------- Product Reviews Statistics --------------------------------------------------
+def product_reviews_statistics(request):
     prod_reviews = ProductReviews.objects.all()
 
+    # Main and Secondary Indicator
+    main_indicators = []
     secondary_indicators = []
+
     for prod_review in prod_reviews:
+        main_indicators.append(prod_review.selected_indicator_main_id)
         secondary_indicators.append(prod_review.selected_indicator_secondary_id)
+
+    number_of_main_indicators = dict()
+    for indicator in main_indicators:
+        number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
 
     number_of_secondary_indicators = dict()
     for indicator in secondary_indicators:
         number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
 
-    context = {'number_of_secondary_indicators': number_of_secondary_indicators}
-
-    return render(request, 'GoodnessGroceries/most_selected_secondary_indicator.html', context)
-
-
-def price_checkbox_selected(request):
-    prod_reviews = ProductReviews.objects.all()
-
+    # Price Checkbox Selected
     number_of_price_checkbox_selected = dict()
     number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
     number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
 
-    context = {'number_of_price_checkbox_selected': number_of_price_checkbox_selected}
+    # Number of product reviews per day for past 10 days
+    timestamps = []
+    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
+    for prod_review in recent_prod_review_of_last_10_days:
+        if prod_review.timestamp.date() not in timestamps:
+            timestamps.append(prod_review.timestamp.date())
 
-    return render(request, 'GoodnessGroceries/price_checkbox_selected.html', context)
+    number_of_prod_reviews_per_day = dict()
 
-
-
-
-number_of_indicators = {}
-class MostPopularIndicators(TemplateView):
-    template_name = 'GoodnessGroceries/most_popular_indicators.html'
-
-    """
-    # ---- Get number of occurrences of the indicators -------------------------
-    list_of_indicators = []
-    for product in load_csv_file("static_csv_files/products.csv"):
-        for i in range(3):
-            indicator = product['indicators/'+str(i)+'/indicator_id']
-            for ind in load_csv_file("static_csv_files/indicators.csv"):
-                if indicator == ind['id']:
-                    list_of_indicators.append(ind['name'])
-                    number_of_indicators[ind['name']] = list_of_indicators.count(ind['name'])
-    # --------------------------------------------------------------------------
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["qs"] = number_of_indicators
-        return context
-    """
+    for date in timestamps[:10]:
+        number_of_prod_reviews_per_day[date] = 0
+        for prod_review in prod_reviews:
+            if prod_review.timestamp.date() == date:
+                number_of_prod_reviews_per_day[date] += 1
 
 
-number_of_product_types = {}
-class MostPopularProductTypes(TemplateView):
-    template_name = 'GoodnessGroceries/most_popular_product_types.html'
+    context = {'number_of_main_indicators': number_of_main_indicators,
+               'number_of_secondary_indicators': number_of_secondary_indicators,
+               'number_of_price_checkbox_selected': number_of_price_checkbox_selected,
+               'number_of_prod_reviews_per_day': number_of_prod_reviews_per_day}
 
-    """
-    # ---- Get number of occurrences of the product types -------------------------
-    list_of_product_types = []
-    for product in load_csv_file("static_csv_files/products.csv"):
-        list_of_product_types.append(product['type'])
-        number_of_product_types[product['type']] = list_of_product_types.count(product['type'])
-    # --------------------------------------------------------------------------
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["qs"] = number_of_product_types
-        return context
-    """
+    return render(request, 'GoodnessGroceries/product_reviews_statistics.html', context)
 
 
 # ------------------------------ Automated Check for unprocessed files and process them --------------------------------
