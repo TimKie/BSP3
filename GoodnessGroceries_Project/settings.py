@@ -139,7 +139,7 @@ LOGIN_REDIRECT_URL = 'GoodnessGroceries-home'
 LOGIN_URL = 'login'
 
 
-#cronjobs
+# cronjobs
 CRONJOBS = [
     ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job'),
 ]

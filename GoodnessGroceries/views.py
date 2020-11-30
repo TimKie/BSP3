@@ -124,9 +124,7 @@ def user_overview_filtered(request, participant_id):
 def update_status_of_user(request, participant_id):
     user = Users.objects.get(participant_id=participant_id)
 
-    if user.status == 'valid':
-        user.status = 'requested'
-    elif user.status == 'requested':
+    if user.status == 'requested':
         user.status = 'valid'
 
     user.save()

@@ -1,5 +1,6 @@
 {% extends 'GoodnessGroceries/base.html' %}
 {% load bootstrap %}
+{% load static %}
 {% block content %}
     <div class="row">
         <div class="col">
@@ -21,9 +22,11 @@
                 <br>
                     <h6>Timestamp: {{ prod_review.timestamp }}</h6>
                     <h6>Product Ean: {{ prod_review.product_ean }}</h6>
-                    <h6>Selected Main Indicator: {{ prod_review.selected_indicator_main_id }}</h6>
-                    <h6>Selected Secondary Indicator: {{ prod_review.selected_indicator_secondary_id }}</h6>
-                    <h6>Price Checkbox Selected: {{ prod_review.price_checkbox_selected }}</h6>
+                    <!-- Have to change the names of the icons to the corresponding "icon_name" in the database
+                    to have a dynamic src in the img tags (like for the price checkbox) -->
+                    <h6>Selected Main Indicator: <img src="{% static 'icons/agriculture_technique_Icon.svg' %}" /></h6>
+                    <h6>Selected Secondary Indicator: <img src="{% static 'icons/ind_fair.svg' %}" /></h6>
+                    <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"> </h6>
                     <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
             </div>
         </article>
