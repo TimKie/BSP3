@@ -32,17 +32,23 @@
                     {% for user in users %}
                     <tr>
                         <td style="text-align:left">{{user.participant_id}}</td>
-                        <td style="text-align:center">{{user.status}}</td>
-                        <td style="text-align:right">
-                            <form action="{% url 'GoodnessGroceries-update_status_of_users' user.participant_id %}" method=POST>
-                                {% csrf_token %}
-                                {% if user.status == 'valid' %}
-                                    <button class="btn btn-secondary btn-sm" type="submit" disabled>Validate</button>
-                                {% elif user.status == 'requested' %}
-                                    <button class="btn btn-FilterSearch btn-sm" type="submit">Validate</button>
-                                {% endif %}
-                            </form>
-                        </td>
+                        {% if user.status == 'valid' %}
+                            <td style="text-align:center; color: #5cb85c">{{user.status}}</td>
+                            <td style="text-align:right">
+                                <form action="{% url 'GoodnessGroceries-update_status_of_users' user.participant_id %}" method=POST>
+                                    {% csrf_token %}
+                                        <button class="btn btn-secondary btn-sm" type="submit" disabled>Validate</button>
+                                </form>
+                            </td>
+                        {% elif user.status == 'requested' %}
+                            <td style="text-align:center; color: #d9534f">{{user.status}}</td>
+                            <td style="text-align:right">
+                                <form action="{% url 'GoodnessGroceries-update_status_of_users' user.participant_id %}" method=POST>
+                                    {% csrf_token %}
+                                        <button class="btn btn-success btn-sm" type="submit">Validate</button>
+                                </form>
+                            </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
 
