@@ -55,11 +55,10 @@
                 <br>
                     <h6>Timestamp: {{ prod_review.timestamp }}</h6>
                     <h6>Product Ean: {{ prod_review.product_ean }}</h6>
-                    <!-- Have to change the names of the icons to the corresponding "icon_name" in the database
-                    to have a dynamic src in the img tags (like for the price checkbox) -->
-                    <h6>Selected Main Indicator: <img src="{% static 'icons/agriculture_technique_Icon.svg' %}" /></h6>
-                    <h6>Selected Secondary Indicator: <img src="{% static 'icons/ind_fair.svg' %}" /></h6>
-                    <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"> </h6>
+                    <!-- sources of indicator icons are dynamic, they depend on the id of the indicators -->
+                    <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/></h6>
+                    <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_secondary_id }}.svg"/></h6>
+                    <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"/> </h6>
                     <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
             </div>
         </article>
@@ -190,11 +189,11 @@
         $(document).ready(function(){
             var ctx = document.getElementById('PriceCheckboxChart').getContext('2d');
             var myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'pie',
                 data: {
                     labels: [{% for key, value in number_of_price_checkbox_selected.items %} '{{ key }}' ,{% endfor %}],
                     datasets: [{
-                        label: 'Most Selected Secondary Indicator',
+                        label: 'Price Checkbox Selected',
                         data: [{% for key, value in number_of_price_checkbox_selected.items %} '{{ value }}' ,{% endfor %}],
                         backgroundColor: [
                             'rgba(145, 215, 242, 0.6)',

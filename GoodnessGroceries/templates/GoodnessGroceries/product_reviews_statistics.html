@@ -131,7 +131,7 @@
         $(document).ready(function(){
             var ctx = document.getElementById('PriceCheckboxChart').getContext('2d');
             var myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'pie',
                 data: {
                     labels: [{% for key, value in number_of_price_checkbox_selected.items %} '{{ key }}' ,{% endfor %}],
                     datasets: [{

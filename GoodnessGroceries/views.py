@@ -290,7 +290,6 @@ def product_reviews_statistics(request):
             if prod_review.timestamp.date() == date:
                 number_of_prod_reviews_per_day[date] += 1
 
-
     context = {'number_of_main_indicators': number_of_main_indicators,
                'number_of_secondary_indicators': number_of_secondary_indicators,
                'number_of_price_checkbox_selected': number_of_price_checkbox_selected,
