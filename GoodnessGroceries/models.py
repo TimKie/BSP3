@@ -1,14 +1,10 @@
 from django.db import models
-from postgres_copy import CopyManager
-
 
 class CashierTicketProducts(models.Model):
     participant_id = models.BigIntegerField()
     timestamp = models.CharField(max_length=100)
     product = models.BigIntegerField()
     reviewed = models.BooleanField(default=False, null=True)
-
-    objects = CopyManager()
 
     class Meta:
         verbose_name = 'CashierTicketProducts'

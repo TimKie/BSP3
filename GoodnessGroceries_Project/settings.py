@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,27 +25,25 @@ SECRET_KEY = 'w#$n6c9zj)$^z7+q@v77$7luu$ulfdm__-)8i6+mf_pen8qt2!'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # '3f17a1fa9509.ngrok.io',
-    # 'localhost'
+    'www.goodnessgroceries.com',
+    'goodnessgroceries.com',
+    'localhost'
 ]
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'GoodnessGroceries.apps.GoodnessGroceriesConfig',
+    'Users.apps.UsersConfig',
+    'crispy_forms',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'GoodnessGroceries.apps.GoodnessGroceriesConfig',
-    'Users.apps.UsersConfig',
-    'crispy_forms',
-    'rest_framework',
-    'django_crontab',
-    'django_filters',
-    'bootstrapform',
 ]
 
 MIDDLEWARE = [
@@ -87,8 +84,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         "NAME": "testdb",
-        "USER": "tim",
-        "PASSWORD": "",
+        "USER": "postgres",
+        "PASSWORD": "3G03BxsT4CZA",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -132,14 +129,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = (Path(BASE_DIR) / "static").resolve()
+
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, "static"),
+#    os.path.join(BASE_DIR, "static_csv_files")
+#]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'GoodnessGroceries-home'
 LOGIN_URL = 'login'
 
-
-# cronjobs
-CRONJOBS = [
-    ('*/1 * * * *', 'GoodnessGroceries.cron.my_scheduled_job'),
-]
