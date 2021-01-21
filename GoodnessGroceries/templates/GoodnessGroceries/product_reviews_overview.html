@@ -1,12 +1,12 @@
 {% extends 'GoodnessGroceries/base.html' %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
     <div class="row">
         <div class="col">
             <div class="card card-body">
                 <form method="get">
-                    {{ myFilter.form|bootstrap }}
+                    {{ myFilter.form|crispy }}
                 <button class="btn btn-FilterSearch" type="submit">Search</button>
               </form>
             </div>
