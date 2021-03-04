@@ -52,14 +52,14 @@ class Users(models.Model):
         ('valid', 'valid')
     )
     status = models.CharField(max_length=100, default='requested', choices=STATUS)
-    product_category_1 = models.CharField(max_length=100, null=True)
-    product_category_2 = models.CharField(max_length=100, null=True)
-    product_category_3 = models.CharField(max_length=100, null=True)
-    product_category_4 = models.CharField(max_length=100, null=True)
-    indicator_category_1 = models.CharField(max_length=100, null=True)
-    indicator_category_2 = models.CharField(max_length=100, null=True)
-    indicator_category_3 = models.CharField(max_length=100, null=True)
-    indicator_category_4 = models.CharField(max_length=100, null=True)
+    product_category_1 = models.CharField(max_length=100, blank=True)
+    product_category_2 = models.CharField(max_length=100, blank=True)
+    product_category_3 = models.CharField(max_length=100, blank=True)
+    product_category_4 = models.CharField(max_length=100, blank=True)
+    indicator_category_1 = models.CharField(max_length=100, blank=True)
+    indicator_category_2 = models.CharField(max_length=100, blank=True)
+    indicator_category_3 = models.CharField(max_length=100, blank=True)
+    indicator_category_4 = models.CharField(max_length=100, blank=True)
 
     class Meta:
         verbose_name = 'Users'
