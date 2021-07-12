@@ -4,18 +4,17 @@ This project contains a website created with Django 3.1.1, Python 3.7, HTML 5 an
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the follwing:
+Using the package manager [pip](https://pip.pypa.io/en/stable/):
 
+If a virtual environment is required, create and activate it by executing the following lines in the terminal:
 ```bash
-pip install django
-pip install django-crispy-forms
-pip install psycopg2
-pip install pandas
-pip install django-postgres-copy
-pip install djangorestframework
-pip install django-crontab
-pip install django-filter
-pip install django-bootstrap-form
+python3 -m venv venv
+source venv/bin/activate
+```
+Then, upgrade **pip** and install all the requirements:
+```bash
+pip3 install --upgrade pip
+pip3 install --no-cache-dir -r requirements.txt
 ```
 
 The project uses the database PostgreSQL which has to be downloaded [here](https://www.postgresql.org/download/) in order to create a database for the webiste (I would recommand to download the [Postgres App](https://postgresapp.com/)).
