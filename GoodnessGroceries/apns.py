@@ -4,7 +4,7 @@ import time
 from hyper import HTTPConnection
 
 APNS_KEY_ID = 'QZLBCQ6DBD'
-APNS_AUTH_KEY = 'apns_key.p8'
+APNS_AUTH_KEY = 'apns_secret_key.p8.p8'
 TEAM_ID = 'KZP7B8QNG2'
 BUNDLE_ID = 'lu.uni.bicslab.goodnessgroceries'
 
