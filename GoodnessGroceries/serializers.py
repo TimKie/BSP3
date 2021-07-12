@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from.models import CashierTicketProducts, MonitoringData, ProductReviews, Users
+from .models import CashierTicketProducts, ProductReviews, Users, Devices
 
 
 class CashierTicketProductsSerializer(serializers.ModelSerializer):
@@ -11,28 +11,26 @@ class CashierTicketProductsSerializer(serializers.ModelSerializer):
         )
 
 
-class MonitoringDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MonitoringData
-        fields = (
-            'participant_id',
-            'timestamp',
-            'activity_name',
-            'metadata',
-        )
-
-
 class ProductReviewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductReviews
         fields = (
-            'participant_id',
+            'participant',
             'product_ean',
             'timestamp',
             'selected_indicator_main_id',
             'selected_indicator_secondary_id',
             'free_text_indicator',
             'price_checkbox_selected',
+        )
+
+
+class DeviceTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Devices
+        fields = (
+            'participant',
+            'device_token'
         )
 
 
@@ -49,6 +47,7 @@ class UsersSerializer(serializers.ModelSerializer):
         model = Users
         fields = (
             'participant_id',
+            'platform',
             'product_category_1',
             'product_category_2',
             'product_category_3',

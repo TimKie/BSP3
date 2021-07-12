@@ -12,7 +12,6 @@ class ProductReviewsFilter(django_filters.FilterSet):
     class Meta:
         model = ProductReviews
         fields = (
-            'participant_id',
+            'participant',
             'price_checkbox_selected',
         )
-

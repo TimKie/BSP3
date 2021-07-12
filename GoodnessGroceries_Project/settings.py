@@ -27,7 +27,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'www.goodnessgroceries.com',
     'goodnessgroceries.com',
-    'localhost'
+    'localhost',
+    '127.0.0.1',
+    '3b6e27fcfac2.ngrok.io'
 ]
 
 
@@ -83,11 +85,11 @@ WSGI_APPLICATION = 'GoodnessGroceries_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        "NAME": "testdb",
-        "USER": "postgres",
+        "NAME": "goodnessgroceries",
+        "USER": "flavio",
         "PASSWORD": "3G03BxsT4CZA",
         "HOST": "localhost",
-        "PORT": "5432",
+        "PORT": "5433",
     }
 }
 
@@ -131,13 +133,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = (Path(BASE_DIR) / "static").resolve()
 
-#STATICFILES_DIRS = [
+# STATICFILES_DIRS = [
 #    os.path.join(BASE_DIR, "static"),
 #    os.path.join(BASE_DIR, "static_csv_files")
-#]
+# ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'GoodnessGroceries-home'
 LOGIN_URL = 'login'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

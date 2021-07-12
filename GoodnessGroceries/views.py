@@ -1,7 +1,19 @@
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.http import HttpResponse
+from django.views.generic import View
+import io
+import os
+from glob import glob
+import pandas as pd
+from .filters import *
+from .serializers import CashierTicketProductsSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer, DeviceTokenSerializer
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from .models import *
+from .apns import send_push_notification
+from .functions import handle_product_reviews
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
@@ -30,15 +42,17 @@ def home(request):
     # order product reviews per participant_id and timestamp
     same_ids = []
     for prod_review in prod_reviews:
-        same_ids.append(prod_review.participant_id)
+        same_ids.append(prod_review.participant.participant_id)
 
     prod_reviews_with_same_id = dict()
     for id in sorted(set(same_ids)):
-        prod_reviews_with_same_id[id] = prod_reviews.filter(participant_id=id).order_by('-timestamp')
+        prod_reviews_with_same_id[id] = prod_reviews.filter(
+            participant=id).order_by('-timestamp')
 
     # get number of product reviews per day for past 10 days
     timestamps = []
-    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
+    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by(
+        '-timestamp')
     for prod_review in recent_prod_review_of_last_10_days:
         if prod_review.timestamp.date() not in timestamps:
             timestamps.append(prod_review.timestamp.date())
@@ -94,7 +108,7 @@ def product_overview(request):
 
 
 # ------------------------------------------ Filter Users --------------------------------------------------------------
-from .filters import *
+
 
 @login_required()
 def user_overview(request):
@@ -110,7 +124,8 @@ def user_overview(request):
 
 @login_required()
 def user_overview_filtered(request, participant_id):
-    users = Users.objects.filter(participant_id=participant_id).order_by('participant_id')
+    users = Users.objects.filter(
+        participant_id=participant_id).order_by('participant_id')
 
     myFilter = UserFilter(request.GET, queryset=users)
     users = myFilter.qs.order_by('participant_id')
@@ -126,6 +141,12 @@ def update_status_of_user(request, participant_id):
 
     if user.status == 'requested':
         user.status = 'valid'
+
+        if user.platform == 'ios':
+            for device in user.getDevices():
+                send_push_notification(device.device_token, payload_data={
+                    'aps': {'mutable-content': 1, 'alert': {'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE', 'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'}, 'sound': 'default', 'badge': 1}
+                })
 
     user.save()
 
@@ -147,44 +168,8 @@ def product_reviews_overview(request):
     myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
     prod_reviews = myFilter.qs
 
-    # ------------------------------------ Statistics ------------------------------------
-
-    # Main and Secondary Indicator
-    main_indicators = []
-    secondary_indicators = []
-
-    for prod_review in prod_reviews:
-        main_indicators.append(prod_review.selected_indicator_main_id)
-        secondary_indicators.append(prod_review.selected_indicator_secondary_id)
-
-    number_of_main_indicators = dict()
-    for indicator in main_indicators:
-        number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
-
-    number_of_secondary_indicators = dict()
-    for indicator in secondary_indicators:
-        number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
-
-    # Price Checkbox Selected
-    number_of_price_checkbox_selected = dict()
-    number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
-    number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
-
-    # Number of product reviews per day for past 10 days
-    timestamps = []
-    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
-    for prod_review in recent_prod_review_of_last_10_days:
-        if prod_review.timestamp.date() not in timestamps:
-            timestamps.append(prod_review.timestamp.date())
-
-    number_of_prod_reviews_per_day = dict()
-
-    for date in timestamps[:10]:
-        number_of_prod_reviews_per_day[date] = 0
-        for prod_review in prod_reviews:
-            if prod_review.timestamp.date() == date:
-                number_of_prod_reviews_per_day[date] += 1
-    # ------------------------------------------------------------------------------------
+    number_of_main_indicators, number_of_secondary_indicators, number_of_price_checkbox_selected, number_of_prod_reviews_per_day = handle_product_reviews(
+        prod_reviews)
 
     context = {'prod_reviews': prod_reviews, 'myFilter': myFilter,
                'number_of_main_indicators': number_of_main_indicators,
@@ -197,49 +182,14 @@ def product_reviews_overview(request):
 
 @login_required()
 def product_reviews_overview_filtered(request, participant_id):
-    prod_reviews = ProductReviews.objects.filter(participant_id=participant_id).order_by('-participant_id')
+    prod_reviews = ProductReviews.objects.filter(
+        participant__participant_id=participant_id)
 
     myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
     prod_reviews = myFilter.qs
 
-    # ------------------------------------ Statistics ------------------------------------
-
-    # Main and Secondary Indicator
-    main_indicators = []
-    secondary_indicators = []
-
-    for prod_review in prod_reviews:
-        main_indicators.append(prod_review.selected_indicator_main_id)
-        secondary_indicators.append(prod_review.selected_indicator_secondary_id)
-
-    number_of_main_indicators = dict()
-    for indicator in main_indicators:
-        number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
-
-    number_of_secondary_indicators = dict()
-    for indicator in secondary_indicators:
-        number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
-
-    # Price Checkbox Selected
-    number_of_price_checkbox_selected = dict()
-    number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
-    number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
-
-    # Number of product reviews per day for past 10 days
-    timestamps = []
-    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
-    for prod_review in recent_prod_review_of_last_10_days:
-        if prod_review.timestamp.date() not in timestamps:
-            timestamps.append(prod_review.timestamp.date())
-
-    number_of_prod_reviews_per_day = dict()
-
-    for date in timestamps[:10]:
-        number_of_prod_reviews_per_day[date] = 0
-        for prod_review in prod_reviews:
-            if prod_review.timestamp.date() == date:
-                number_of_prod_reviews_per_day[date] += 1
-    # ------------------------------------------------------------------------------------
+    number_of_main_indicators, number_of_secondary_indicators, number_of_price_checkbox_selected, number_of_prod_reviews_per_day = handle_product_reviews(
+        prod_reviews)
 
     context = {'prod_reviews': prod_reviews, 'myFilter': myFilter,
                'number_of_main_indicators': number_of_main_indicators,
@@ -252,43 +202,8 @@ def product_reviews_overview_filtered(request, participant_id):
 
 # ---------------------------------------- Product Reviews Statistics --------------------------------------------------
 def product_reviews_statistics(request):
-    prod_reviews = ProductReviews.objects.all()
-
-    # Main and Secondary Indicator
-    main_indicators = []
-    secondary_indicators = []
-
-    for prod_review in prod_reviews:
-        main_indicators.append(prod_review.selected_indicator_main_id)
-        secondary_indicators.append(prod_review.selected_indicator_secondary_id)
-
-    number_of_main_indicators = dict()
-    for indicator in main_indicators:
-        number_of_main_indicators[indicator] = prod_reviews.filter(selected_indicator_main_id=indicator).count()
-
-    number_of_secondary_indicators = dict()
-    for indicator in secondary_indicators:
-        number_of_secondary_indicators[indicator] = prod_reviews.filter(selected_indicator_secondary_id=indicator).count()
-
-    # Price Checkbox Selected
-    number_of_price_checkbox_selected = dict()
-    number_of_price_checkbox_selected["True"] = prod_reviews.filter(price_checkbox_selected=True).count()
-    number_of_price_checkbox_selected["False"] = prod_reviews.filter(price_checkbox_selected=False).count()
-
-    # Number of product reviews per day for past 10 days
-    timestamps = []
-    recent_prod_review_of_last_10_days = ProductReviews.objects.order_by('-timestamp')
-    for prod_review in recent_prod_review_of_last_10_days:
-        if prod_review.timestamp.date() not in timestamps:
-            timestamps.append(prod_review.timestamp.date())
-
-    number_of_prod_reviews_per_day = dict()
-
-    for date in timestamps[:10]:
-        number_of_prod_reviews_per_day[date] = 0
-        for prod_review in prod_reviews:
-            if prod_review.timestamp.date() == date:
-                number_of_prod_reviews_per_day[date] += 1
+    number_of_main_indicators, number_of_secondary_indicators, number_of_price_checkbox_selected, number_of_prod_reviews_per_day = handle_product_reviews(
+        ProductReviews.objects.all())
 
     context = {'number_of_main_indicators': number_of_main_indicators,
                'number_of_secondary_indicators': number_of_secondary_indicators,
@@ -299,9 +214,6 @@ def product_reviews_statistics(request):
 
 
 # ------------------------------ Automated Check for unprocessed files and process them --------------------------------
-import pandas as pd
-from glob import glob
-import os
 
 
 o_directory = '/Users/tim/Desktop/UNI.lu/Semester_3/BSP3/Code/GoodnessGroceries_Project/simulated_csv_files/files_to_be_processed/'
@@ -321,19 +233,23 @@ def check_for_files(origin_path, destination_path):
 def cashierTicketsToDB(origin_path, destination_path):
     # combine cashier ticket files
     stock_files = sorted(glob(origin_path))
-    result = pd.concat((pd.read_csv(file) for file in stock_files), ignore_index=True)
+    result = pd.concat((pd.read_csv(file)
+                        for file in stock_files), ignore_index=True)
     result.to_csv(destination_path, index=False)
 
     # delete unnecessary columns
     for i in range((len(result.columns)-2)//3):
-        result = result.drop(columns=['products/'+str(i)+'/product_name', 'products/'+str(i)+'/price'])
+        result = result.drop(
+            columns=['products/'+str(i)+'/product_name', 'products/'+str(i)+'/price'])
 
     # rename column headers in order for the models.py to be able to use it
     for i in range(len(result.columns)):
-        result = result.rename({'products/'+str(i)+'/product_ean': 'product_'+str(i)+'_product_ean'}, axis=1)
+        result = result.rename(
+            {'products/'+str(i)+'/product_ean': 'product_'+str(i)+'_product_ean'}, axis=1)
 
     # rearrange rows an columns such that it fits in the model
-    result = result.melt(id_vars=['participant_id', 'timestamp'], var_name='product_ean', value_name='product')
+    result = result.melt(id_vars=[
+                         'participant_id', 'timestamp'], var_name='product_ean', value_name='product')
     result = result.drop(columns=['product_ean'])
     result = result.dropna()
     result = result.astype({'product': int})
@@ -360,7 +276,6 @@ def ImportExportView(request):
 
 
 # ------------------------------------------- Upload of Static Files ---------------------------------------------------
-import io
 from.models import StaticProducts, StaticIndicators, StaticIndicatorCategories
 
 
@@ -438,15 +353,14 @@ def static_indicator_categories_upload(request):
 
 
 # ------------------------------------------- Download Dynamic CSV Files -----------------------------------------------
-from django.views.generic import View
-from django.http import HttpResponse
 
 
 # cashier tickets products download
 class CashierTicketsProductsDownload(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='text/csv')
-        cd = 'attachment; filename="{0}"'.format('cashier_tickets_products.csv')
+        cd = 'attachment; filename="{0}"'.format(
+            'cashier_tickets_products.csv')
         response['Content-Disposition'] = cd
 
         fieldnames = ('participant_id', 'timestamp', 'product')
@@ -478,26 +392,9 @@ class ProductReviewsDownload(View):
 
         return response
 
-
-# monitoring data download
-class MonitoringDataDownload(View):
-    def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='text/csv')
-        cd = 'attachment; filename="{0}"'.format('monitoring_data.csv')
-        response['Content-Disposition'] = cd
-
-        fieldnames = ('participant_id', 'timestamp', 'activity_name', 'metadata')
-        data = MonitoringData.objects.values(*fieldnames)
-
-        writer = csv.DictWriter(response, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in data:
-            writer.writerow(row)
-
-        return response
-
-
 # users download
+
+
 class UsersDownload(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='text/csv')
@@ -544,7 +441,8 @@ class StaticIndicatorsDownload(View):
         cd = 'attachment; filename="{0}"'.format('static_indicators.csv')
         response['Content-Disposition'] = cd
 
-        fieldnames = ('id', 'name', 'category_id', 'icon_name', 'general_description')
+        fieldnames = ('id', 'name', 'category_id',
+                      'icon_name', 'general_description')
         data = StaticIndicators.objects.values(*fieldnames)
 
         writer = csv.DictWriter(response, fieldnames=fieldnames)
@@ -559,7 +457,8 @@ class StaticIndicatorsDownload(View):
 class StaticIndicatorCategoriesDownload(View):
     def get(self, request, *args, **kwargs):
         response = HttpResponse(content_type='text/csv')
-        cd = 'attachment; filename="{0}"'.format('static_indicator_categories.csv')
+        cd = 'attachment; filename="{0}"'.format(
+            'static_indicator_categories.csv')
         response['Content-Disposition'] = cd
 
         fieldnames = ('id', 'name', 'icon_name', 'description')
@@ -574,25 +473,23 @@ class StaticIndicatorCategoriesDownload(View):
 
 
 # ------------------------------------------- Create APIs --------------------------------------------------------------
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .serializers import CashierTicketProductsSerializer, MonitoringDataSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer
 
 
 class GetBoughtProducts(APIView):
     def get(self, request, participant_id, *args, **kwargs):
         # return 404 error if request id is not in the database
         try:
-            product = CashierTicketProducts.objects.filter(participant_id=participant_id, reviewed=False)
+            product = CashierTicketProducts.objects.filter(
+                participant=participant_id, reviewed=False)
         except CashierTicketProducts.DoesNotExist:
             return HttpResponse(status=404)
         serializer = CashierTicketProductsSerializer(product, many=True)
         return Response(serializer.data)
 
 
-class PostMonitoringData(APIView):
+class PostProductsReview(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = MonitoringDataSerializer(data=request.data)
+        serializer = ProductReviewsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -600,9 +497,9 @@ class PostMonitoringData(APIView):
             return Response(serializer.errors)
 
 
-class PostProductsReview(APIView):
+class PostDeviceToken(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = ProductReviewsSerializer(data=request.data)
+        serializer = DeviceTokenSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
