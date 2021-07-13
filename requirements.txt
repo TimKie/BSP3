@@ -8,3 +8,4 @@ django-crontab
 django-filter~=2.4.0
 PyJWT==1.7.1
 hyper
+cryptography
