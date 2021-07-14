@@ -29,7 +29,7 @@ ALLOWED_HOSTS = [
     'goodnessgroceries.com',
     'localhost',
     '127.0.0.1',
-    '3b6e27fcfac2.ngrok.io'
+    'f93378532f3a.ngrok.io'
 ]
 
 

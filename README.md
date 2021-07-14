@@ -17,7 +17,7 @@ pip3 install --upgrade pip
 pip3 install --no-cache-dir -r requirements.txt
 ```
 
-The project uses the database PostgreSQL which has to be downloaded [here](https://www.postgresql.org/download/) in order to create a database for the webiste (I would recommand to download the [Postgres App](https://postgresapp.com/)).
+The project uses the database PostgreSQL which has to be downloaded [here](https://www.postgresql.org/download/) in order to create a database for the website (I would recommand to download the [Postgres App](https://postgresapp.com/)).
 
 ## Usage
 

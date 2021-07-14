@@ -480,7 +480,7 @@ class GetBoughtProducts(APIView):
         # return 404 error if request id is not in the database
         try:
             product = CashierTicketProducts.objects.filter(
-                participant=participant_id, reviewed=False)
+                participant=participant_id, reviewed=False).distinct('product_ean')
         except CashierTicketProducts.DoesNotExist:
             return HttpResponse(status=404)
         serializer = CashierTicketProductsSerializer(product, many=True)
@@ -491,6 +491,9 @@ class PostProductsReview(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ProductReviewsSerializer(data=request.data)
         if serializer.is_valid():
+            for ticket in CashierTicketProducts.objects.filter(participant=request.data['participant'], product_ean=request.data['product_ean'], reviewed=False):
+                ticket.reviewed = True
+                ticket.save()
             serializer.save()
             return Response(serializer.data)
         else:

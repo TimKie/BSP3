@@ -6,7 +6,7 @@ class CashierTicketProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CashierTicketProducts
         fields = (
-            'product',
+            'product_ean',
             'timestamp',
         )
 
@@ -30,7 +30,7 @@ class DeviceTokenSerializer(serializers.ModelSerializer):
         model = Devices
         fields = (
             'participant',
-            'device_token'
+            'device_token',
         )
 
 

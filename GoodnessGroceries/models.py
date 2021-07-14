@@ -46,8 +46,8 @@ class Users(models.Model):
 class CashierTicketProducts(models.Model):
     participant = models.ForeignKey(Users, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(null=True, blank=True)
-    product = models.BigIntegerField()
-    reviewed = models.BooleanField(default=False, null=True)
+    product_ean = models.BigIntegerField()
+    reviewed = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Cashier Ticket Product'
