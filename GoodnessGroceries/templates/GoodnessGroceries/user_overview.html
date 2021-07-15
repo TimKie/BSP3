@@ -35,15 +35,24 @@
                         {% if user.status == 'valid' %}
                             <td style="text-align:center; color: #5cb85c">{{user.status}}</td>
                             <td style="text-align:right">
-                                <form action="{% url 'GoodnessGroceries-update_status_of_users' user.participant_id %}" method=POST>
-                                    {% csrf_token %}
-                                        <button class="btn btn-secondary btn-sm" type="submit" disabled>Validate</button>
-                                </form>
+                                -/-
                             </td>
                         {% elif user.status == 'requested' %}
                             <td style="text-align:center; color: #d9534f">{{user.status}}</td>
                             <td style="text-align:right">
-                                <form action="{% url 'GoodnessGroceries-update_status_of_users' user.participant_id %}" method=POST>
+                                <form style="float: right;margin-left: 20px" action="{% url 'GoodnessGroceries-update_status_of_user' user.participant_id %}" method=POST>
+                                    {% csrf_token %}
+                                        <button class="btn btn-success btn-sm" type="submit">Validate</button>
+                                </form>
+                                <form action="{% url 'GoodnessGroceries-update_status_of_user_archived' user.participant_id %}" method=POST>
+                                    {% csrf_token %}
+                                        <button class="btn btn-warning btn-sm" type="submit">Archive</button>
+                                </form>
+                            </td>
+                        {% elif user.status == 'archived' %}
+                            <td style="text-align:center; color: orange">{{user.status}}</td>
+                            <td style="text-align:right">
+                                <form action="{% url 'GoodnessGroceries-update_status_of_user' user.participant_id %}" method=POST>
                                     {% csrf_token %}
                                         <button class="btn btn-success btn-sm" type="submit">Validate</button>
                                 </form>
