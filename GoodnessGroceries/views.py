@@ -139,7 +139,7 @@ def user_overview_filtered(request, participant_id):
 def update_status_of_user(request, participant_id):
     user = Users.objects.get(participant_id=participant_id)
 
-    if user.status == 'requested':
+    if user.status == 'requested' or user.status == 'archived':
         user.status = 'valid'
 
         if user.platform == 'ios':
@@ -149,6 +149,24 @@ def update_status_of_user(request, participant_id):
                 })
 
     user.save()
+
+    users = Users.objects.all()
+
+    myFilter = UserFilter(request.GET, queryset=users)
+    users = myFilter.qs.order_by('participant_id')
+
+    context = {'users': users, 'myFilter': myFilter}
+
+    return render(request, 'GoodnessGroceries/user_overview.html', context)
+
+
+# update the status of the user to archived with the corresponding participant_id by clicking a button
+def update_status_of_user_archived(request, participant_id):
+    user = Users.objects.get(participant_id=participant_id)
+
+    if user.status == 'requested':
+        user.status = 'archived'
+        user.save()
 
     users = Users.objects.all()
 
@@ -363,7 +381,7 @@ class CashierTicketsProductsDownload(View):
             'cashier_tickets_products.csv')
         response['Content-Disposition'] = cd
 
-        fieldnames = ('participant_id', 'timestamp', 'product')
+        fieldnames = ('participant_id', 'timestamp', 'product_ean', 'reviewed')
         data = CashierTicketProducts.objects.values(*fieldnames)
 
         writer = csv.DictWriter(response, fieldnames=fieldnames)
@@ -381,7 +399,7 @@ class ProductReviewsDownload(View):
         cd = 'attachment; filename="{0}"'.format('product_reviews.csv')
         response['Content-Disposition'] = cd
 
-        fieldnames = ('participant_id', 'product_ean', 'selected_indicator_main_id', 'selected_indicator_secondary_id',
+        fieldnames = ('participant_id', 'product_ean', 'timestamp', 'selected_indicator_main_id', 'selected_indicator_secondary_id',
                       'free_text_indicator', 'price_checkbox_selected')
         data = ProductReviews.objects.values(*fieldnames)
 
@@ -401,7 +419,7 @@ class UsersDownload(View):
         cd = 'attachment; filename="{0}"'.format('users.csv')
         response['Content-Disposition'] = cd
 
-        fieldnames = ('participant_id', 'status', 'product_category_1', 'product_category_2', 'product_category_3', 'product_category_4',
+        fieldnames = ('participant_id', 'status', 'platform', 'product_category_1', 'product_category_2', 'product_category_3', 'product_category_4',
                       'indicator_category_1', 'indicator_category_2', 'indicator_category_3', 'indicator_category_4')
         data = Users.objects.values(*fieldnames)
 
@@ -491,9 +509,12 @@ class PostProductsReview(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ProductReviewsSerializer(data=request.data)
         if serializer.is_valid():
+            # Update the cashier ticket products and set reviewed to True
+            """
             for ticket in CashierTicketProducts.objects.filter(participant=request.data['participant'], product_ean=request.data['product_ean'], reviewed=False):
                 ticket.reviewed = True
                 ticket.save()
+            """
             serializer.save()
             return Response(serializer.data)
         else:
