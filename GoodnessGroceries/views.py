@@ -7,13 +7,14 @@ import os
 from glob import glob
 import pandas as pd
 from .filters import *
-from .serializers import CashierTicketProductsSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer, DeviceTokenSerializer
+from .serializers import CashierTicketProductsSerializer, ProductReviewsSerializer, UsersSerializer, UsersStatusSerializer
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from .models import *
-from .apns import send_push_notification
 from .functions import handle_product_reviews
+from datetime import datetime
+from push_notifications.models import APNSDevice
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
@@ -142,10 +143,22 @@ def update_status_of_user(request, participant_id):
     if user.status == 'requested' or user.status == 'archived':
         user.status = 'valid'
 
+        with open('validated_users.csv', 'a') as fd:
+            fd.write(user.participant_id + "," +
+                     datetime.now().strftime('%m/%d/%Y %H:%M:%S') + "\n")
+
         if user.platform == 'ios':
-            for device in user.getDevices():
-                send_push_notification(device.device_token, payload_data={
-                    'aps': {'mutable-content': 1, 'alert': {'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE', 'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'}, 'sound': 'default', 'badge': 1}
+            for device in APNSDevice.objects.filter(name=user.participant_id):
+                device.send_message("", extra={
+                    'aps': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }
                 })
 
     user.save()
@@ -369,7 +382,6 @@ def static_indicator_categories_upload(request):
 
     return render(request, template)
 
-
 # ------------------------------------------- Download Dynamic CSV Files -----------------------------------------------
 
 
@@ -515,16 +527,6 @@ class PostProductsReview(APIView):
                 ticket.reviewed = True
                 ticket.save()
             """
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
-
-
-class PostDeviceToken(APIView):
-    def post(self, request, *args, **kwargs):
-        serializer = DeviceTokenSerializer(data=request.data)
-        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:

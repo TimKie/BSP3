@@ -4,6 +4,7 @@ psycopg2-binary
 django-postgres-copy
 pandas~=1.1.3
 djangorestframework~=3.12.1
+django-push-notifications
 django-crontab
 django-filter~=2.4.0
 PyJWT==1.7.1

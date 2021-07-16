@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from push_notifications.api.rest_framework import APNSDeviceViewSet, GCMDeviceViewSet
 
 urlpatterns = [
     path('', views.home, name='GoodnessGroceries-home'),
@@ -33,8 +34,6 @@ urlpatterns = [
          views.FetchUserStatus.as_view(), name='GoodnessGroceries-FetchUserStatus'),
     path('request_user_access/', views.RequestUserAccess.as_view(),
          name='GoodnessGroceries-RequestUserAccess'),
-    path('post_device_token/', views.PostDeviceToken.as_view(),
-         name='GoodnessGroceries-PostDeviceToken'),
 
     # Import - Export
     path('import_export/', views.ImportExportView,
@@ -62,5 +61,10 @@ urlpatterns = [
     path('upload_static_indicators/', views.static_indicators_upload,
          name='GoodnessGroceries-upload_static_indicators'),
     path('upload_static_indicator_categories/', views.static_indicator_categories_upload,
-         name='GoodnessGroceries-upload_static_indicator_categories')
+         name='GoodnessGroceries-upload_static_indicator_categories'),
+
+    path('device/apns/', APNSDeviceViewSet.as_view(
+        {'post': 'create', 'get': 'list'}), name='GoodnessGroceries-create_apns_device'),
+    path('device/gcmdevice/', GCMDeviceViewSet.as_view(
+         {'post': 'create', 'get': 'list'}), name='GoodnessGroceries-create_gcm_device')
 ]

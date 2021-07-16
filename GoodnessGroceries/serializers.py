@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CashierTicketProducts, ProductReviews, Users, Devices
+from .models import CashierTicketProducts, ProductReviews, Users
 
 
 class CashierTicketProductsSerializer(serializers.ModelSerializer):
@@ -22,15 +22,6 @@ class ProductReviewsSerializer(serializers.ModelSerializer):
             'selected_indicator_secondary_id',
             'free_text_indicator',
             'price_checkbox_selected',
-        )
-
-
-class DeviceTokenSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Devices
-        fields = (
-            'participant',
-            'device_token',
         )
 
 
