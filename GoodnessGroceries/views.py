@@ -14,7 +14,7 @@ from django.views.generic import TemplateView
 from .models import *
 from .functions import handle_product_reviews
 from datetime import datetime
-from push_notifications.models import APNSDevice
+from push_notifications.models import APNSDevice, GCMDevice
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
@@ -76,6 +76,15 @@ def home(request):
 @login_required()
 def about(request):
     return render(request, 'GoodnessGroceries/about.html', {'title': 'About'})
+
+
+@login_required()
+def validated_users(request):
+    data = open(os.path.join(os.getcwd(),
+                             'validated_users.csv'), 'r').read()
+    resp = HttpResponse(data)
+    resp['Content-Disposition'] = 'attachment;filename=validated_users.csv'
+    return resp
 
 
 # ---------- Get products data from database, put them in a csv file and return this file ------------------------------
@@ -145,7 +154,7 @@ def update_status_of_user(request, participant_id):
 
         with open('validated_users.csv', 'a') as fd:
             fd.write(user.participant_id + "," +
-                     datetime.now().strftime('%m/%d/%Y %H:%M:%S') + "\n")
+                     datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + "\n")
 
         if user.platform == 'ios':
             for device in APNSDevice.objects.filter(name=user.participant_id):
@@ -160,6 +169,9 @@ def update_status_of_user(request, participant_id):
                         'badge': 1
                     }
                 })
+        elif user.platform == 'android':
+            # TODO
+            pass
 
     user.save()
 
@@ -522,11 +534,9 @@ class PostProductsReview(APIView):
         serializer = ProductReviewsSerializer(data=request.data)
         if serializer.is_valid():
             # Update the cashier ticket products and set reviewed to True
-            """
             for ticket in CashierTicketProducts.objects.filter(participant=request.data['participant'], product_ean=request.data['product_ean'], reviewed=False):
                 ticket.reviewed = True
                 ticket.save()
-            """
             serializer.save()
             return Response(serializer.data)
         else:
@@ -546,12 +556,11 @@ class FetchUserStatus(APIView):
 
 class RequestUserAccess(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = UsersSerializer(data=request.data)
-        if serializer.is_valid():
-            if Users.objects.filter(participant_id=request.data['participant_id']).exists():
-                return Response(serializer.errors)
-            else:
+        if not Users.objects.filter(participant_id=request.data['participant_id']).exists():
+            serializer = UsersSerializer(data=request.data)
+            if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+        user = Users.objects.get(
+            participant_id=request.data['participant_id'])
+        serializer = UsersStatusSerializer(user, many=False)
+        return Response(serializer.data)

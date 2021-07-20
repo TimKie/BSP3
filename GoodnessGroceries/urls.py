@@ -24,6 +24,10 @@ urlpatterns = [
     path('product_reviews_statistics/', views.product_reviews_statistics,
          name='GoodnessGroceries-product_reviews_statistics'),
 
+    # Validated participants list
+    path('validated_users/', views.validated_users,
+         name="GoodnessGroceries-validated-users"),
+
     # API URLs
     path('api-auth/', include('rest_framework.urls')),
     path('get_bought_products/<str:participant_id>/',
@@ -63,6 +67,7 @@ urlpatterns = [
     path('upload_static_indicator_categories/', views.static_indicator_categories_upload,
          name='GoodnessGroceries-upload_static_indicator_categories'),
 
+    # Push Notifications URLs
     path('device/apns/', APNSDeviceViewSet.as_view(
         {'post': 'create', 'get': 'list'}), name='GoodnessGroceries-create_apns_device'),
     path('device/gcmdevice/', GCMDeviceViewSet.as_view(
