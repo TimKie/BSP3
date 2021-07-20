@@ -40,9 +40,6 @@ class Users(models.Model):
     def __str__(self):
         return "Participant ID: " + str(self.participant_id)
 
-    def getDevices(self):
-        return Devices.objects.filter(participant=self)
-
 
 class CashierTicketProducts(models.Model):
     participant = models.ForeignKey(Users, on_delete=models.CASCADE)
@@ -75,19 +72,6 @@ class ProductReviews(models.Model):
 
     def __str__(self):
         return str(self.participant)
-
-
-class Devices(models.Model):
-    participant = models.ForeignKey(
-        Users, on_delete=models.CASCADE)
-    device_token = models.CharField(max_length=100, primary_key=True)
-
-    class Meta:
-        verbose_name = 'Device'
-        verbose_name_plural = 'Devices'
-
-    def __str__(self):
-        return "Device token: " + str(self.device_token)
 
 # ------------------------------ Static Data ------------------------------------------------------
 

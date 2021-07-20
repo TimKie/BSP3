@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +30,7 @@ ALLOWED_HOSTS = [
     'goodnessgroceries.com',
     'localhost',
     '127.0.0.1',
-    'd173e8e244fe.ngrok.io'
+    '1279804155cb.ngrok.io'
 ]
 
 
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'Users.apps.UsersConfig',
     'crispy_forms',
     'rest_framework',
+    'push_notifications',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -118,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
@@ -144,3 +146,12 @@ LOGIN_REDIRECT_URL = 'GoodnessGroceries-home'
 LOGIN_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "APNS_AUTH_KEY_PATH": os.path.join(BASE_DIR, "key.p8"),
+    "APNS_AUTH_KEY_ID": "",
+    "APNS_TEAM_ID": "",
+    "APNS_TOPIC": "",
+    "APNS_USE_SANDBOX": False,
+    "USER_MODEL": "GoodnessGroceries.Users",
+}
