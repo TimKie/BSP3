@@ -5,7 +5,6 @@ import csv
 from push_notifications.models import APNSDevice, GCMDevice
 import requests
 
-
 class Command(BaseCommand):
     help = 'Fetch cashier tickets from URL, import to database and send push notifications to available devices'
 
