@@ -32,11 +32,11 @@ class Command(BaseCommand):
                 for row in cr:
                     try:
                         participant = Users.objects.only(
-                            'participant_id').get(participant_id=row[participant_column])
+                            'participant_id').get(participant_id='220000'+row[participant_column])
                     except Users.DoesNotExist:
                         continue
 
-                    timestamp = row[timestamp_column]
+                    timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+'-'+row[time_column][0:2]+row[time_column][3:5]
                     product_ean = row[product_ref_column]
 
                     ticket = CashierTicketProducts.objects.create(
