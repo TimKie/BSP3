@@ -30,6 +30,7 @@ class Command(BaseCommand):
             header = next(cr)
             if header != None:
                 for row in cr:
+                    print(crow)
                     try:
                         participant = Users.objects.only(
                             'participant_id').get(participant_id='220000'+row[participant_column])
