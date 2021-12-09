@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'GoodnessGroceries_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        "NAME": "goodnessgroceries",
+        "NAME": "goodness_groceries",
         #"USER": "flavio",
         "USER": "gguser",
         #"PASSWORD": "3G03BxsT4CZA",
