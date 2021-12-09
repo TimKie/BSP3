@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'w#$n6c9zj)$^z7+q@v77$7luu$ulfdm__-)8i6+mf_pen8qt2!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'www.goodnessgroceries.com',
