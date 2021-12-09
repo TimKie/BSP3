@@ -168,7 +168,7 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-    "APNS_AUTH_KEY_PATH": os.path.join(BASE_DIR, "key.p8"),
+    "APNS_AUTH_KEY_PATH": os.path.join(BASE_DIR, "apns_secret_key.p8"),
     "APNS_AUTH_KEY_ID": "",
     "APNS_TEAM_ID": "",
     "APNS_TOPIC": "",
