@@ -137,7 +137,7 @@ STATIC_ROOT = '/home/admin/git/BSP3/GoodnessGroceries/static'
 STATIC_URL = '/static/'
 
 
-STATICFILES_DIRS = ('/home/admin/git/BSP3/GoodnessGroceries/static',)
+#STATICFILES_DIRS = ('/home/admin/git/BSP3/GoodnessGroceries/static',)
 #    os.path.join(BASE_DIR, "static_csv_files")
 # ]
 
