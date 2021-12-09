@@ -30,13 +30,13 @@ class Command(BaseCommand):
             header = next(cr)
             if header != None:
                 for row in cr:
-                    print(row)
+                    print('test0')
                     try:
                         participant = Users.objects.only(
                             'participant_id').get(participant_id='220000'+row[participant_column])
                     except Users.DoesNotExist:
                         continue
-
+                    print('test1')
                     timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+'-'+row[time_column][0:2]+row[time_column][3:5]
                     product_ean = row[product_ref_column]
                     print(participant+','+timestamp+','+product_ean)
