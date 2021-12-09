@@ -10,17 +10,23 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # TODO: configuration of the CSV file
-        participant_column = 0
-        timestamp_column = 1
-        product_column = 2
-        file_url = 'https://drive.google.com/uc?export=download&id=1q5eyMVddf5o6KcFfxmQSsycOs2GfIbnl'
+        date_column = 0
+        time_column = 1
+        participant_column = 2
+        product_ref_column = 3
+        product_column = 4
+        quantity_column = 5
+        price_column = 6
+        store_column = 7
+                        
+        file_url = 'https://dropit.uni.lu/invitations?share=ce550b5b315efd73b171&dl=1'
 
         with requests.Session() as s:
             download = s.get(file_url)
 
             decoded_content = download.content.decode('utf-8')
 
-            cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+            cr = csv.reader(decoded_content.splitlines(), delimiter=';')
             header = next(cr)
             if header != None:
                 for row in cr:
@@ -31,7 +37,7 @@ class Command(BaseCommand):
                         continue
 
                     timestamp = row[timestamp_column]
-                    product_ean = row[product_column]
+                    product_ean = row[product_ref_column]
 
                     ticket = CashierTicketProducts.objects.create(
                         participant=participant, timestamp=timestamp, product_ean=product_ean)
