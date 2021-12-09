@@ -171,7 +171,7 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     "APNS_AUTH_KEY_PATH": os.path.join(BASE_DIR, "apns_secret_key.p8"),
     "APNS_AUTH_KEY_ID": "399Y94M863",
     "APNS_TEAM_ID": "6733725FT8",
-    "APNS_TOPIC": "Goodness Groceries",
+    "APNS_TOPIC": "lu.uni.bicslab.goodness.groceries",
     "APNS_USE_SANDBOX": False,
     "USER_MODEL": "GoodnessGroceries.Users",
 }
