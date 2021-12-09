@@ -25,6 +25,25 @@ SECRET_KEY = 'w#$n6c9zj)$^z7+q@v77$7luu$ulfdm__-)8i6+mf_pen8qt2!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 ALLOWED_HOSTS = [
     'www.goodnessgroceries.com',
     'goodnessgroceries.com',
