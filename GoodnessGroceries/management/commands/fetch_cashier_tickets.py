@@ -36,7 +36,7 @@ class Command(BaseCommand):
                             'participant_id').get(participant_id='220000'+row[participant_column])
                     except Users.DoesNotExist:
                         continue
-                    timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+'-'+row[time_column][0:2]+row[time_column][3:5]
+                    timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
                     product_ean = row[product_ref_column]
                     ticket = CashierTicketProducts.objects.create(
                         participant=participant, timestamp=timestamp, product_ean=product_ean)
