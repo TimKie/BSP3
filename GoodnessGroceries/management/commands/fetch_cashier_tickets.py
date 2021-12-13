@@ -65,6 +65,7 @@ class Command(BaseCommand):
                         },
                         'products': list(map(lambda x: str(x), products))
                     })
+                print(list(map(lambda x: str(x), products)))
             elif participant.platform == 'android':
                 # TODO
                 pass
