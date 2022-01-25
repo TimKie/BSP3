@@ -188,9 +188,14 @@ def update_status_of_user(request, participant_id):
 # update the status of the user to archived with the corresponding participant_id by clicking a button
 def update_status_of_user_archived(request, participant_id):
     user = Users.objects.get(participant_id=participant_id)
+    
+    if user.status == 'requested' or user.status == 'valid':
+        user.status = 'archived'
 
-    #if user.status == 'requested':
-    user.status = 'archived'
+        #with open('validated_users.csv', 'a') as fd:
+            #fd.write(user.participant_id + "," +
+                     #datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + "\n")
+
     user.save()
 
     users = Users.objects.all()
@@ -201,6 +206,7 @@ def update_status_of_user_archived(request, participant_id):
     context = {'users': users, 'myFilter': myFilter}
 
     return render(request, 'GoodnessGroceries/user_overview.html', context)
+
 
 
 # ------------------------------------------ Filter Product Reviews ----------------------------------------------------
