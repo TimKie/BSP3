@@ -195,7 +195,22 @@ def update_status_of_user_archived(request, participant_id):
         #with open('validated_users.csv', 'a') as fd:
             #fd.write(user.participant_id + "," +
                      #datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + "\n")
-
+        
+        if user.platform == 'ios':
+            for device in APNSDevice.objects.filter(name=user.participant_id):
+                device.send_message("", extra={
+                    'aps': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_ARCHIVED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }
+                })
+        elif user.platform == 'android':
+            # TODO
     user.save()
 
     users = Users.objects.all()
