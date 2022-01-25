@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
             name='Users',
             fields=[
                 ('participant_id', models.CharField(max_length=13, primary_key=True, serialize=False)),
-                ('status', models.CharField(choices=[('requested', 'requested'), ('valid', 'valid')], default='requested', max_length=100)),
+                ('status', models.CharField(choices=[('requested', 'requested'), ('valid', 'valid'),('archived', 'archived')], default='requested', max_length=100)),
                 ('platform', models.CharField(choices=[('ios', 'ios'), ('android', 'android')], max_length=100, null=True)),
                 ('product_category_1', models.CharField(blank=True, max_length=100, null=True)),
                 ('product_category_2', models.CharField(blank=True, max_length=100, null=True)),
