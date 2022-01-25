@@ -189,9 +189,9 @@ def update_status_of_user(request, participant_id):
 def update_status_of_user_archived(request, participant_id):
     user = Users.objects.get(participant_id=participant_id)
 
-    if user.status == 'requested':
-        user.status = 'archived'
-        user.save()
+    #if user.status == 'requested':
+    user.status = 'archived'
+    user.save()
 
     users = Users.objects.all()
 
