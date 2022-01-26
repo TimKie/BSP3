@@ -211,6 +211,7 @@ def update_status_of_user_archived(request, participant_id):
                 })
         elif user.platform == 'android':
             # TODO
+            pass
     user.save()
 
     users = Users.objects.all()
