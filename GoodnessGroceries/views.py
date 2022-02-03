@@ -14,6 +14,7 @@ from django.views.generic import TemplateView
 from .models import *
 from .functions import handle_product_reviews
 from datetime import datetime
+from datetime import timedelta
 from push_notifications.models import APNSDevice, GCMDevice
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
