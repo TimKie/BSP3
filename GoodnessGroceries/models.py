@@ -10,6 +10,7 @@ class Users(models.Model):
     )
     status = models.CharField(
         max_length=100, default='requested', choices=STATUS)
+    phase2_date = models.DateField(blank=True, max_length=100, null=True)
     PLATFORM = (
         ('ios', 'ios'),
         ('android', 'android')
