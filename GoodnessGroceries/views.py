@@ -151,7 +151,7 @@ def update_status_of_user(request, participant_id):
 
     if user.status == 'requested' or user.status == 'archived':
         user.status = 'valid'
-
+        user.phase2_date = (datetime.now()+timedelta(days=42)).strftime('%Y-%m-%d')
         with open('validated_users.csv', 'a') as fd:
             fd.write(user.participant_id + "," +
                      datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + "\n")
