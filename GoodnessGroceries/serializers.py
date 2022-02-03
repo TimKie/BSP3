@@ -30,6 +30,7 @@ class UsersStatusSerializer(serializers.ModelSerializer):
         model = Users
         fields = (
             'status',
+            'phase2_date',
         )
 
 
@@ -39,7 +40,6 @@ class UsersSerializer(serializers.ModelSerializer):
         fields = (
             'participant_id',
             'platform',
-            'phas2_date',
             'product_category_1',
             'product_category_2',
             'product_category_3',
