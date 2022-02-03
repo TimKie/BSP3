@@ -35,7 +35,7 @@
                         <td style="text-align:left">{{user.participant_id}}</td>
                         {% if user.status == 'valid' %}
                             <td style="text-align:center; color: #5cb85c">{{user.status}}</td>
-                            <td style="text-align:center; color: #5cb85c">{{user.phase2_Date}}</td> 
+                            <td style="text-align:center; color: #5cb85c">{{user.phase2_date}}</td> 
                             <td style="text-align:right">
                                  <form action="{% url 'GoodnessGroceries-update_status_of_user_archived' user.participant_id %}" method=POST>
                                     {% csrf_token %}
@@ -57,7 +57,7 @@
                             </td>
                         {% elif user.status == 'archived' %}
                             <td style="text-align:center; color: orange">{{user.status}}</td>
-                            <td style="text-align:center; color: #5cb85c">{{user.phase2_Date}}</td> 
+                            <td style="text-align:center; color: #5cb85c">{{user.phase2_date}}</td> 
                             <td style="text-align:right">
                                 <form action="{% url 'GoodnessGroceries-update_status_of_user' user.participant_id %}" method=POST>
                                     {% csrf_token %}
