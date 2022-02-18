@@ -67,7 +67,9 @@
                        <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
                     {% endif %}
                     <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"/> </h6>
-                    <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
+                    {% if prod_review.free_text_indicator %}
+                        <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
+                    {% endif %}
             </div>
         </article>
     {% endfor %}
