@@ -61,10 +61,10 @@
                     {% else %}
                        <h6>Selected Main Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
                     {% endif %}
-                    {% if prod_review.selected_indicator_main_id %}
+                    {% if prod_review.selected_indicator_secondary_id %}
                         <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_secondary_id }}.svg"/></h6>
                     {% else %}
-                       <h6>Selected Main Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
+                       <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
                     {% endif %}
                     <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"/> </h6>
                     <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
