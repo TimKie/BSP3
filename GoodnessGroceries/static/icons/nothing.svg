@@ -7,7 +7,7 @@
    visibility="visible"
    version="1.1"
    id="svg113"
-   sodipodi:docname="otherreason.svg"
+   sodipodi:docname="other.svg"
    inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -43,12 +43,12 @@
      id="path111" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:24 .6667px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
-     x="4.7150497"
-     y="13.472239"
+     style="font-style:normal;font-weight:normal;font-size:26.6667px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="7.7150497"
+     y="19.472239"
      id="text4890"><tspan
        sodipodi:role="line"
        id="tspan4888"
-       x="4.7150497"
-       y="13.472239">...</tspan></text>
+       x="7.7150497"
+       y="19.472239">-</tspan></text>
 </svg>
