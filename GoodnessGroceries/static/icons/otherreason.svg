@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   visibility="visible"
+   version="1.1"
+   id="svg113"
+   sodipodi:docname="other.svg"
+   inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs117" />
+  <sodipodi:namedview
+     id="namedview115"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="37.375"
+     inkscape:cx="13.311037"
+     inkscape:cy="13.09699"
+     inkscape:window-width="1312"
+     inkscape:window-height="1081"
+     inkscape:window-x="1267"
+     inkscape:window-y="372"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg113" />
+  <path
+     font-family="Arial"
+     text-anchor="middle"
+     d="M0,12 C0,5.37258 5.37258,0 12,0 C18.6274,0 24,5.37258 24,12 C24,18.6274 18.6274,24 12,24 C5.37258,24 0,18.6274 0,12 "
+     fill="#DDDDDD"
+     font-size="10px"
+     visibility="visible"
+     id="path111" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:26.6667px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+     x="7.7150497"
+     y="19.472239"
+     id="text4890"><tspan
+       sodipodi:role="line"
+       id="tspan4888"
+       x="7.7150497"
+       y="19.472239">-</tspan></text>
+</svg>
