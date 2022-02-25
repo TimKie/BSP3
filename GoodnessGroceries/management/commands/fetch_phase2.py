@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for user in Users.objects.filter(status='valid'):
-            pprint(user.values)
+            print(user.values)
             if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
                 if user.platform == 'ios':
                     print('User' + user.participant_id + ' has iOS')
