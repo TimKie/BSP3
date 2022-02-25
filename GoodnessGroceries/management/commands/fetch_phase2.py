@@ -10,6 +10,7 @@ class Command(BaseCommand):
         for user in Users.objects.filter(status='valid'):
             if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
                 if user.platform == 'ios':
+                    print('User' + user.participant_id + ' has iOS')
                     for device in APNSDevice.objects.filter(name=user.participant_id):
                         print('Notif sent to' + user.participant_id)
                         device.send_message("", extra={
