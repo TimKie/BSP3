@@ -31,6 +31,7 @@ class UsersStatusSerializer(serializers.ModelSerializer):
         fields = (
             'status',
             'phase2_date',
+            'phase1_date'
         )
 
 
