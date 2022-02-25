@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         for user in Users.objects.filter(status='valid'):
             if user.phase2_date:
-                print('here')
+                print(user.phase2_date)
                 if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
                      print('User' + user.participant_id + ' has iOS')
                 
