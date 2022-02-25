@@ -15,7 +15,7 @@ from .models import *
 from .functions import handle_product_reviews
 from datetime import datetime
 from datetime import timedelta
-from push_notifications.models import APNSDevice, PCMDevice
+from push_notifications.models import APNSDevice
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
