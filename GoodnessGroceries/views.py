@@ -153,6 +153,7 @@ def update_status_of_user(request, participant_id):
     if user.status == 'requested' or user.status == 'archived':
         user.status = 'valid'
         user.phase2_date = (datetime.now()+timedelta(days=42)).strftime('%Y-%m-%d')
+        user.phase1_date = (datetime.now()).strftime('%Y-%m-%d')
         with open('validated_users.csv', 'a') as fd:
             fd.write(user.participant_id + "," +
                      datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + "\n")
@@ -205,6 +206,39 @@ def update_status_of_user_archived(request, participant_id):
                         'alert': {
                             'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
                             'body': 'NOTIFICATION_ACCOUNT_ARCHIVED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }
+                })
+        elif user.platform == 'android':
+            # TODO
+            pass
+    user.save()
+
+    users = Users.objects.all()
+
+    myFilter = UserFilter(request.GET, queryset=users)
+    users = myFilter.qs.order_by('participant_id')
+
+    context = {'users': users, 'myFilter': myFilter}
+
+    return render(request, 'GoodnessGroceries/user_overview.html', context)
+
+# update the phase2 date of the user with the corresponding participant_id by clicking a button
+def update_status_of_user_phase2(request, participant_id):
+    user = Users.objects.get(participant_id=participant_id)
+    
+    if user.status == 'valid':
+        user.phase2_date = (datetime.now()+timedelta(days=42)).strftime('%Y-%m-%d')
+        if user.platform == 'ios':
+            for device in APNSDevice.objects.filter(name=user.participant_id):
+                device.send_message("", extra={
+                    'aps': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
                         },
                         'sound': 'default',
                         'badge': 1
