@@ -1,8 +1,6 @@
 from django.core.management.base import BaseCommand
 from GoodnessGroceries.models import Users
-import os
-import csv
-from push_notifications.models import APNSDevice, GCMDevice
+from push_notifications.models import APNSDevice
 import requests
 
 class Command(BaseCommand):
