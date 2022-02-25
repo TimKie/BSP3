@@ -10,7 +10,7 @@ class Command(BaseCommand):
         for user in Users.objects.filter(status='valid'):
             if user.phase2_date:
                 print(user.phase2_date)
-                if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
+                if user.phase2_date.strftime('%Y-%m-%d') == (datetime.now()).strftime('%Y-%m-%d'):
                      print('User' + user.participant_id + ' has iOS')
                 
             if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
