@@ -230,7 +230,7 @@ def update_status_of_user_phase2(request, participant_id):
     user = Users.objects.get(participant_id=participant_id)
     
     if user.status == 'valid':
-        user.phase2_date = (datetime.now()+timedelta(days=42)).strftime('%Y-%m-%d')
+        user.phase2_date = (datetime.now()).strftime('%Y-%m-%d')
         if user.platform == 'ios':
             for device in APNSDevice.objects.filter(name=user.participant_id):
                 device.send_message("", extra={
