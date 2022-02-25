@@ -15,6 +15,8 @@ urlpatterns = [
          views.update_status_of_user, name='GoodnessGroceries-update_status_of_user'),
     path('update_status_of_user_archived/<str:participant_id>/',
          views.update_status_of_user_archived, name='GoodnessGroceries-update_status_of_user_archived'),
+    path('update_status_of_user_phase2/<str:participant_id>/',
+         views.update_status_of_user_phase2, name='GoodnessGroceries-update_status_of_user_phase2'),
     path('product_reviews_overview/', views.product_reviews_overview,
          name='GoodnessGroceries-product_reviews_overview'),
     path('product_reviews_overview/<str:participant_id>/', views.product_reviews_overview_filtered,
