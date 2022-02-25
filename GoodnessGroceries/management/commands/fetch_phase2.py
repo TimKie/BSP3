@@ -11,9 +11,7 @@ class Command(BaseCommand):
             if user.phase2_date:
                 if user.phase2_date.strftime('%Y-%m-%d') == (datetime.now()).strftime('%Y-%m-%d'):
                     if user.platform == 'ios':
-                        print('User' + user.participant_id + ' has iOS')
                         for device in APNSDevice.objects.filter(name=user.participant_id):
-                            print('Notif sent to' + user.participant_id)
                             device.send_message("", extra={
                                 'aps': {
                                     'mutable-content': 1,
