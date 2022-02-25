@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from GoodnessGroceries.models import Users
 from push_notifications.models import APNSDevice
-import requests
+from datetime import datetime
 
 class Command(BaseCommand):
     help = 'Send notif when Phase 2 start.'
