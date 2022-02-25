@@ -10,18 +10,18 @@ class Command(BaseCommand):
         for user in Users.objects.filter(status='valid'):
             if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
                 if user.platform == 'ios':
-                for device in APNSDevice.objects.filter(name=user.participant_id):
-                    device.send_message("", extra={
-                        'aps': {
-                            'mutable-content': 1,
-                            'alert': {
-                                'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
-                                'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
-                            },
-                            'sound': 'default',
-                            'badge': 1
-                        }
-                    })
+                    for device in APNSDevice.objects.filter(name=user.participant_id):
+                        device.send_message("", extra={
+                            'aps': {
+                                'mutable-content': 1,
+                                'alert': {
+                                    'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
+                                    'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
+                                },
+                                'sound': 'default',
+                                'badge': 1
+                            }
+                        })
                 elif user.platform == 'android':
                     # TODO
                     pass
