@@ -8,12 +8,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for user in Users.objects.filter(status='valid'):
-            print(user.participant_id)
-            print(user.phase2_date)
-            print(datetime.now().strftime('%Y-%m-%d'))
             if user.phase2_date == (datetime.now()).strftime('%Y-%m-%d'):
                 if user.platform == 'ios':
                     for device in APNSDevice.objects.filter(name=user.participant_id):
+                        print('Notif sent to' + user.participant_id)
                         device.send_message("", extra={
                             'aps': {
                                 'mutable-content': 1,
