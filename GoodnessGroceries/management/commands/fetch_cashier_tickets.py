@@ -21,7 +21,7 @@ class Command(BaseCommand):
         store_column = 7
                         
         file_url = '/home/pall_user/tickets.csv'
-        if path.exists(file_url)
+        if path.exists(file_url):
             #with requests.Session() as s:
             #download = s.get(file_url)
             file = open(filename, 'r')
