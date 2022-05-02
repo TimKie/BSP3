@@ -27,6 +27,7 @@ class Command(BaseCommand):
             file = open(filename, 'r')
             content = file.read()
             file.close()
+            os.rename('/home/pall_user/tickets.csv', '/home/pall_user/tickets_fetched.csv')
             decoded_content = content.content.decode('utf-8')
 
             cr = csv.reader(decoded_content.splitlines(), delimiter=';')
