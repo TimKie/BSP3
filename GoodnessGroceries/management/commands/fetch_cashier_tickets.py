@@ -21,7 +21,7 @@ class Command(BaseCommand):
         store_column = 7
                         
         directory = '/home/admin/tickets'
-        directory_done = '/home/admin/tickets'
+        directory_done = '/home/admin/tickets_fetched'
         for filename in os.listdir(directory):
             f = os.path.join(directory, filename)
             # checking if it is a file
