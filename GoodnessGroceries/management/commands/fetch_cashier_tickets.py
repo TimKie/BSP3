@@ -29,11 +29,8 @@ class Command(BaseCommand):
                 file = open(f, 'r')
                 content = file.read()
                 file.close()
-                print (content)
-                print (file)
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
-                decoded_content = content.content.decode('utf-8')
-                cr = csv.reader(decoded_content.splitlines(), delimiter=';')
+                cr = csv.reader(content.splitlines(), delimiter=';')
                 header = next(cr)
                 if header != None:
                     for row in cr:
