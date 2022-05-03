@@ -26,11 +26,8 @@ class Command(BaseCommand):
             f = os.path.join(directory, filename)
             # checking if it is a file
             if os.path.isfile(f):
-                file = open(f, 'r')
-                content = file.read()
-                file.close()
-                os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
-                cr = csv.reader(content.splitlines(), delimiter=';')
+                file = open(f, 'r') 
+                cr = csv.reader(file, delimiter=';')
                 header = next(cr)
                 if header != None:
                     for row in cr:
@@ -73,3 +70,5 @@ class Command(BaseCommand):
                     elif participant.platform == 'android':
                         # TODO
                         pass
+                file.close()
+                os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
