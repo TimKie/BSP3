@@ -31,8 +31,8 @@ class Command(BaseCommand):
                 file.close()
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
                 decoded_content = content.content.decode('utf-8')
-                print content
-                print file
+                print (content)
+                print (file)
                 cr = csv.reader(decoded_content.splitlines(), delimiter=';')
                 header = next(cr)
                 if header != None:
