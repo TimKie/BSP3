@@ -24,7 +24,7 @@ class Command(BaseCommand):
         if path.exists(file_url):
             #with requests.Session() as s:
             #download = s.get(file_url)
-            file = open(filename, 'r')
+            file = open(file_url, 'r')
             content = file.read()
             file.close()
             os.rename('/home/pall_user/tickets.csv', '/home/pall_user/tickets_fetched.csv')
