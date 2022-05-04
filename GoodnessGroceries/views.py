@@ -15,7 +15,7 @@ from .models import *
 from .functions import handle_product_reviews
 from datetime import datetime
 from datetime import timedelta
-from push_notifications.models import APNSDevice
+from push_notifications.models import APNSDevice, FCMDevice
 
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
@@ -172,9 +172,18 @@ def update_status_of_user(request, participant_id):
                     }
                 })
         elif user.platform == 'android':
-            # TODO
-            pass
-
+             for device in FCMDevice.objects.filter(name=user.participant_id):
+                device.send_message("", extra={
+                    'aps': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }
+                })
     user.save()
 
     users = Users.objects.all()
