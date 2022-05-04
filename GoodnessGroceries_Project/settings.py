@@ -168,6 +168,7 @@ LOGIN_URL = 'login'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 PUSH_NOTIFICATIONS_SETTINGS = {
+    "FCM_API_KEY": "AAAATxb0bbc:APA91bH1RYXYCCHXaRWIPUj8ambOgBMBt3hQuNm2htjtsa9wrBNffBB_p6u15Jl_0pBtragKidI_4pIJ0BFlFeyl9Fp39ZkF_-n2GCS0dP34nRrZOubmNYadem4rLsEE2Pq9rUoBJ7NA",
     "APNS_AUTH_KEY_PATH": os.path.join(BASE_DIR, "apns_secret_key.p8"),
     "APNS_AUTH_KEY_ID": "399Y94M863",
     "APNS_TEAM_ID": "6733725FT8",
