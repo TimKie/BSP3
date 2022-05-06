@@ -16,7 +16,7 @@ from .models import *
 from .functions import handle_product_reviews
 from datetime import datetime
 from datetime import timedelta
-from push_notifications.models import APNSDevice, 
+from push_notifications.models import GCMDevice 
 
 user = Users.objects.get(participant_id='4444444444444')
 
