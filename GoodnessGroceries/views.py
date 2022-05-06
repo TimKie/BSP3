@@ -174,15 +174,8 @@ def update_status_of_user(request, participant_id):
         elif user.platform == 'android':
              for device in GCMDevice.objects.filter(name=user.participant_id):
                 device.send_message("", extra={
-                    'aps': {
-                        'mutable-content': 1,
-                        'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
-                        },
-                        'sound': 'default',
-                        'badge': 1
-                    }
+                    'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                    'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
                 })
     user.save()
 
@@ -223,16 +216,9 @@ def update_status_of_user_archived(request, participant_id):
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 device.send_message("", extra={
-                    'aps': {
-                        'mutable-content': 1,
-                        'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_ARCHIVED_BODY'
-                        },
-                        'sound': 'default',
-                        'badge': 1
-                    }
-                })
+                    'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
+                    'body': 'NOTIFICATION_ACCOUNT_ARCHIVED_BODY'
+               })
     user.save()
 
     users = Users.objects.all()
@@ -266,15 +252,8 @@ def update_status_of_user_phase2(request, participant_id):
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 device.send_message("", extra={
-                    'aps': {
-                        'mutable-content': 1,
-                        'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
-                        },
-                        'sound': 'default',
-                        'badge': 1
-                    }
+                    'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
+                    'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
                 })
     user.save()
 
