@@ -17,18 +17,19 @@ from .functions import handle_product_reviews
 from datetime import datetime
 from datetime import timedelta
 from push_notifications.models import APNSDevice, 
-    user = Users.objects.get(participant_id='4444444444444')
 
-    if user.platform == 'android':
-      for device in GCMDevice.objects.filter(name=user.participant_id):
-        device.send_message("", extra={
-            'aps': {
-                'mutable-content': 1,
-                'alert': {
-                    'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
-                    'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
-                },
-                'sound': 'default',
-                'badge': 1
-            }
-        })
+user = Users.objects.get(participant_id='4444444444444')
+
+if user.platform == 'android':
+  for device in GCMDevice.objects.filter(name=user.participant_id):
+    device.send_message("", extra={
+        'aps': {
+            'mutable-content': 1,
+            'alert': {
+                'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
+            },
+            'sound': 'default',
+            'badge': 1
+        }
+    })
