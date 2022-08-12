@@ -14,7 +14,7 @@ urlpatterns = [
     path('update_status_of_user/<str:participant_id>/',
          views.update_status_of_user, name='GoodnessGroceries-update_status_of_user'),
     path('update_status_of_user_archived/<str:participant_id>/',
-         views.update_status_of_user_archived, name='GoodnessGroceries-update_status_of_user_deleted'),
+         views.update_status_of_user_archived, name='GoodnessGroceries-update_status_of_user_archived'),
     path('update_status_of_user_deleted/<str:participant_id>/',
          views.update_status_of_user_deleted, name='GoodnessGroceries-update_status_of_user_deleted'),
     path('update_status_of_user_phase2/<str:participant_id>/',
