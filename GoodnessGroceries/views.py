@@ -261,6 +261,7 @@ def update_status_of_user_deleted(request, participant_id):
                         'badge': 1
                     }
                 })
+                device.delete()
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 device.send_message("", extra={
@@ -274,6 +275,11 @@ def update_status_of_user_deleted(request, participant_id):
                         'badge': 1
                     }            
                 })
+                device.delete()
+        for review in ProductReviews.objects.filter(participant_id=user.participant_id):
+            review.delete()
+        for ticket in CashierTicketProducts.objects.filter(participant_id=user.participant_id):
+            ticket.delete()
         user.delete()
 
     users = Users.objects.all()
