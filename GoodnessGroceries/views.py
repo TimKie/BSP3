@@ -244,6 +244,48 @@ def update_status_of_user_archived(request, participant_id):
 
     return render(request, 'GoodnessGroceries/user_overview.html', context)
 
+def update_status_of_user_deleted(request, participant_id):
+    user = Users.objects.get(participant_id=participant_id)
+    
+    if user.status == 'archived':   
+        if user.platform == 'ios':
+            for device in APNSDevice.objects.filter(name=user.participant_id):
+                device.send_message("", extra={
+                    'aps': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_DELETED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_DELETED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }
+                })
+        elif user.platform == 'android':
+            for device in GCMDevice.objects.filter(name=user.participant_id):
+                device.send_message("", extra={
+                      'aps': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_ARCHIVED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }            
+                })
+    user.delete()
+
+    users = Users.objects.all()
+
+    myFilter = UserFilter(request.GET, queryset=users)
+    users = myFilter.qs.order_by('participant_id')
+
+    context = {'users': users, 'myFilter': myFilter}
+
+    return render(request, 'GoodnessGroceries/user_overview.html', context)
+
+
 # update the phase2 date of the user with the corresponding participant_id by clicking a button
 def update_status_of_user_phase2(request, participant_id):
     user = Users.objects.get(participant_id=participant_id)
