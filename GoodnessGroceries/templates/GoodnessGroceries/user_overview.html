@@ -73,7 +73,7 @@
                                 </form>
                                  <form action="{% url 'GoodnessGroceries-update_status_of_user_deleted' user.participant_id %}" method=POST>
                                     {% csrf_token %}
-                                        <button class="btn btn-warning btn-sm" type="submit">Delete</button>
+                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                 </form>
                             </td>
                         {% endif %}
