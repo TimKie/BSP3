@@ -221,6 +221,8 @@ def update_status_of_user_archived(request, participant_id):
                             'badge': 1
                         }
                     })
+                except:
+                    pass
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 try:
@@ -235,6 +237,8 @@ def update_status_of_user_archived(request, participant_id):
                             'badge': 1
                         }            
                     })
+                except:
+                    pass
     user.save()
 
     users = Users.objects.all()
