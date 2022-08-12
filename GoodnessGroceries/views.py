@@ -250,31 +250,9 @@ def update_status_of_user_deleted(request, participant_id):
     if user.status == 'archived':   
         if user.platform == 'ios':
             for device in APNSDevice.objects.filter(name=user.participant_id):
-                device.send_message("", extra={
-                    'aps': {
-                        'mutable-content': 1,
-                        'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_DELETED_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_DELETED_BODY'
-                        },
-                        'sound': 'default',
-                        'badge': 1
-                    }
-                })
                 device.delete()
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
-                device.send_message("", extra={
-                      'aps': {
-                        'mutable-content': 1,
-                        'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_DELETED_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_DELETED_BODY'
-                        },
-                        'sound': 'default',
-                        'badge': 1
-                    }            
-                })
                 device.delete()
         for review in ProductReviews.objects.filter(participant_id=user.participant_id):
             review.delete()
