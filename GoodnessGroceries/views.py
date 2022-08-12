@@ -267,14 +267,14 @@ def update_status_of_user_deleted(request, participant_id):
                       'aps': {
                         'mutable-content': 1,
                         'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_ARCHIVED_BODY'
+                            'title': 'NOTIFICATION_ACCOUNT_DELETED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_DELETED_BODY'
                         },
                         'sound': 'default',
                         'badge': 1
                     }            
                 })
-    user.delete()
+        user.delete()
 
     users = Users.objects.all()
 
