@@ -69,7 +69,11 @@
                             <td style="text-align:right">
                                 <form action="{% url 'GoodnessGroceries-update_status_of_user' user.participant_id %}" method=POST>
                                     {% csrf_token %}
-                                        <button class="btn btn-success btn-sm" type="submit">Validate</button>
+                                        <button class="btn btn-warning btn-sm" type="submit">Archive</button>
+                                </form>
+                                 <form action="{% url 'GoodnessGroceries-update_status_of_user_deleted' user.participant_id %}" method=POST>
+                                    {% csrf_token %}
+                                        <button class="btn btn-warning btn-sm" type="submit">Delete</button>
                                 </form>
                             </td>
                         {% endif %}
