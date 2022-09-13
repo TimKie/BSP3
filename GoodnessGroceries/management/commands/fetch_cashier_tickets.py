@@ -13,12 +13,12 @@ class Command(BaseCommand):
         # TODO: configuration of the CSV file
         date_column = 0
         time_column = 1
-        participant_column = 2
-        product_ref_column = 3
-        product_column = 4
-        quantity_column = 5
-        price_column = 6
-        store_column = 7
+        participant_column = 11
+        product_ref_column = 5
+        product_column = 6
+        quantity_column = 7
+        price_column = 8
+        store_column = 3
                         
         directory = '/home/admin/tickets'
         directory_done = '/home/admin/tickets_fetched'
