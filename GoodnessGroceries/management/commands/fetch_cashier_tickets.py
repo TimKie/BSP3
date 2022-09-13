@@ -28,6 +28,7 @@ class Command(BaseCommand):
             if os.path.isfile(f):
                 file = open(f, 'r') 
                 cr = csv.reader(file, delimiter=';')
+                print(cr)
                 header = next(cr)
                 if header != None:
                     for row in cr:
