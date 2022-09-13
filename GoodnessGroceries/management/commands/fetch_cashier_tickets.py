@@ -26,7 +26,7 @@ class Command(BaseCommand):
             f = os.path.join(directory, filename)
             # checking if it is a file
             if os.path.isfile(f):
-                file = open(f, 'r', encoding ='utf-8') 
+                file = open(f, 'r') 
                 cr = csv.reader(file, delimiter=';')
                 print(cr)
                 header = next(cr)
