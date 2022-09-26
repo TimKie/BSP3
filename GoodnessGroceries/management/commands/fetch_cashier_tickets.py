@@ -40,7 +40,6 @@ class Command(BaseCommand):
                         except Users.DoesNotExist:
                             continue
                         try:
-                            print(
                             product_ean = StaticProducts.objects.only('code').get(code=row[product_ref_column])
                         except StaticProducts.DoesNotExist:
                             continue
