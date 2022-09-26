@@ -484,7 +484,7 @@ def static_products_upload(request):
         data_set = uploaded_file.read().decode('UTF-8')
         io_string = io.StringIO(data_set)
         next(io_string)
-        for column in csv.reader(io_string, delimiter=','):
+        for column in csv.reader(io_string, delimiter=';'):
             _, created = StaticProducts.objects.update_or_create(
                 code=column[0],
                 name=column[1],
