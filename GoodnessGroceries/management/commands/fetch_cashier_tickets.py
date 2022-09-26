@@ -25,7 +25,7 @@ class Command(BaseCommand):
         for filename in os.listdir(directory):
             f = os.path.join(directory, filename)
             # checking if it is a file
-            if os.path.isfile(f):
+            if os.path.isfile(f) && os.path.splitext(f)=='.csv':
                 file = open(f, 'r', encoding="latin-1") 
                 cr = csv.reader(file, delimiter=';')
                 print(cr)
@@ -73,3 +73,7 @@ class Command(BaseCommand):
                         pass
                 file.close()
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
+            else:
+                file.close()
+                os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
+                
