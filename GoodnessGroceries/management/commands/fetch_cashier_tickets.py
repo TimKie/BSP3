@@ -74,6 +74,6 @@ class Command(BaseCommand):
                 file.close()
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
             else:
-                print(f)
+                print(os.path.splitext(f))
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
                 
