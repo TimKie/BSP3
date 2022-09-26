@@ -1,10 +1,12 @@
 from django.core.management.base import BaseCommand
-from GoodnessGroceries.models import CashierTicketProducts, Users
+from GoodnessGroceries.models import CashierTicketProducts, Users, StaticProducts
 import os
 import csv
 from push_notifications.models import APNSDevice, GCMDevice
 import os.path
 from os import path
+
+
 
 class Command(BaseCommand):
     help = 'Fetch cashier tickets from URL, import to database and send push notifications to available devices'
