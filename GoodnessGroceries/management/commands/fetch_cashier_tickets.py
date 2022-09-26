@@ -36,12 +36,12 @@ class Command(BaseCommand):
                     for row in cr:
                         print(row)
                         try:
-                            participant = Users.objects.only(
-                                'participant_id').get(participant_id='2200000'+row[participant_column])
+                            participant = Users.objects.only('participant_id').get(participant_id='2200000'+row[participant_column])
                         except Users.DoesNotExist:
                             continue
                         try:
-                            product_ean = StaticProducts.objects.only('code').get(row[product_ref_column])
+                            print(
+                            product_ean = StaticProducts.objects.only('code').get(code=row[product_ref_column])
                         except StaticProducts.DoesNotExist:
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
