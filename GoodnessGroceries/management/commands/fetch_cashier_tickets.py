@@ -74,7 +74,7 @@ class Command(BaseCommand):
                             })
                         print(list(map(lambda x: str(x), products)))
                     elif participant.platform == 'android':
-                        for device in GCMDevice.objects.filter(name=user.participant_id):
+                        for device in GCMDevice.objects.filter(name=participant.participant_id):
                             try:    
                                 device.send_message("", extra={
                                     'aps': {
