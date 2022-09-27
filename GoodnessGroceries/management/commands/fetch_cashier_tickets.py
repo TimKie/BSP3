@@ -30,7 +30,6 @@ class Command(BaseCommand):
             if os.path.isfile(f) and os.path.splitext(f)[1]=='.csv':
                 file = open(f, 'r', encoding="latin-1") 
                 cr = csv.reader(file, delimiter=';')
-                print(cr)
                 header = next(cr)
                 if header != None:
                     for row in cr:
@@ -45,7 +44,7 @@ class Command(BaseCommand):
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'):
-                            if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).first()!=None:
+                            if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).first() == None:
                                 ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
                 productsToReview = {}
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False).distinct('participant', 'product_ean'):
