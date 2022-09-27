@@ -52,7 +52,8 @@ class Command(BaseCommand):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
                     productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
-                    cashier_ticket.update(notified=True)
+                    cashier_ticket.notified=True
+                    cashier_ticket.save()
 
                 for participant, products in productsToReview.items():
                     participant = Users.objects.get(participant_id=participant)
