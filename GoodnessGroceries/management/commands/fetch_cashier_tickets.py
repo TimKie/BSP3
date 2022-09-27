@@ -45,13 +45,13 @@ class Command(BaseCommand):
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'):
-                            ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
+                            if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).first()!=None:
+                                ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
                 productsToReview = {}
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
-                    productsToReview[cashier_ticket.participant.participant_id].append(
-                        cashier_ticket.product_ean)
+                    productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
 
                 for participant, products in productsToReview.items():
                     participant = Users.objects.get(participant_id=participant)
