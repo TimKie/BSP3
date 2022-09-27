@@ -43,7 +43,7 @@ class Command(BaseCommand):
                         except StaticProducts.DoesNotExist:
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
-                        print(participant.status)
+                        print(participant.phase2_date.strftime('%Y-%m-%d'))
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'):
                             if CashierTicketProducts.objects.filter(participant=participant_id,product_ean=product_ean).count() <=2:
                                 ticket = CashierTicketProducts.objects.create(participant=participant_id, timestamp=timestamp, product_ean=product_ean)
