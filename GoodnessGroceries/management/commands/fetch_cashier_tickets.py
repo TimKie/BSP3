@@ -74,6 +74,7 @@ class Command(BaseCommand):
                                 'products': list(map(lambda x: str(x), products))
                             })
                         print(list(map(lambda x: str(x), products)))
+                        
                     elif participant.platform == 'android':
                         for device in GCMDevice.objects.filter(name=participant.participant_id):
                             try:    
@@ -86,8 +87,10 @@ class Command(BaseCommand):
                                         },
                                         'sound': 'default',
                                         'badge': len(products)
-                                    }
+                                    },
+                                    'products': list(map(lambda x: str(x), products))
                                 })
+                                print(list(map(lambda x: str(x), products)))
                             except:
                                 pass
                 file.close()
