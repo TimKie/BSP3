@@ -44,8 +44,8 @@ class Command(BaseCommand):
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
                         print(participant.status == 'valid')
-                        print(participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'))
-                        print(participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'))
+                        print(participant.phase2_date.strftime('%Y-%m-%d'))
+                        print((datetime.now()).strftime('%Y-%m-%d'))
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'):
                             print(CashierTicketProducts.objects.filter(participant=participant_id,product_ean=product_ean).count())
                             if CashierTicketProducts.objects.filter(participant=participant_id,product_ean=product_ean).count() <=2:
