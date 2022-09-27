@@ -177,11 +177,11 @@ def update_status_of_user(request, participant_id):
         elif user.platform == 'android':
              for device in GCMDevice.objects.filter(name=user.participant_id):
                 try:    
-                    device.send_message("", extra={
+                    device.send_message("'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'", extra={
+                        'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
                         'aps': {
                             'mutable-content': 1,
-                            'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY',
+                            'body': ,
                             'sound': 'default',
                             'badge': 1
                         }
