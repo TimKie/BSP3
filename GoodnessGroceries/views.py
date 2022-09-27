@@ -177,11 +177,13 @@ def update_status_of_user(request, participant_id):
         elif user.platform == 'android':
              for device in GCMDevice.objects.filter(name=user.participant_id):
                 try:    
-                    device.send_message("'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'", extra={
-                        'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                    device.send_message("", extra={
                         'aps': {
                             'mutable-content': 1,
-                            'body': ,
+                            'alert': {
+                                'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                                'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
+                            },
                             'sound': 'default',
                             'badge': 1
                         }
@@ -338,8 +340,8 @@ def update_status_of_user_phase2(request, participant_id):
                         'badge': 1
                     }
                 })
-    user.save()
-
+    user.save()   
+        
     users = Users.objects.all()
 
     myFilter = UserFilter(request.GET, queryset=users)
