@@ -35,7 +35,7 @@ class Command(BaseCommand):
                     for row in cr:
                         print(row)
                         try:
-                            participant = Users.objects.only('participant_id').get(participant_id__contains=row[participant_column])
+                            participant = Users.objects.get(participant_id__contains=row[participant_column])
                         except Users.DoesNotExist:
                             continue
                         try:
@@ -45,16 +45,16 @@ class Command(BaseCommand):
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
                         print(participant)
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') >= (datetime.now()).strftime('%Y-%m-%d'):
-                            if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count() <=2:
-                                ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
+                            if CashierTicketProducts.objects.filter(participant=participant_id,product_ean=product_ean).count() <=2:
+                                ticket = CashierTicketProducts.objects.create(participant=participant_id, timestamp=timestamp, product_ean=product_ean)
                 productsToReview = {}
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
                     productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
 
-                for participant, products in productsToReview.items():
-                    participant = Users.objects.get(participant_id=participant)
+                for participant_id, products in productsToReview.items():
+                    participant = Users.objects.get(participant_id=participant_id)
 
                     if participant.platform == 'ios':
                         for device in APNSDevice.objects.filter(name=participant.participant_id):
