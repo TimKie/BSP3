@@ -74,8 +74,21 @@ class Command(BaseCommand):
                             })
                         print(list(map(lambda x: str(x), products)))
                     elif participant.platform == 'android':
-                        # TODO
-                        pass
+                        for device in GCMDevice.objects.filter(name=user.participant_id):
+                            try:    
+                                device.send_message("", extra={
+                                    'aps': {
+                                        'mutable-content': 1,
+                                        'alert': {
+                                            'title': 'NOTIFICATION_REVIEW_PRODUCTS_TITLE',
+                                            'body': 'NOTIFICATION_REVIEW_PRODUCTS_BODY'
+                                        },
+                                        'sound': 'default',
+                                        'badge': len(products)
+                                    }
+                                })
+                            except:
+                                pass
                 file.close()
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
             else:
