@@ -36,7 +36,7 @@ class Command(BaseCommand):
                     for row in cr:
                         print(row)
                         try:
-                            participant = Users.objects.only('participant_id').get(participant_id='2200000'+row[participant_column])
+                            participant = Users.objects.only('participant_id').get(participant_id[7:11]=row[participant_column])
                         except Users.DoesNotExist:
                             continue
                         try:
