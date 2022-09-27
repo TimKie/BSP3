@@ -180,10 +180,8 @@ def update_status_of_user(request, participant_id):
                     device.send_message("", extra={
                         'aps': {
                             'mutable-content': 1,
-                            'alert': {
-                                'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
-                                'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY'
-                            },
+                            'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_BODY',
                             'sound': 'default',
                             'badge': 1
                         }
@@ -334,10 +332,8 @@ def update_status_of_user_phase2(request, participant_id):
                 device.send_message("", extra={
                     'aps': {
                         'mutable-content': 1,
-                        'alert': {
-                            'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
-                            'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
-                        },
+                        'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
+                        'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY',
                         'sound': 'default',
                         'badge': 1
                     }
