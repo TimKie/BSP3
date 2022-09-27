@@ -5,7 +5,7 @@ import csv
 from push_notifications.models import APNSDevice, GCMDevice
 import os.path
 from os import path
-import datetime
+from datetime import datetime
 
 
 class Command(BaseCommand):
