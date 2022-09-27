@@ -48,7 +48,8 @@ class CashierTicketProducts(models.Model):
     timestamp = models.DateTimeField(null=True, blank=True)
     product_ean = models.BigIntegerField()
     reviewed = models.BooleanField(default=False)
-
+    notified = models.BooleanField(default=False)
+    
     class Meta:
         verbose_name = 'Cashier Ticket Product'
         verbose_name_plural = 'Cashier Ticket Products'
