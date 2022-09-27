@@ -54,7 +54,7 @@ class Command(BaseCommand):
                     productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
 
                 for participant, products in productsToReview.items():
-                    participant = Users.objects.get(participant_id=participant_id)
+                    participant = Users.objects.get(participant_id=participant)
 
                     if participant.platform == 'ios':
                         for device in APNSDevice.objects.filter(name=participant.participant_id):
