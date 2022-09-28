@@ -333,7 +333,7 @@ def update_status_of_user_phase2(request, participant_id):
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 device.send_message("", extra={
                     'data': {
-                        'id'=1,
+                        'id':1,
                         'mutable-content': 1,
                         'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
                         'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY',
