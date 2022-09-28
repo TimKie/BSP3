@@ -334,8 +334,10 @@ def update_status_of_user_phase2(request, participant_id):
                 device.send_message(None, extra={
                     'data': {
                         'mutable-content': 1,
-                        'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
-                        'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY',
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY'
+                        },
                         'sound': 'default',
                         'badge': 1
                     }
