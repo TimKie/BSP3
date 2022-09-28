@@ -177,8 +177,8 @@ def update_status_of_user(request, participant_id):
         elif user.platform == 'android':
              for device in GCMDevice.objects.filter(name=user.participant_id):
                 try:    
-                    device.send_message("", extra={
-                        'aps': {
+                    device.send_message(None, extra={
+                        'data': {
                             'mutable-content': 1,
                             'alert': {
                                 'title': 'NOTIFICATION_ACCOUNT_AUTHENTICATED_TITLE',
@@ -232,8 +232,8 @@ def update_status_of_user_archived(request, participant_id):
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 try:
-                    device.send_message("", extra={
-                          'aps': {
+                    device.send_message(None, extra={
+                        'data': {
                             'mutable-content': 1,
                             'alert': {
                                 'title': 'NOTIFICATION_ACCOUNT_ARCHIVED_TITLE',
@@ -241,7 +241,7 @@ def update_status_of_user_archived(request, participant_id):
                             },
                             'sound': 'default',
                             'badge': 1
-                        }            
+                        }
                     })
                 except:
                     pass
@@ -280,17 +280,17 @@ def update_status_of_user_deleted(request, participant_id):
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
                 try:
-                    device.send_message("", extra={
-                          'aps': {
-                            'mutable-content': 1,
-                            'alert': {
-                                'title': 'NOTIFICATION_ACCOUNT_DELETED_TITLE',
-                                'body': 'NOTIFICATION_ACCOUNT_DELETED_BODY'
-                            },
-                            'sound': 'default',
-                            'badge': 1
-                        }            
-                    })
+                    device.send_message(None, extra={
+                    'data': {
+                        'mutable-content': 1,
+                        'alert': {
+                            'title': 'NOTIFICATION_ACCOUNT_DELETED_TITLE',
+                            'body': 'NOTIFICATION_ACCOUNT_DELETED_BODY'
+                        },
+                        'sound': 'default',
+                        'badge': 1
+                    }
+                })
                 except:
                     pass
                 device.delete()
@@ -331,7 +331,8 @@ def update_status_of_user_phase2(request, participant_id):
                 })
         elif user.platform == 'android':
             for device in GCMDevice.objects.filter(name=user.participant_id):
-                device.send_message(None, extra={
+                try:
+                    device.send_message(None, extra={
                     'data': {
                         'mutable-content': 1,
                         'alert': {
@@ -342,6 +343,8 @@ def update_status_of_user_phase2(request, participant_id):
                         'badge': 1
                     }
                 })
+                except:
+                    pass
     user.save()   
         
     users = Users.objects.all()
