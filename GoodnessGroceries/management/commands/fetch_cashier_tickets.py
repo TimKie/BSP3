@@ -77,17 +77,17 @@ class Command(BaseCommand):
                     elif participant.platform == 'android':
                         for device in GCMDevice.objects.filter(name=participant.participant_id):
                             try:    
-                                device.send_message("", extra={
-                                    'aps': {
+                                 device.send_message(None, extra={
+                                    'data': {
                                         'mutable-content': 1,
                                         'alert': {
                                             'title': 'NOTIFICATION_REVIEW_PRODUCTS_TITLE',
                                             'body': 'NOTIFICATION_REVIEW_PRODUCTS_BODY'
                                         },
                                         'sound': 'default',
-                                        'badge': len(products)
-                                    },
-                                    'products': list(map(lambda x: str(x), products))
+                                        'badge': len(products),
+                                        'products': list(map(lambda x: str(x), products))
+                                    }
                                 })
                                 print(list(map(lambda x: str(x), products)))
                             except:
