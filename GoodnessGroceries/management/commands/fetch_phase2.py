@@ -26,8 +26,8 @@ class Command(BaseCommand):
                     elif user.platform == 'android':
                        for device in GCMDevice.objects.filter(name=user.participant_id):
                             try:    
-                                device.send_message("", extra={
-                                    'aps': {
+                                device.send_message(None, extra={
+                                    'data': {
                                         'mutable-content': 1,
                                         'alert': {
                                             'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
