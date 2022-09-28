@@ -337,7 +337,7 @@ def update_status_of_user_phase2(request, participant_id):
                         'title': 'NOTIFICATION_ACCOUNT_PHASE2_TITLE',
                         'body': 'NOTIFICATION_ACCOUNT_PHASE2_BODY',
                         'sound': 'default',
-                        'badge': 1
+                        'badge': 1,
                         'priority': 'high'
                     }
                 })
