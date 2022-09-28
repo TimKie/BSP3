@@ -77,7 +77,7 @@ class Command(BaseCommand):
                     elif participant.platform == 'android':
                         for device in GCMDevice.objects.filter(name=participant.participant_id):
                             try:    
-                                 device.send_message(None, extra={
+                                device.send_message(None, extra={
                                     'data': {
                                         'mutable-content': 1,
                                         'alert': {
