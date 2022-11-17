@@ -722,5 +722,6 @@ class RequestUserAccess(APIView):
             participant_id=request.data['participant_id'])
         if user.participant_id[0:1] == '9':
             user.status = 'valid'
+            user.save() 
         serializer = UsersStatusSerializer(user, many=False)
         return Response(serializer.data)
