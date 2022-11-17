@@ -39,7 +39,7 @@
                             <td style="text-align:center; color: #3498db">{{user.phase1_date}}</td> 
                             <td style="text-align:center; color: #3498db">{{user.phase2_date}}</td> 
                             <td style="text-align:right">
-                                {% if user.participant_id[0;1] != '9' %}
+                                {% if user.participant_id[0:1] != '9' %}
                                     <form action="{% url 'GoodnessGroceries-update_status_of_user_phase2' user.participant_id %}" method=POST>
                                         {% csrf_token %}
                                             <button class="btn btn-info btn-sm" type="submit">Phase 2</button>
