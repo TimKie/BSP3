@@ -93,7 +93,7 @@ class Command(BaseCommand):
                             except:
                                 pass
                 file.close()
-                os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
+                os.rename(os.path.join(directory, filename), os.path.join(directory_done, datetime.now().strftime('%Y%m%d%H%M%S') + filename))
             else:
                 print(os.path.splitext(f))
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
