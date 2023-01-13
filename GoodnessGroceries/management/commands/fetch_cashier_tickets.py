@@ -47,8 +47,6 @@ class Command(BaseCommand):
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[hour_column]+':'+row[minute_column]+':00'
                         datestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') <= (datetime.now()).strftime('%Y-%m-%d') and participant.phase2_date.strftime('%Y-%m-%d') <= datestamp:
-                            print(participant.phase2_date.strftime('%Y-%m-%d'))
-                            print(datestamp)
                             if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count() <2 and CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean,timestamp=timestamp).first() == None:
                                 ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
                 productsToReview = {}
