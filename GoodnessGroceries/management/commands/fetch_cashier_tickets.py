@@ -14,13 +14,15 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # TODO: configuration of the CSV file
         date_column = 0
-        time_column = 1
-        participant_column = 11
+        hour_column = 1
+        minute_column = 2
+        participant_column = 12
         product_ref_column = 5
         product_column = 6
         quantity_column = 7
-        price_column = 8
-        store_column = 3
+        price_column = 9
+        store_column = 4
+        ticket_number_column = 3
                         
         directory = '/home/admin/tickets'
         directory_done = '/home/admin/tickets_fetched'
@@ -42,7 +44,7 @@ class Command(BaseCommand):
                             product_ean = StaticProducts.objects.only('code').get(code=row[product_ref_column]).code
                         except StaticProducts.DoesNotExist:
                             continue
-                        timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[time_column][0:2]+':'+row[time_column][3:5]+':'+row[time_column][6:8]
+                        timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[hour_column]+':'+row[minute_column]+':00'
                         if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') <= (datetime.now()).strftime('%Y-%m-%d'):
                             print(CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count())
                             if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count() <2 and CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean,timestamp=timestamp).first() == None:
