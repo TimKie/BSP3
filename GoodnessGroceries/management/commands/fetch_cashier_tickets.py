@@ -17,8 +17,7 @@ class Command(BaseCommand):
         hour_column = 1
         minute_column = 2
         participant_column = 12
-        product_ref_column = 5
-        product_column = 6
+        product_ref_column = 6
         quantity_column = 7
         price_column = 9
         store_column = 4
