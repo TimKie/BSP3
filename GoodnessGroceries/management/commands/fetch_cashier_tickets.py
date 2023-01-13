@@ -46,19 +46,16 @@ class Command(BaseCommand):
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[hour_column]+':'+row[minute_column]+':00'
                         datestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]
-                        if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') <= (datetime.now()).strftime('%Y-%m-%d') and participant.phase1_date.strftime('%Y-%m-%d') <= datestamp:
+                        if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') <= (datetime.now()).strftime('%Y-%m-%d') and participant.phase2_date.strftime('%Y-%m-%d') <= datestamp:
                             if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count() <2 and CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean,timestamp=timestamp).first() == None:
                                 ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
                 productsToReview = {}
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False, notified=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
-                    print('test')
-                    print(cashier_ticket.timestamp.strftime('%Y-%m-%d'))
-                    if participant.phase2_date.strftime('%Y-%m-%d') <= cashier_ticket.timestamp.strftime('%Y-%m-%d'):
-                        productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
-                        cashier_ticket.notified=True
-                        cashier_ticket.save()
+                    productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
+                    cashier_ticket.notified=True
+                    cashier_ticket.save()
                 for participant, products in productsToReview.items():
                     participant = Users.objects.get(participant_id=participant)
 
@@ -97,7 +94,7 @@ class Command(BaseCommand):
                             except:
                                 pass
                 file.close()
-                # os.rename(os.path.join(directory, filename), os.path.join(directory_done, datetime.now().strftime('%Y%m%d%H%M%S') + filename))
+                os.rename(os.path.join(directory, filename), os.path.join(directory_done, datetime.now().strftime('%Y%m%d%H%M%S') + filename))
             else:
                 print(os.path.splitext(f))
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
