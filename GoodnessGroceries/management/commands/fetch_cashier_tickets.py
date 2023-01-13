@@ -59,7 +59,7 @@ class Command(BaseCommand):
                 for participant, products in productsToReview.items():
                     participant = Users.objects.get(participant_id=participant)
 
-                    if participant.platform == 'iosw':
+                    if participant.platform == 'ios':
                         for device in APNSDevice.objects.filter(name=participant.participant_id):
                             device.send_message("", extra={
                                 'aps': {
