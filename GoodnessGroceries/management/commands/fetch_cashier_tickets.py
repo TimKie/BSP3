@@ -6,6 +6,7 @@ from push_notifications.models import APNSDevice, GCMDevice
 import os.path
 from os import path
 from datetime import datetime
+from django.utils import timezone
 
 
 class Command(BaseCommand):
@@ -52,8 +53,9 @@ class Command(BaseCommand):
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False, notified=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
-                    print(cashier_ticket.timestamp.strftime('%Y-%m-%d'))
-                    if participant.phase2_date.strftime('%Y-%m-%d') <= cashier_ticket.timestamp.strftime('%Y-%m-%d'):
+                    aware_ticket_datetime = timezone.make_aware(cashier_ticket.timestamp)
+                    print(aware_ticket_datetime.strftime('%Y-%m-%d'))
+                    if participant.phase2_date.strftime('%Y-%m-%d') <= aware_ticket_datetime.strftime('%Y-%m-%d'):
                         productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
                         cashier_ticket.notified=True
                         cashier_ticket.save()
