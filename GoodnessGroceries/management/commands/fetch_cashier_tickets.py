@@ -45,7 +45,8 @@ class Command(BaseCommand):
                         except StaticProducts.DoesNotExist:
                             continue
                         timestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]+' '+row[hour_column]+':'+row[minute_column]+':00'
-                        if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') <= (datetime.now()).strftime('%Y-%m-%d'):
+                        datestamp = row[date_column][0:4]+'-'+row[date_column][4:6]+'-'+row[date_column][6:8]
+                        if participant.status == 'valid' and participant.phase2_date.strftime('%Y-%m-%d') <= (datetime.now()).strftime('%Y-%m-%d') and participant.phase1_date.strftime('%Y-%m-%d') <= datetime.strptime(datestamp, '%Y-%m-%d'):
                             print(CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count())
                             if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count() <2 and CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean,timestamp=timestamp).first() == None:
                                 ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
@@ -53,9 +54,10 @@ class Command(BaseCommand):
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False, notified=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
-                    productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
-                    cashier_ticket.notified=True
-                    cashier_ticket.save()
+                    if participant.phase2_date.strftime('%Y-%m-%d') <= datetime.strptime(datestamp, '%Y-%m-%d'):
+                        productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
+                        cashier_ticket.notified=True
+                        cashier_ticket.save()
 
                 for participant, products in productsToReview.items():
                     participant = Users.objects.get(participant_id=participant)
