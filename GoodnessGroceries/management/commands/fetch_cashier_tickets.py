@@ -53,6 +53,7 @@ class Command(BaseCommand):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
                     if participant.phase2_date.strftime('%Y-%m-%d') <= cashier_ticket.timestamp.strftime('%Y-%m-%d'):
+                        print(cashier_ticket.id+"notified")
                         productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
                         cashier_ticket.notified=True
                         cashier_ticket.save()
