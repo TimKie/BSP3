@@ -53,7 +53,6 @@ class Command(BaseCommand):
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False, notified=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
-                    aware_ticket_datetime = timezone.make_aware(cashier_ticket.timestamp)
                     print(aware_ticket_datetime.strftime('%Y-%m-%d'))
                     if participant.phase2_date.strftime('%Y-%m-%d') <= aware_ticket_datetime.strftime('%Y-%m-%d'):
                         productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
@@ -62,7 +61,7 @@ class Command(BaseCommand):
                 for participant, products in productsToReview.items():
                     participant = Users.objects.get(participant_id=participant)
 
-                    if participant.platform == 'ios':
+                    if participant.platform == 'iosw':
                         for device in APNSDevice.objects.filter(name=participant.participant_id):
                             device.send_message("", extra={
                                 'aps': {
@@ -97,7 +96,7 @@ class Command(BaseCommand):
                             except:
                                 pass
                 file.close()
-                os.rename(os.path.join(directory, filename), os.path.join(directory_done, datetime.now().strftime('%Y%m%d%H%M%S') + filename))
+                # os.rename(os.path.join(directory, filename), os.path.join(directory_done, datetime.now().strftime('%Y%m%d%H%M%S') + filename))
             else:
                 print(os.path.splitext(f))
                 os.rename(os.path.join(directory, filename), os.path.join(directory_done, filename))
