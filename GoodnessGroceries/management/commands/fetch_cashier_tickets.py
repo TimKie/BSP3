@@ -50,6 +50,7 @@ class Command(BaseCommand):
                             print(participant.phase2_date.strftime('%Y-%m-%d'))
                             print('<=')
                             print(datestamp)
+                            print(participant.phase2_date.strftime('%Y-%m-%d')<=datestamp)
                             if CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean).count() <2 and CashierTicketProducts.objects.filter(participant=participant,product_ean=product_ean,timestamp=timestamp).first() == None:
                                 ticket = CashierTicketProducts.objects.create(participant=participant, timestamp=timestamp, product_ean=product_ean)
                 productsToReview = {}
