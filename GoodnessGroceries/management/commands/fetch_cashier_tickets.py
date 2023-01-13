@@ -53,6 +53,7 @@ class Command(BaseCommand):
                 for cashier_ticket in CashierTicketProducts.objects.filter(reviewed=False, notified=False).distinct('participant', 'product_ean'):
                     if not cashier_ticket.participant.participant_id in productsToReview:
                         productsToReview[cashier_ticket.participant.participant_id] = []
+                    print('test')
                     print(cashier_ticket.timestamp.strftime('%Y-%m-%d'))
                     if participant.phase2_date.strftime('%Y-%m-%d') <= cashier_ticket.timestamp.strftime('%Y-%m-%d'):
                         productsToReview[cashier_ticket.participant.participant_id].append(cashier_ticket.product_ean)
