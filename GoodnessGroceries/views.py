@@ -365,7 +365,7 @@ def update_status_of_user_phase2(request, participant_id):
 @login_required()
 def product_reviews_overview(request):
     prod_reviews = ProductReviews.objects.all()
-
+    static_indicators = StaticIndicators.objects.all()
     myFilter = ProductReviewsFilter(request.GET, queryset=prod_reviews)
     prod_reviews = myFilter.qs
 
