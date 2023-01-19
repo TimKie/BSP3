@@ -2,7 +2,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.views.generic import View
-from django import template
 import io
 import os
 from glob import glob
@@ -363,11 +362,6 @@ def update_status_of_user_phase2(request, participant_id):
 
 
 # ------------------------------------------ Filter Product Reviews ----------------------------------------------------
-register = template.Library()
-
-@register.filter
-def in_category(things, ind_id):
-    return things.filter(id=ind_id)
 
 @login_required()
 def product_reviews_overview(request):
