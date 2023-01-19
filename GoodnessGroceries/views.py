@@ -16,7 +16,7 @@ from .functions import handle_product_reviews
 from datetime import datetime
 from datetime import timedelta
 from push_notifications.models import APNSDevice, GCMDevice
-
+register = template.Library()
 # ----------- import csv a file and convert it into a list of dictionaries --------------------
 import csv
 
@@ -362,7 +362,7 @@ def update_status_of_user_phase2(request, participant_id):
 
 
 # ------------------------------------------ Filter Product Reviews ----------------------------------------------------
-@login_required()
+@register.filter
 def in_category(things, ind_id):
     return things.filter(id=ind_id)
 
