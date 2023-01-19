@@ -49,31 +49,29 @@
     <br>
     {% load in_category %}
     {% for prod_review in prod_reviews %}
-        {% for static_indicator in static_indicators|in_category:prod_review %}
-            <article class="content-section">
-                <div>
-                    <h2 style="white-space: pre">Participant ID: {{ prod_review.participant_id }}</h2>
-                    <br>
-                        <h6>Timestamp: {{ prod_review.timestamp }}</h6>
-                        <h6>Product Ean: {{ prod_review.product_ean }}</h6>
-                        <!-- sources of indicator icons are dynamic, they depend on the id of the indicators -->
-                        {% if prod_review.selected_indicator_main_id %}
-                           <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>StaticIndicators</h6>
-                        {% else %}
-                           <h6>Selected Main Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
-                        {% endif %}
-                        {% if prod_review.selected_indicator_secondary_id %}
-                            <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_secondary_id }}.svg"/></h6>
-                        {% else %}
-                           <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
-                        {% endif %}
-                        <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"/> </h6>
-                        {% if prod_review.free_text_indicator %}
-                            <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
-                        {% endif %}
-                </div>
-            </article>
-        {% endfor %}
+        <article class="content-section">
+            <div>
+                <h2 style="white-space: pre">Participant ID: {{ prod_review.participant_id }}</h2>
+                <br>
+                    <h6>Timestamp: {{ prod_review.timestamp }}</h6>
+                    <h6>Product Ean: {{ prod_review.product_ean }}</h6>
+                    <!-- sources of indicator icons are dynamic, they depend on the id of the indicators -->
+                    {% if prod_review.selected_indicator_main_id %}
+                       <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>StaticIndicators</h6>
+                    {% else %}
+                       <h6>Selected Main Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
+                    {% endif %}
+                    {% if prod_review.selected_indicator_secondary_id %}
+                        <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_secondary_id }}.svg"/></h6>
+                    {% else %}
+                       <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
+                    {% endif %}
+                    <h6>Price Checkbox Selected: <img src="{% static '' %}icons/{{ prod_review.price_checkbox_selected }}.svg"/> </h6>
+                    {% if prod_review.free_text_indicator %}
+                        <h6>Review Text: {{ prod_review.free_text_indicator }}</h6>
+                    {% endif %}
+            </div>
+        </article>
     {% endfor %}
 {% endblock content %}
 
