@@ -362,7 +362,7 @@ def update_status_of_user_phase2(request, participant_id):
 
 
 # ------------------------------------------ Filter Product Reviews ----------------------------------------------------
-@register.filter
+@login_required()
 def in_category(things, ind_id):
     return things.filter(id=ind_id)
 
