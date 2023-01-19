@@ -362,6 +362,10 @@ def update_status_of_user_phase2(request, participant_id):
 
 
 # ------------------------------------------ Filter Product Reviews ----------------------------------------------------
+@register.filter
+def in_category(things, category):
+    return things.filter(category=category)
+
 @login_required()
 def product_reviews_overview(request):
     prod_reviews = ProductReviews.objects.all()
