@@ -47,7 +47,7 @@
     </article>
 
     <br>
-
+    {% load in_category %}
     {% for prod_review in prod_reviews %}
         {% for static_indicator in static_indicators|in_category:prod_review %}
             <article class="content-section">
