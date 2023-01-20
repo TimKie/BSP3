@@ -373,7 +373,7 @@ def product_reviews_overview(request):
     number_of_main_indicators, number_of_secondary_indicators, number_of_price_checkbox_selected, number_of_prod_reviews_per_day = handle_product_reviews(
         prod_reviews)
 
-    context = {'prod_reviews': prod_reviews, 'myFilter': myFilter,
+    context = {'prod_reviews': prod_reviews,'static_indicators': static_indicators, 'myFilter': myFilter,
                'number_of_main_indicators': number_of_main_indicators,
                'number_of_secondary_indicators': number_of_secondary_indicators,
                'number_of_price_checkbox_selected': number_of_price_checkbox_selected,
