@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CashierTicketProducts, ProductReviews, StaticIndicators, Users
+from .models import CashierTicketProducts, ProductReviews, Users
 
 
 class CashierTicketProductsSerializer(serializers.ModelSerializer):
@@ -22,17 +22,6 @@ class ProductReviewsSerializer(serializers.ModelSerializer):
             'selected_indicator_secondary_id',
             'free_text_indicator',
             'price_checkbox_selected',
-        )
-
-class StaticIndicatorsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StaticIndicators
-        fields = (
-            'id',
-            'name',
-            'category_id',
-            'icon_name',
-            'general_description',
         )
 
 
