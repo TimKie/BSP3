@@ -72,7 +72,7 @@
                     {% endif %}
                     {% if prod_review.selected_indicator_secondary_id %}
                         <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_secondary_id }}.svg"/>
-                        {% if prod_review.selected_indicator_main_id == 'otherreason' %}
+                        {% if prod_review.selected_indicator_secondary_id == 'otherreason' %}
                              <i>other reason</i>
                         {% else %}   
                             {% for static_indicator in static_indicators %}
