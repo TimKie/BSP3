@@ -57,22 +57,30 @@
                     <!-- sources of indicator icons are dynamic, they depend on the id of the indicators -->
                     {% if prod_review.selected_indicator_main_id %}
                         <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>
-                        {% for static_indicator in static_indicators %}
-                            {% if static_indicator.id|lower == prod_review.selected_indicator_main_id|lower %}
-                                <i>{{ static_indicator.name }}</i>
-                            {% endif %}
-                        {% endfor %}
+                        {% if prod_review.selected_indicator_main_id == 'otherreason' %}
+                             <i>other reason</i>
+                        {% else %}   
+                            {% for static_indicator in static_indicators %}
+                                {% if static_indicator.id|lower == prod_review.selected_indicator_main_id|lower %}
+                                    <i>{{ static_indicator.name }}</i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         </h6>
                     {% else %}
                         <h6>Selected Main Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
                     {% endif %}
                     {% if prod_review.selected_indicator_secondary_id %}
                         <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_secondary_id }}.svg"/>
-                        {% for static_indicator in static_indicators %}
-                            {% if static_indicator.id|lower == prod_review.selected_indicator_secondary_id|lower %}
-                                <i>{{ static_indicator.name }}</i>
-                            {% endif %}
-                        {% endfor %}
+                        {% if prod_review.selected_indicator_main_id == 'otherreason' %}
+                             <i>other reason</i>
+                        {% else %}   
+                            {% for static_indicator in static_indicators %}
+                                {% if static_indicator.id|lower == prod_review.selected_indicator_secondary_id|lower %}
+                                    <i>{{ static_indicator.name }}</i>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         </h6>
                     {% else %}
                         <h6>Selected Secondary Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
