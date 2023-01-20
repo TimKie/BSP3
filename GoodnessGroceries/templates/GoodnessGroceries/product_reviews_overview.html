@@ -47,6 +47,9 @@
     </article>
 
     <br>
+{% for static_indicator in static_indicators %}
+    {{ static_indicator.name }} 
+{% endfor %}
     {% for prod_review in prod_reviews %}
         <article class="content-section">
             <div>
