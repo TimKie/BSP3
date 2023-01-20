@@ -47,9 +47,6 @@
     </article>
 
     <br>
-{% for static_indicator in static_indicators %}
-    {{ static_indicator.id }} 
-{% endfor %}
     {% for prod_review in prod_reviews %}
         <article class="content-section">
             <div>
@@ -61,7 +58,7 @@
                     {% if prod_review.selected_indicator_main_id %}
                         <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>
                             {% for static_indicator in static_indicators %}
-                                {% if static_indicator.id == prod_review.selected_indicator_main_id %}
+                                {% if static_indicator.id.lower() == prod_review.selected_indicator_main_id.lower() %}
                                     {{ static_indicator.name }} 
                                 {% endif %}
                             {% endfor %}
