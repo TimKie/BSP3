@@ -58,7 +58,7 @@
                     {% if prod_review.selected_indicator_main_id %}
                         <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>
                             {% for static_indicator in static_indicators %}
-                                {% if static_indicator.id.lower() == prod_review.selected_indicator_main_id.lower() %}
+                                {% if static_indicator.id|lower == prod_review.selected_indicator_main_id|lower %}
                                     {{ static_indicator.name }} 
                                 {% endif %}
                             {% endfor %}
