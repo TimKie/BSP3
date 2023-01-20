@@ -56,13 +56,13 @@
                     <h6>Product Ean: {{ prod_review.product_ean }}</h6>
                     <!-- sources of indicator icons are dynamic, they depend on the id of the indicators -->
                     {% if prod_review.selected_indicator_main_id %}
-                        <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>
+                        <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg" title="
                             {% for static_indicator in static_indicators %}
                                 {% if static_indicator.id|lower == prod_review.selected_indicator_main_id|lower %}
                                     {{ static_indicator.name }} 
                                 {% endif %}
                             {% endfor %}
-                        </h6>
+                        "/></h6>
                     {% else %}
                         <h6>Selected Main Indicator: <img src="{% static '' %}icons/nothing.svg"/></h6>
                     {% endif %}
