@@ -24,6 +24,17 @@ class ProductReviewsSerializer(serializers.ModelSerializer):
             'price_checkbox_selected',
         )
 
+class StaticIndicatorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StaticIndicators
+        fields = (
+            'id',
+            'name',
+            'category_id',
+            'icon_name',
+            'general_description',
+        )
+
 
 class UsersStatusSerializer(serializers.ModelSerializer):
     class Meta:
