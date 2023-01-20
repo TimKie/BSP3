@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CashierTicketProducts, ProductReviews, Users
+from .models import CashierTicketProducts, ProductReviews, StaticIndicators, Users
 
 
 class CashierTicketProductsSerializer(serializers.ModelSerializer):
