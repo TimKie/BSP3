@@ -58,9 +58,10 @@
                     {% if prod_review.selected_indicator_main_id %}
                         <h6>Selected Main Indicator: <img src="{% static '' %}icons/{{ prod_review.selected_indicator_main_id }}.svg"/>
                             {% for static_indicator in static_indicators %}
+                                {{ static_indicator.id }}
                                 {% if static_indicator.id == prod_review.selected_indicator_main_id %}
                                     {{ static_indicator.name }} 
-                                    {{ static_indicator.id }}
+                                    
                                 {% endif %}
                             {% endfor %}
                         </h6>
