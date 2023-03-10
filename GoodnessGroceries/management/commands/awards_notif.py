@@ -16,8 +16,8 @@ class Command(BaseCommand):
                                     'aps': {
                                         'mutable-content': 1,
                                         'alert': {
-                                            'title': 'Gagnez 150€',
-                                            'body': 'Donnez votre feedback'
+                                            'title': 'NOTIFICATION_ACCOUNT_WIN_TITLE',
+                                            'body': 'NOTIFICATION_ACCOUNT_WIN_BODY'
                                         },
                                         'sound': 'default',
                                         'badge': 1
@@ -33,8 +33,8 @@ class Command(BaseCommand):
                                     'data': {
                                         'mutable-content': 1,
                                         'alert': {
-                                            'title': 'Gagnez 150€',
-                                            'body': 'Donnez votre feedback'
+                                            'title': 'NOTIFICATION_ACCOUNT_WIN_TITLE',
+                                            'body': 'NOTIFICATION_ACCOUNT_WIN_BODY'
                                         },
                                         'sound': 'default',
                                         'badge': 1
