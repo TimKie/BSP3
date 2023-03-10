@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for user in Users.objects.filter(status='valid'):
-            if user.id == "2200000000006":
+            if user.participant_id == "2200000000006":
                     if user.platform == 'ios':
                         for device in APNSDevice.objects.filter(name=user.participant_id):
                              try:   
